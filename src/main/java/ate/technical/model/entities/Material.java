@@ -3,6 +3,8 @@ package ate.technical.model.entities;
 import ate.technical.model.enums.Unit;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "materials")
 public class Material {
@@ -22,6 +24,9 @@ public class Material {
 
     @Column
     private String sapNumber;
+
+    @ManyToMany(mappedBy = "materials", fetch = FetchType.EAGER)
+    private List<Machine> machines;
 
     public Long getId() {
         return id;
@@ -65,6 +70,15 @@ public class Material {
 
     public Material setSapNumber(String sapNumber) {
         this.sapNumber = sapNumber;
+        return this;
+    }
+
+    public List<Machine> getMachines() {
+        return machines;
+    }
+
+    public Material setMachines(List<Machine> machines) {
+        this.machines = machines;
         return this;
     }
 }
