@@ -29,8 +29,11 @@ public class Machine {
     @Column
     private String subDevice;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Task> tasks;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Material> materials;
 
     public Long getId() {
         return id;
@@ -101,6 +104,15 @@ public class Machine {
 
     public Machine setTasks(List<Task> tasks) {
         this.tasks = tasks;
+        return this;
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    public Machine setMaterials(List<Material> materials) {
+        this.materials = materials;
         return this;
     }
 }

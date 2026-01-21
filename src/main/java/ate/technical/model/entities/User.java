@@ -17,13 +17,12 @@ public class User {
     private String username;
     @Column
     private String email;
-
-    @Column
-    @ManyToMany
-    private List<Task> tasks;
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<UserTask> tasks;
 
 
     public Long getId() {
@@ -58,6 +57,15 @@ public class User {
 
     public User setRole(Role role) {
         this.role = role;
+        return this;
+    }
+
+    public List<UserTask> getTasks() {
+        return tasks;
+    }
+
+    public User setTasks(List<UserTask> tasks) {
+        this.tasks = tasks;
         return this;
     }
 }

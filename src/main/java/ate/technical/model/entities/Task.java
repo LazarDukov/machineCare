@@ -20,17 +20,19 @@ public class Task {
     private String description;
 
     @Column
+    private String additionalInfo;
+
+    @Column
     @ManyToMany
     private List<Material> materials;
 
-    @Column
-    private DateTimeAtCreation createdAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Machine machine;
 
-    @Column
-    private DateTimeAtCompleted finishedAt;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
+    private List<UserTask> user;
 
-    @Column
-    private String additionalInfo;
+
 
     public Long getId() {
         return id;
@@ -68,30 +70,30 @@ public class Task {
         return this;
     }
 
-    public DateTimeAtCreation getCreatedAt() {
-        return createdAt;
-    }
-
-    public Task setCreatedAt(DateTimeAtCreation createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public DateTimeAtCompleted getFinishedAt() {
-        return finishedAt;
-    }
-
-    public Task setFinishedAt(DateTimeAtCompleted finishedAt) {
-        this.finishedAt = finishedAt;
-        return this;
-    }
-
     public String getAdditionalInfo() {
         return additionalInfo;
     }
 
     public Task setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
+        return this;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public Task setMachine(Machine machine) {
+        this.machine = machine;
+        return this;
+    }
+
+    public List<UserTask> getUser() {
+        return user;
+    }
+
+    public Task setUser(List<UserTask> user) {
+        this.user = user;
         return this;
     }
 }
