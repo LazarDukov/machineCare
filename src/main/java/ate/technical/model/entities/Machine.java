@@ -29,11 +29,10 @@ public class Machine {
     @Column
     private String subDevice;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "machine")
     private List<Task> tasks;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Material> materials;
+
 
     public Long getId() {
         return id;
@@ -107,12 +106,6 @@ public class Machine {
         return this;
     }
 
-    public List<Material> getMaterials() {
-        return materials;
-    }
 
-    public Machine setMaterials(List<Material> materials) {
-        this.materials = materials;
-        return this;
-    }
+
 }

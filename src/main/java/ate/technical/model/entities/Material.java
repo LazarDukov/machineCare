@@ -16,7 +16,7 @@ public class Material {
     private String name;
 
     @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Unit unit;
 
     @Column
@@ -25,8 +25,6 @@ public class Material {
     @Column
     private String sapNumber;
 
-    @ManyToMany(mappedBy = "materials", fetch = FetchType.EAGER)
-    private List<Machine> machines;
 
     public Long getId() {
         return id;
@@ -73,12 +71,5 @@ public class Material {
         return this;
     }
 
-    public List<Machine> getMachines() {
-        return machines;
-    }
 
-    public Material setMachines(List<Machine> machines) {
-        this.machines = machines;
-        return this;
-    }
 }

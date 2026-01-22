@@ -1,9 +1,8 @@
 package ate.technical.model.entities;
 
+import ate.technical.model.enums.Period;
 import jakarta.persistence.*;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-import javax.print.attribute.standard.DateTimeAtCreation;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,6 @@ public class Task {
     @Column
     private String additionalInfo;
 
-    @Column
     @ManyToMany
     private List<Material> materials;
 
@@ -30,9 +28,46 @@ public class Task {
     private Machine machine;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
-    private List<UserTask> user;
+    private List<UserTask> userTask;
+
+    @Column
+    private boolean active;
+    @Column
+    private int repeatedAfter;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Period period;
 
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public Task setActive(boolean active) {
+        this.active = active;
+        return this;
+    }
+
+
+
+    public Period getPeriod() {
+        return period;
+    }
+
+    public Task setPeriod(Period period) {
+        this.period = period;
+        return this;
+    }
+
+    public int getRepeatedAfter() {
+        return repeatedAfter;
+    }
+
+    public Task setRepeatedAfter(int repeatedAfter) {
+        this.repeatedAfter = repeatedAfter;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -88,12 +123,12 @@ public class Task {
         return this;
     }
 
-    public List<UserTask> getUser() {
-        return user;
+    public List<UserTask> getUserTask() {
+        return userTask;
     }
 
-    public Task setUser(List<UserTask> user) {
-        this.user = user;
+    public Task setUserTask(List<UserTask> userTask) {
+        this.userTask = userTask;
         return this;
     }
 }
