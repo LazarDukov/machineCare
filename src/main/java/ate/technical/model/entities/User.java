@@ -1,5 +1,7 @@
 package ate.technical.model.entities;
 
+import ate.technical.model.enums.Department;
+import ate.technical.model.enums.Position;
 import ate.technical.model.enums.Role;
 import jakarta.persistence.*;
 
@@ -15,11 +17,30 @@ public class User {
 
     @Column
     private String username;
+
+    @Column
+    private String firstName;
+    @Column
+    private String lastName;
+
+
     @Column
     private String email;
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column
+    @Enumerated
+    private Position position;
+
+
+
+    @Column
+    @Enumerated
+    private Department department;
+
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserTask> tasks;
@@ -50,7 +71,38 @@ public class User {
         this.email = email;
         return this;
     }
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public User setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+    public User setPosition(Position position) {
+        this.position = position;
+        return this;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public User setDepartment(Department department) {
+        this.department = department;
+        return this;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+    public Position getPosition() {
+        return position;
+    }
     public Role getRole() {
         return role;
     }
@@ -63,6 +115,8 @@ public class User {
     public List<UserTask> getTasks() {
         return tasks;
     }
+
+
 
     public User setTasks(List<UserTask> tasks) {
         this.tasks = tasks;
