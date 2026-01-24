@@ -1,7 +1,6 @@
 package ate.technical.model.entities;
 
 import ate.technical.model.enums.Department;
-import ate.technical.model.enums.Position;
 import ate.technical.model.enums.Role;
 import jakarta.persistence.*;
 
@@ -30,21 +29,40 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column
-    @Enumerated
-    private Position position;
-
-
 
     @Column
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Department department;
-
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserTask> tasks;
 
+    @Column
+    private String password;
+
+    public User() {
+    }
+
+    public User(Long id,
+                String username,
+                String firstName,
+                String lastName,
+                String email,
+                Role role,
+                Department department,
+                List<UserTask> tasks,
+                String password) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+        this.department = department;
+        this.tasks = tasks;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -71,6 +89,7 @@ public class User {
         this.email = email;
         return this;
     }
+
     public String getFirstName() {
         return firstName;
     }
@@ -79,10 +98,7 @@ public class User {
         this.firstName = firstName;
         return this;
     }
-    public User setPosition(Position position) {
-        this.position = position;
-        return this;
-    }
+
 
     public Department getDepartment() {
         return department;
@@ -92,6 +108,7 @@ public class User {
         this.department = department;
         return this;
     }
+
     public String getLastName() {
         return lastName;
     }
@@ -100,9 +117,7 @@ public class User {
         this.lastName = lastName;
         return this;
     }
-    public Position getPosition() {
-        return position;
-    }
+
     public Role getRole() {
         return role;
     }
@@ -117,9 +132,17 @@ public class User {
     }
 
 
-
     public User setTasks(List<UserTask> tasks) {
         this.tasks = tasks;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
         return this;
     }
 }

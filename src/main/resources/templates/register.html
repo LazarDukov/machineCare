@@ -5,30 +5,46 @@
     <title>Register</title>
 </head>
 <body>
-<form>
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-    </div>
-    <div>
-        <label for="firstName">First name:</label>
-        <input type="text" id="firstName" name="firstName" required>
-    </div>
-    <div>
-        <label for="lastName">Last name:</label>
-        <input type="text" id="lastName" name="lastName" required>
-    </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
+<div>
+    <form th:object="${registerDto}"
+          th:action="@{/register}"
+          th:method="post">
+
+        <label>Username:</label>
+        <input type="text" th:value="${registerDto.username}" name="username" required>
+
+
+        <label>First name:</label>
+        <input type="text" th:value="${registerDto.firstName}" name="firstName" required>
+
+        <label>Last name:</label>
+        <input type="text" th:value="${registerDto.lastName}" name="lastName" required>
+
+
+        <label>Email:</label>
+        <input type="text" th:value="${registerDto.email}" name="email" required>
+
+        <label>Department:</label>
+        <select th:field="*{department}" id="department" required>
+            <option value="" hidden>Not selected</option>
+            <option value="HR_DEPARTMENT">Human resources department</option>
+            <option value="FINANCE_DEPARTMENT">Finance department</option>
+            <option value="SALES_DEPARTMENT">Sales department</option>
+            <option value="TECHNICAL_DEPARTMENT">Technical department</option>
+            <option value="LOGISTIC_DEPARTMENT">Logistic department</option>
+            <option value="QUALITY_DEPARTMENT">Quality department</option>
+        </select>
+
+
+        <label>Password:</label>
+        <input type="password" th:value="${registerDto.password}" name="password" required>
+
+        <label>Confirm password:</label>
+        <input type="password" th:value="${registerDto.confirmPassword}" name="confirmPassword" required>
+
         <button type="submit">Register</button>
-    </div>
-</form>
+
+    </form>
+</div>
 </body>
 </html>
