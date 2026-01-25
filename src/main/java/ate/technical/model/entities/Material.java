@@ -9,7 +9,7 @@ public class Material {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-
+//TODO: FIRST SHOULD CREATE MATERIAL!
     @Column
     private String name;
 
