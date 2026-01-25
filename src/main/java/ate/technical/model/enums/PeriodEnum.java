@@ -1,7 +1,7 @@
 package ate.technical.model.enums;
 
 
-public enum Period {
+public enum PeriodEnum {
     DAILY,
     WEEKLY,
     MONTHLY,

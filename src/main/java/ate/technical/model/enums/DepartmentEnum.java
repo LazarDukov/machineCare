@@ -1,6 +1,6 @@
 package ate.technical.model.enums;
 
-public enum Department {
+public enum DepartmentEnum {
     HR_DEPARTMENT,
     FINANCE_DEPARTMENT,
     SALES_DEPARTMENT,

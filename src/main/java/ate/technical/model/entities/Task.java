@@ -1,6 +1,6 @@
 package ate.technical.model.entities;
 
-import ate.technical.model.enums.Period;
+import ate.technical.model.enums.PeriodEnum;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class Task {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Period period;
+    private PeriodEnum periodEnum;
 
 
     public boolean isActive() {
@@ -51,12 +51,12 @@ public class Task {
 
 
 
-    public Period getPeriod() {
-        return period;
+    public PeriodEnum getPeriod() {
+        return periodEnum;
     }
 
-    public Task setPeriod(Period period) {
-        this.period = period;
+    public Task setPeriod(PeriodEnum periodEnum) {
+        this.periodEnum = periodEnum;
         return this;
     }
 

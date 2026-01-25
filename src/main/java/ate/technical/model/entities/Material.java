@@ -1,9 +1,7 @@
 package ate.technical.model.entities;
 
-import ate.technical.model.enums.Unit;
+import ate.technical.model.enums.UnitEnum;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "materials")
@@ -17,7 +15,7 @@ public class Material {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Unit unit;
+    private UnitEnum unitEnum;
 
     @Column
     private Long quantity;
@@ -44,12 +42,12 @@ public class Material {
         return this;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public UnitEnum getUnit() {
+        return unitEnum;
     }
 
-    public Material setUnit(Unit unit) {
-        this.unit = unit;
+    public Material setUnit(UnitEnum unitEnum) {
+        this.unitEnum = unitEnum;
         return this;
     }
 

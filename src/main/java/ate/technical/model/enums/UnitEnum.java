@@ -1,7 +1,7 @@
 package ate.technical.model.enums;
 
 
-public enum Unit {
+public enum UnitEnum {
     PIECE,
     KILOGRAM,
     LITER,

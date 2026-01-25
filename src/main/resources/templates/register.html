@@ -25,14 +25,14 @@
         <input type="text" th:value="${registerDto.email}" name="email" required>
 
         <label>Department:</label>
-        <select th:field="*{department}" id="department" required>
+        <select th:field="*{departmentEnum}" id="departmentEnum" required>
             <option value="" hidden>Not selected</option>
-            <option value="HR_DEPARTMENT">Human resources department</option>
-            <option value="FINANCE_DEPARTMENT">Finance department</option>
-            <option value="SALES_DEPARTMENT">Sales department</option>
-            <option value="TECHNICAL_DEPARTMENT">Technical department</option>
-            <option value="LOGISTIC_DEPARTMENT">Logistic department</option>
-            <option value="QUALITY_DEPARTMENT">Quality department</option>
+            <option value="HR_DEPARTMENT">Human resources departmentEnum</option>
+            <option value="FINANCE_DEPARTMENT">Finance departmentEnum</option>
+            <option value="SALES_DEPARTMENT">Sales departmentEnum</option>
+            <option value="TECHNICAL_DEPARTMENT">Technical departmentEnum</option>
+            <option value="LOGISTIC_DEPARTMENT">Logistic departmentEnum</option>
+            <option value="QUALITY_DEPARTMENT">Quality departmentEnum</option>
         </select>
 
 

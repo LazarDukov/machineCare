@@ -1,7 +1,5 @@
 package ate.technical.model.dtos;
 
-import ate.technical.model.enums.Department;
-
 public class RegisterDto {
     private String username;
     private String firstName;

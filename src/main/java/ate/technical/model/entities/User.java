@@ -1,7 +1,7 @@
 package ate.technical.model.entities;
 
-import ate.technical.model.enums.Department;
-import ate.technical.model.enums.Role;
+import ate.technical.model.enums.DepartmentEnum;
+import ate.technical.model.enums.RoleEnum;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -27,12 +27,12 @@ public class User {
     private String email;
     @Column
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum roleEnum;
 
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Department department;
+    private DepartmentEnum departmentEnum;
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -49,8 +49,8 @@ public class User {
                 String firstName,
                 String lastName,
                 String email,
-                Role role,
-                Department department,
+                RoleEnum roleEnum,
+                DepartmentEnum departmentEnum,
                 List<UserTask> tasks,
                 String password) {
         this.id = id;
@@ -58,8 +58,8 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.role = role;
-        this.department = department;
+        this.roleEnum = roleEnum;
+        this.departmentEnum = departmentEnum;
         this.tasks = tasks;
         this.password = password;
     }
@@ -100,12 +100,12 @@ public class User {
     }
 
 
-    public Department getDepartment() {
-        return department;
+    public DepartmentEnum getDepartment() {
+        return departmentEnum;
     }
 
-    public User setDepartment(Department department) {
-        this.department = department;
+    public User setDepartment(DepartmentEnum departmentEnum) {
+        this.departmentEnum = departmentEnum;
         return this;
     }
 
@@ -118,12 +118,12 @@ public class User {
         return this;
     }
 
-    public Role getRole() {
-        return role;
+    public RoleEnum getRole() {
+        return roleEnum;
     }
 
-    public User setRole(Role role) {
-        this.role = role;
+    public User setRole(RoleEnum roleEnum) {
+        this.roleEnum = roleEnum;
         return this;
     }
 

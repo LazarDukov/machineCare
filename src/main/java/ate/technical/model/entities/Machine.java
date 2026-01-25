@@ -1,5 +1,6 @@
 package ate.technical.model.entities;
 
+import ate.technical.model.enums.TypeEnum;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,17 +22,17 @@ public class Machine {
     private String manufacturer;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private TypeEnum type;
+
+    @Column
     private String model;
 
-    @Column
-    private String device;
-
-    @Column
-    private String subDevice;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Device> devices;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "machine")
     private List<Task> tasks;
-
 
 
     public Long getId() {
@@ -49,6 +50,15 @@ public class Machine {
 
     public Machine setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public TypeEnum getType() {
+        return type;
+    }
+
+    public Machine setType(TypeEnum type) {
+        this.type = type;
         return this;
     }
 
@@ -79,21 +89,12 @@ public class Machine {
         return this;
     }
 
-    public String getDevice() {
-        return device;
+    public List<Device> getDevices() {
+        return devices;
     }
 
-    public Machine setDevice(String device) {
-        this.device = device;
-        return this;
-    }
-
-    public String getSubDevice() {
-        return subDevice;
-    }
-
-    public Machine setSubDevice(String subDevice) {
-        this.subDevice = subDevice;
+    public Machine setDevices(List<Device> devices) {
+        this.devices = devices;
         return this;
     }
 
@@ -105,7 +106,6 @@ public class Machine {
         this.tasks = tasks;
         return this;
     }
-
 
 
 }
