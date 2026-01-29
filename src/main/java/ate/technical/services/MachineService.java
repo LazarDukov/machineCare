@@ -1,18 +1,20 @@
 package ate.technical.services;
 
 import ate.technical.model.entities.Machine;
+import ate.technical.repositories.MachineRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MachineService {
-    private final MachineService machineService;
+    private final MachineRepository machineRepository;
 
-    public MachineService(MachineService machineService) {
-        this.machineService = machineService;
+    public MachineService(MachineRepository machineRepository) {
+        this.machineRepository = machineRepository;
     }
 
+
     public Machine getMachineByName(String name) {
-        return machineService.getMachineByName(name);
+        return machineRepository.findMachineByName(name);
     }
 
 }

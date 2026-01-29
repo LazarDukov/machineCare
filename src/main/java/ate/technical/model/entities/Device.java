@@ -2,6 +2,8 @@ package ate.technical.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "devices")
 public class Device {
@@ -14,6 +16,9 @@ public class Device {
 
     @Column
     private String subDevice;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+    private List<MachineDevice> machines;
 
     public Long getId() {
         return id;

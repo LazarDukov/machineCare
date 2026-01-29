@@ -28,8 +28,8 @@ public class Machine {
     @Column
     private String model;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Device> devices;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "machine")
+    private List<MachineDevice> devices;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "machine")
     private List<Task> tasks;
@@ -89,11 +89,11 @@ public class Machine {
         return this;
     }
 
-    public List<Device> getDevices() {
+    public List<MachineDevice> getDevices() {
         return devices;
     }
 
-    public Machine setDevices(List<Device> devices) {
+    public Machine setDevices(List<MachineDevice> devices) {
         this.devices = devices;
         return this;
     }
