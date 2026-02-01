@@ -8,6 +8,7 @@ public class MachineCareApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MachineCareApplication.class, args);
+
     }
 
 }

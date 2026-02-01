@@ -11,10 +11,5 @@ public class IndexController {
         return "home";
     }
 
-    @GetMapping("/machines")
-    public String getMachinesPage() {
-        return "machines";
-    }
-
 
 }

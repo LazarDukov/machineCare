@@ -25,7 +25,7 @@
         <input type="text" th:value="${registerDto.email}" name="email" required>
 
         <label>Department:</label>
-        <select th:field="*{departmentEnum}" id="departmentEnum" required>
+        <select th:value="${registerDto.department}" id="departmentEnum" required>
             <option value="" hidden>Not selected</option>
             <option value="HR_DEPARTMENT">Human resources departmentEnum</option>
             <option value="FINANCE_DEPARTMENT">Finance departmentEnum</option>
