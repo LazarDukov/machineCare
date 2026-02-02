@@ -1,6 +1,7 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.CreateMachineRequest;
+import ate.technical.api.requests.GetMachinesRequest;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.repositories.MachineRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MachineService {
@@ -42,7 +44,9 @@ public class MachineService {
         System.out.println("machine saved");
     }
 
-    public List<Machine> getAllMachines() {
-        return machineRepository.findAll();
+    public List<GetMachinesRequest> findAllByType(TypeEnum type) {
+
+
+        return machineRepository.findAllMachinesByType(type).stream().map(machine -> new GetMachinesRequest(machine.getId(), machine.getName())).collect(Collectors.toList());
     }
 }

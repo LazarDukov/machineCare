@@ -1,8 +1,15 @@
 package ate.technical.api.requests;
 
+import ate.technical.model.enums.TypeEnum;
+
 public class GetMachinesRequest {
     private Long id;
     private String name;
+
+    public GetMachinesRequest(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public String getName() {
         return name;
