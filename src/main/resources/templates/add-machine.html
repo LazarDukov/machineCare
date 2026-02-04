@@ -11,26 +11,29 @@
 
         <label for="name">Name:</label>
         <input type="text" id="name" th:value="${machineName}">
+        <input type="hidden" id="machineId" th:value="${machineId}">
 
 
         <label for="identificationNumber">Identification number:</label>
-        <input type="text" id="identificationNumber">
+        <input type="text" id="identificationNumber" th:value="${identificationNumber}">
+
 
         <label for="manufacturer">Manufacturer:</label>
-        <input type="text" id="manufacturer">
+        <input type="text" id="manufacturer" th:value="${manufacturer}">
 
 
         <label for="type">Type:</label>
-        <input type="text" id="type">
+        <input type="text" id="type" th:value="${type}">
 
         <label for="model">Model:</label>
-        <input type="text" id="model">
+        <input type="text" id="model" th:value="${model}">
 
         <button type="submit">Register</button>
 
     </form>
 </div>
-<script th:src="@{/js/add-machine.js}"></script>
+<script th:src="@{/js/machine-add-or-edit.js}"></script>
+
 
 </body>
 </html>

@@ -27,9 +27,14 @@ public class MachineController {
         return "add-machine";
     }
 
-    @GetMapping("/update/{name}")
-    public String updateMachine(@PathVariable String name, Model model) {
-        model.addAttribute("machineName", machineService.getMachineByName(name));
+    @GetMapping("/{id}")
+    public String updateMachine(@PathVariable Long id, Model model) {
+        model.addAttribute("machineId", id);
+        model.addAttribute("machineName", machineService.findMachineById(id).getName());
+        model.addAttribute("identificationNumber", machineService.findMachineById(id).getIdentificationNumber());
+        model.addAttribute("manufacturer", machineService.findMachineById(id).getManufacturer());
+        model.addAttribute("type", machineService.findMachineById(id).getType());
+        model.addAttribute("model", machineService.findMachineById(id).getModel());
 
         return "add-machine";
     }

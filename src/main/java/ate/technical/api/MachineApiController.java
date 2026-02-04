@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/machines")
 public class MachineApiController {
     private final MachineService machineService;
 
@@ -22,7 +22,7 @@ public class MachineApiController {
         this.machineService = machineService;
     }
 
-    @GetMapping("/api/machines/{machineType}")
+    @GetMapping("/{machineType}")
     @ResponseBody
     public ResponseEntity<List<GetMachinesRequest>> getAllMachinesWithGivenType(@PathVariable String machineType) {
         System.out.println("Retrieving all machines");
@@ -30,7 +30,7 @@ public class MachineApiController {
         return ResponseEntity.ok(machineService.findAllByType(typeEnum));
     }
 
-    @PostMapping("/api/machines")
+    @PostMapping("/add")
     public ResponseEntity<Void> createMachine(@RequestBody CreateMachineRequest request) {
         machineService.createMachine(request);
         System.out.println("Created machine: " + request.getName());
@@ -38,18 +38,17 @@ public class MachineApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/api/machines/{name}")
-    public ResponseEntity<Void> updateMachine(@PathVariable String name, @RequestBody CreateMachineRequest request) {
-        // Implement update logic here
-        System.out.println("Updated machine: " + name);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateMachine(@PathVariable Long id, @RequestBody CreateMachineRequest request) {
+        machineService.updateMachine(id, request);
+
         return ResponseEntity.ok().build();
     }
 
-//    @DeleteMapping("/api/machines/{name}")
-//    public ResponseEntity<Void> deleteMachine(@PathVariable String name) {
-//        // Implement deletion logic here
-//        System.out.println("Deleted machine: " + name);
-//        return ResponseEntity.ok().build();
-//    }
-//
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMachine(@PathVariable Long id) {
+        machineService.deleteMachine(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

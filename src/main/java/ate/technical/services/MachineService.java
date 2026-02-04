@@ -46,7 +46,24 @@ public class MachineService {
 
     public List<GetMachinesRequest> findAllByType(TypeEnum type) {
 
-
         return machineRepository.findAllMachinesByType(type).stream().map(machine -> new GetMachinesRequest(machine.getId(), machine.getName())).collect(Collectors.toList());
+    }
+
+    public void updateMachine(Long id, CreateMachineRequest request) {
+        Machine machine = findMachineById(id);
+        machine.setName(request.getName());
+        machine.setIdentificationNumber(request.getIdentificationNumber());
+        machine.setManufacturer(request.getManufacturer());
+        machine.setType(TypeEnum.valueOf(request.getType()));
+        machine.setModel(request.getModel());
+        machineRepository.save(machine);
+    }
+
+    public Machine findMachineById(Long id) {
+        return machineRepository.findById(id).orElseThrow(() -> new RuntimeException("Machine not found"));
+    }
+
+    public void deleteMachine(Long id) {
+        machineRepository.deleteById(id);
     }
 }
