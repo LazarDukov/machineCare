@@ -30,15 +30,21 @@ public class Task {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
     private List<UserTask> userTask;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SubDevice subDevice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Component component;
+
     @Column
     private boolean active;
+
     @Column
     private int repeatedAfter;
 
     @Column
     @Enumerated(EnumType.STRING)
     private PeriodEnum periodEnum;
-
 
     public boolean isActive() {
         return active;
@@ -48,7 +54,6 @@ public class Task {
         this.active = active;
         return this;
     }
-
 
 
     public PeriodEnum getPeriod() {
@@ -66,6 +71,15 @@ public class Task {
 
     public Task setRepeatedAfter(int repeatedAfter) {
         this.repeatedAfter = repeatedAfter;
+        return this;
+    }
+
+    public PeriodEnum getPeriodEnum() {
+        return periodEnum;
+    }
+
+    public Task setPeriodEnum(PeriodEnum periodEnum) {
+        this.periodEnum = periodEnum;
         return this;
     }
 
@@ -129,6 +143,24 @@ public class Task {
 
     public Task setUserTask(List<UserTask> userTask) {
         this.userTask = userTask;
+        return this;
+    }
+
+    public SubDevice getSubDevice() {
+        return subDevice;
+    }
+
+    public Task setSubDevice(SubDevice subDevice) {
+        this.subDevice = subDevice;
+        return this;
+    }
+
+    public Component getComponent() {
+        return component;
+    }
+
+    public Task setComponent(Component component) {
+        this.component = component;
         return this;
     }
 }

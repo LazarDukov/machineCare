@@ -15,7 +15,7 @@ public class SubDevice {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Part> parts;
+    private List<Component> components;
 
     public Long getId() {
         return id;
@@ -35,12 +35,13 @@ public class SubDevice {
         return this;
     }
 
-    public List<Part> getParts() {
-        return parts;
+    public List<Component> getComponents() {
+
+        return components;
     }
 
-    public SubDevice setParts(List<Part> parts) {
-        this.parts = parts;
+    public SubDevice setComponents(List<Component> components) {
+        this.components = components;
         return this;
     }
 }

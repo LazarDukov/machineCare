@@ -11,36 +11,36 @@
           th:method="post">
 
         <label>Username:</label>
-        <input type="text" th:value="${registerDto.username}" name="username" required>
+        <input type="text" th:field="*{username}" name="username" required>
 
 
         <label>First name:</label>
-        <input type="text" th:value="${registerDto.firstName}" name="firstName" required>
+        <input type="text" th:field="*{firstName}" name="firstName" required>
 
         <label>Last name:</label>
-        <input type="text" th:value="${registerDto.lastName}" name="lastName" required>
+        <input type="text" th:field="*{lastName}" name="lastName" required>
 
 
         <label>Email:</label>
-        <input type="text" th:value="${registerDto.email}" name="email" required>
+        <input type="text" th:field="*{email}" name="email" required>
 
         <label>Department:</label>
-        <select th:value="${registerDto.department}" id="departmentEnum" required>
+        <select th:field="*{department}" id="department" required>
             <option value="" hidden>Not selected</option>
-            <option value="HR_DEPARTMENT">Human resources departmentEnum</option>
-            <option value="FINANCE_DEPARTMENT">Finance departmentEnum</option>
-            <option value="SALES_DEPARTMENT">Sales departmentEnum</option>
-            <option value="TECHNICAL_DEPARTMENT">Technical departmentEnum</option>
-            <option value="LOGISTIC_DEPARTMENT">Logistic departmentEnum</option>
-            <option value="QUALITY_DEPARTMENT">Quality departmentEnum</option>
+            <option value="HR_DEPARTMENT">Human resources department</option>
+            <option value="FINANCE_DEPARTMENT">Finance department</option>
+            <option value="SALES_DEPARTMENT">Sales department</option>
+            <option value="TECHNICAL_DEPARTMENT">Technical department</option>
+            <option value="LOGISTIC_DEPARTMENT">Logistic department</option>
+            <option value="QUALITY_DEPARTMENT">Quality department</option>
         </select>
 
 
         <label>Password:</label>
-        <input type="password" th:value="${registerDto.password}" name="password" required>
+        <input type="password" th:field="*{password}" name="password" required>
 
         <label>Confirm password:</label>
-        <input type="password" th:value="${registerDto.confirmPassword}" name="confirmPassword" required>
+        <input type="password" th:field="*{confirmPassword}" name="confirmPassword" required>
 
         <button type="submit">Register</button>
 

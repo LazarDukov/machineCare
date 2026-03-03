@@ -17,6 +17,9 @@ java {
 repositories {
     mavenCentral()
 }
+configurations {
+    sql
+}
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")

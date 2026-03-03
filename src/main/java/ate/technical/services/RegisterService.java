@@ -28,6 +28,7 @@ public class RegisterService {
         user.setEmail(registerDto.getEmail());
         user.setRole(RoleEnum.USER);
         user.setDepartment(DepartmentEnum.valueOf(registerDto.getDepartment()));
+
         user.setTasks(new ArrayList<>());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         userRepository.save(user);

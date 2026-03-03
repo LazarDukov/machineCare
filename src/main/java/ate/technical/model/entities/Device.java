@@ -14,11 +14,29 @@ public class Device {
     @Column
     private String deviceName;
 
-    @Column
-    private String subDevice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Machine machine;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<SubDevice> subDevice;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
-    private List<MachineDevice> machines;
+
+    public List<SubDevice> getSubDevice() {
+        return subDevice;
+    }
+
+    public Device setSubDevice(List<SubDevice> subDevice) {
+        this.subDevice = subDevice;
+        return this;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public Device setMachine(Machine machine) {
+        this.machine = machine;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -38,12 +56,5 @@ public class Device {
         return this;
     }
 
-    public String getSubDevice() {
-        return subDevice;
-    }
 
-    public Device setSubDevice(String subDevice) {
-        this.subDevice = subDevice;
-        return this;
-    }
 }
