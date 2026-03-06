@@ -22,4 +22,13 @@ public class DeviceService {
         // TODO: Should create method for give this device to a given machine
         deviceRepository.save(device);
     }
+
+    public void deleteDevice(Long id) {
+        deviceRepository.deleteById(id);
+    }
+
+    public void changeDeviceName(Long id, String newName) {
+        Device device = deviceRepository.findById(id).get().setDeviceName(newName);
+        deviceRepository.save(device);
+    }
 }

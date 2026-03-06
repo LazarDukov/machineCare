@@ -3,10 +3,7 @@ package ate.technical.api;
 import ate.technical.api.requests.CreateDeviceRequest;
 import ate.technical.services.DeviceService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/devices")
@@ -21,5 +18,17 @@ public class DeviceApiController {
     public ResponseEntity<Void> createDevice(@RequestBody CreateDeviceRequest request) {
         deviceService.createDevice(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> editDeviceName(@PathVariable Long id, String newName) {
+        deviceService.changeDeviceName(id, newName);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
+        deviceService.deleteDevice(id);
+        return ResponseEntity.noContent().build();
     }
 }
