@@ -3,9 +3,7 @@ package ate.technical.api;
 import ate.technical.api.requests.CreatePartRequest;
 import ate.technical.services.PartService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/parts")
@@ -19,5 +17,17 @@ public class PartApiController {
     public ResponseEntity<Void> createPart(@RequestBody CreatePartRequest request) {
         partService.createPart(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> editPartName(@PathVariable Long id, String newName) {
+        partService.changePartName(id, newName);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePart(@PathVariable Long id) {
+        partService.deletePart(id);
+        return ResponseEntity.noContent().build();
     }
 }

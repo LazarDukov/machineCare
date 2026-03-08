@@ -1,6 +1,7 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.CreateMaterialRequest;
+import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Material;
 import ate.technical.model.enums.UnitEnum;
 import ate.technical.repositories.MaterialRepository;
@@ -28,5 +29,15 @@ public class MaterialService {
         material.setSapNumber(request.getSapNumber());
         materialRepository.save(material);
 
+    }
+
+    public void deleteMaterial(Long id) {
+        materialRepository.deleteById(id);
+    }
+
+    public void changeMaterialName(Long id, String newName) {
+        Material material = materialRepository.findById(id).orElseThrow(() -> new RuntimeException("Material not found"));
+        material.setName(newName);
+        materialRepository.save(material);
     }
 }

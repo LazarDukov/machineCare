@@ -3,9 +3,7 @@ package ate.technical.api;
 import ate.technical.api.requests.CreateMaterialRequest;
 import ate.technical.services.MaterialService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/materials")
@@ -20,5 +18,17 @@ public class MaterialApiController {
         materialService.createMaterial(request);
         return ResponseEntity.ok().build();
      }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> editMaterialName(@PathVariable Long id, String newName) {
+        materialService.changeMaterialName(id, newName);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMaterial(@PathVariable Long id) {
+        materialService.deleteMaterial(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

@@ -2,6 +2,7 @@ package ate.technical.services;
 
 import ate.technical.api.requests.CreateDeviceRequest;
 import ate.technical.model.entities.Device;
+import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.DeviceRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class DeviceService {
     }
 
     public void changeDeviceName(Long id, String newName) {
-        Device device = deviceRepository.findById(id).get().setDeviceName(newName);
+        Device device = deviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Device not found"));
+        device.setDeviceName(newName);
         deviceRepository.save(device);
     }
 }

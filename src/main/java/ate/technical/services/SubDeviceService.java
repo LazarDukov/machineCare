@@ -22,4 +22,15 @@ public class SubDeviceService {
         subDeviceRepository.save(subDevice);
 
     }
+
+    public void changeDeviceName(Long id, String newName) {
+
+        SubDevice subDevice = subDeviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Sub-device not found"));
+        subDevice.setName(newName);
+        subDeviceRepository.save(subDevice);
+    }
+
+    public void deleteSubDevice(Long id) {
+        subDeviceRepository.deleteById(id);
+    }
 }
