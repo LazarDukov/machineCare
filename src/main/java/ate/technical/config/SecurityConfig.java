@@ -34,7 +34,11 @@ public class SecurityConfig {
                                 "/api/machines/**",
                                 "/machines/update/**",
                                 "/api/machines/update/**",
-                                "/api/devices/**")
+                                "/api/devices/**",
+                                "/api/sub-devices/**",
+                                "/api/components/**",
+                                "/api/parts/**",
+                                "/api/materials/**")
                         .permitAll()
                         .anyRequest().authenticated()).formLogin(login -> login.loginPage("/login")
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
