@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 "/api/machines/**",
                                 "/machines/update/**",
                                 "/api/machines/update/**",
+                                "/api/machines/name/**",
                                 "/api/devices/**",
                                 "/api/sub-devices/**",
                                 "/api/components/**",

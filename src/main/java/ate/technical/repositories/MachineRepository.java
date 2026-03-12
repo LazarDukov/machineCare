@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface MachineRepository extends JpaRepository<Machine, Long> {
-    Machine findMachineByName(String name);
+    Optional<Machine> findMachineByName(String name);
 
     List<Machine> findAllMachinesByType(TypeEnum type);
 

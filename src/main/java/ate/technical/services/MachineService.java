@@ -2,6 +2,7 @@ package ate.technical.services;
 
 import ate.technical.api.requests.CreateMachineRequest;
 import ate.technical.api.requests.GetMachinesRequest;
+import ate.technical.api.response.ViewMachineResponse;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.repositories.MachineRepository;
@@ -9,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.hibernate.Hibernate.map;
 
 @Service
 public class MachineService {
@@ -20,8 +24,20 @@ public class MachineService {
     }
 
 
+    public Optional<ViewMachineResponse> optionalGetMachineByName(String name) {
+        return machineRepository.findMachineByName(name).map(this::viewMachineResponse);
+    }
+
     public Machine getMachineByName(String name) {
-        return machineRepository.findMachineByName(name);
+        return machineRepository.findMachineByName(name).orElseThrow(() -> new RuntimeException("Machine not found"));
+    }
+
+    private ViewMachineResponse viewMachineResponse(Machine machine) {
+        return new ViewMachineResponse().setName(machine.getName())
+                .setIdentificationNumber(machine.getIdentificationNumber())
+                .setManufacturer(machine.getManufacturer())
+                .setType(machine.getType().name())
+                .setModel(machine.getModel());
     }
 
 

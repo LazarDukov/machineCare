@@ -2,6 +2,7 @@ package ate.technical.api;
 
 import ate.technical.api.requests.CreateMachineRequest;
 import ate.technical.api.requests.GetMachinesRequest;
+import ate.technical.api.response.ViewMachineResponse;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.services.MachineService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -28,6 +30,15 @@ public class MachineApiController {
         System.out.println("Retrieving all machines");
         TypeEnum typeEnum = TypeEnum.valueOf(machineType.toUpperCase());
         return ResponseEntity.ok(machineService.findAllByType(typeEnum));
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ViewMachineResponse> getMachineByName(@PathVariable String name) {
+        Optional<ViewMachineResponse> machine = machineService.optionalGetMachineByName(name);
+        return machine.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .build());
+
     }
 
     @PostMapping("/add")
