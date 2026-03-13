@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function loadMachines(type) {
-        fetch(`/api/machines/${type}`)
+        fetch(`/api/machines/type/${type}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Failed to load machines");

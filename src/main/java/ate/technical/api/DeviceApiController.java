@@ -2,6 +2,7 @@ package ate.technical.api;
 
 import ate.technical.api.requests.CreateDeviceRequest;
 import ate.technical.services.DeviceService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,10 @@ public class DeviceApiController {
         this.deviceService = deviceService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<Void> createDevice(@RequestBody CreateDeviceRequest request) {
         deviceService.createDevice(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const url = isEdit
             ? `/api/machines/${machineId}`
-            : `/api/machines/add`;
+            : `/api/machines`;
 
         const method = isEdit ? "PUT" : "POST";
 

@@ -24,7 +24,7 @@ public class MachineApiController {
         this.machineService = machineService;
     }
 
-    @GetMapping("/{machineType}")
+    @GetMapping("/type/{machineType}")
     @ResponseBody
     public ResponseEntity<List<GetMachinesRequest>> getAllMachinesWithGivenType(@PathVariable String machineType) {
         System.out.println("Retrieving all machines");
@@ -41,13 +41,15 @@ public class MachineApiController {
 
     }
 
-    @PostMapping("/add")
+    @GetMapping
+public ResponseEntity<>
+
+    @PostMapping
     public ResponseEntity<Void> createMachine(@RequestBody CreateMachineRequest request) {
         machineService.createMachine(request);
-        System.out.println("Created machine: " + request.getName());
-        System.out.println(request.getManufacturer());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateMachine(@PathVariable Long id, @RequestBody CreateMachineRequest request) {

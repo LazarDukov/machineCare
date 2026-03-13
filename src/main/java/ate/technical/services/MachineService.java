@@ -53,7 +53,7 @@ public class MachineService {
         machine.setName(request.getName());
         machine.setIdentificationNumber(request.getIdentificationNumber());
         machine.setManufacturer(request.getManufacturer());
-        machine.setType(TypeEnum.valueOf(request.getType()));
+        machine.setType(TypeEnum.valueOf(request.getType().toUpperCase()));
         machine.setModel(request.getModel());
         System.out.println("machine created");
         machineRepository.save(machine);
@@ -82,4 +82,6 @@ public class MachineService {
     public void deleteMachine(Long id) {
         machineRepository.deleteById(id);
     }
+
+
 }

@@ -19,6 +19,7 @@ public class DeviceService {
     public void createDevice(CreateDeviceRequest request) {
         Device device = new Device();
         device.setDeviceName(request.getName());
+        device.setId(request.getMachineId());
         device.setSubDevice(new ArrayList<>());
         // TODO: Should create method for give this device to a given machine
         deviceRepository.save(device);
