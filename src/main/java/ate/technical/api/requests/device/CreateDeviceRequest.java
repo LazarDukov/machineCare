@@ -1,4 +1,4 @@
-package ate.technical.api.requests;
+package ate.technical.api.requests.device;
 
 public class CreateDeviceRequest {
     private String name;

@@ -1,6 +1,4 @@
-package ate.technical.api.requests;
-
-import ate.technical.model.enums.TypeEnum;
+package ate.technical.api.requests.machine;
 
 public class GetMachinesRequest {
     private Long id;

@@ -1,13 +1,11 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreateMachineRequest;
-import ate.technical.api.requests.GetMachinesRequest;
+import ate.technical.api.requests.machine.CreateMachineRequest;
+import ate.technical.api.requests.machine.GetMachinesRequest;
 import ate.technical.api.response.ViewMachineResponse;
-import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.services.MachineService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

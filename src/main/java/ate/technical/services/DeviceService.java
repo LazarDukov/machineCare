@@ -1,8 +1,7 @@
 package ate.technical.services;
 
-import ate.technical.api.requests.CreateDeviceRequest;
+import ate.technical.api.requests.device.CreateDeviceRequest;
 import ate.technical.model.entities.Device;
-import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.DeviceRepository;
 import org.springframework.stereotype.Service;
 

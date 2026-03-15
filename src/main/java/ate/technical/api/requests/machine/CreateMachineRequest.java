@@ -1,4 +1,4 @@
-package ate.technical.api.requests;
+package ate.technical.api.requests.machine;
 
 
 public class CreateMachineRequest {

@@ -1,6 +1,6 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreateDeviceRequest;
+import ate.technical.api.requests.device.CreateDeviceRequest;
 import ate.technical.services.DeviceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
