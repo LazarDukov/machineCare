@@ -41,8 +41,7 @@ public class MachineApiController {
 
     }
 
-    @GetMapping
-public ResponseEntity<>
+
 
     @PostMapping
     public ResponseEntity<Void> createMachine(@RequestBody CreateMachineRequest request) {

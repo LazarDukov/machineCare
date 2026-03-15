@@ -19,16 +19,15 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources()
                                 .atCommonLocations())
                         .permitAll()
-                        .requestMatchers("/",
-                                "/login",
-                                "/register",
-                                "/about",
+                        .requestMatchers(
+                                "/login.html","/home.html","/register.html","/static/**",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
                                 "/machines",
                                 "/machines/add",
                                 "/machines/**",
+                                "/api/register/**",
                                 "/api/machines",
                                 "/api/machines/add",
                                 "/api/machines/type/**",
@@ -41,10 +40,10 @@ public class SecurityConfig {
                                 "/api/parts/**",
                                 "/api/materials/**")
                         .permitAll()
-                        .anyRequest().authenticated()).formLogin(login -> login.loginPage("/login")
+                        .anyRequest().authenticated()).formLogin(login -> login.loginPage("/login.html")
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/home", true)
                         .failureUrl("/login-error")
                         .permitAll())
                 .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/")

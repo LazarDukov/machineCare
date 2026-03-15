@@ -1,5 +1,6 @@
 package ate.technical.services;
 
+import ate.technical.api.requests.auth.CreateUserRequest;
 import ate.technical.model.dtos.RegisterDto;
 import ate.technical.model.entities.User;
 import ate.technical.model.enums.DepartmentEnum;
@@ -11,26 +12,26 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class RegisterService {
+public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerNewUser(RegisterDto registerDto) {
+    public void registerNewUser(CreateUserRequest createUserRequest) {
         User user = new User();
-        user.setUsername(registerDto.getUsername());
-        user.setFirstName(registerDto.getFirstName());
-        user.setLastName(registerDto.getLastName());
-        user.setEmail(registerDto.getEmail());
+        user.setUsername(createUserRequest.getUsername());
+        user.setFirstName(createUserRequest.getFirstName());
+        user.setLastName(createUserRequest.getLastName());
+        user.setEmail(createUserRequest.getEmail());
         user.setRole(RoleEnum.USER);
-        user.setDepartment(DepartmentEnum.valueOf(registerDto.getDepartment()));
+        user.setDepartment(DepartmentEnum.valueOf(createUserRequest.getDepartment()));
 
         user.setTasks(new ArrayList<>());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
     }
 }
