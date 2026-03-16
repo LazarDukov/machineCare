@@ -25,6 +25,10 @@ public class MachineService {
         return machineRepository.findMachineByName(name).map(this::viewMachineResponse);
     }
 
+    public Machine getMachineById(Long id) {
+        return machineRepository.findById(id).orElseThrow(() -> new RuntimeException("Machine not found"));
+    }
+
     public Machine getMachineByName(String name) {
         return machineRepository.findMachineByName(name).orElseThrow(() -> new RuntimeException("Machine not found"));
     }

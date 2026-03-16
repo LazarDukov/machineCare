@@ -26,7 +26,7 @@ public class AuthApiController {
         this.authenticationConfiguration = authenticationConfiguration;
     }
 
-    // TODO: Should implement password validation via password encoder.
+    // TODO: Should implement validation for password - confirm password in register.
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest createUserRequest) {
         userService.registerNewUser(createUserRequest);

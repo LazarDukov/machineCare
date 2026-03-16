@@ -1,6 +1,6 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreateComponentRequest;
+import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.services.ComponentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

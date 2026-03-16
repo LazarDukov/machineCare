@@ -1,6 +1,7 @@
 package ate.technical.services;
 
-import ate.technical.api.requests.CreateComponentRequest;
+
+import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.ComponentRepository;
@@ -8,16 +9,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ComponentService {
+    private SubDeviceService subDeviceService;
     private ComponentRepository componentRepository;
 
-    public ComponentService(ComponentRepository componentRepository) {
+    public ComponentService(SubDeviceService subDeviceService, ComponentRepository componentRepository) {
+        this.subDeviceService = subDeviceService;
         this.componentRepository = componentRepository;
     }
 
     public void createComponent(CreateComponentRequest request) {
+        SubDevice subDevice = subDeviceService.getById(request.getSubDeviceId());
         Component component = new Component();
         component.setName(request.getName());
         component.setAdditionalInfo(request.getAdditionalInfo());
+        component.setSubDevice(subDevice);
         componentRepository.save(component);
     }
 

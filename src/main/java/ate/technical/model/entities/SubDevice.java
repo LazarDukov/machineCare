@@ -13,6 +13,9 @@ public class SubDevice {
 
     @Column
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Device device;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Component> components;
@@ -23,6 +26,14 @@ public class SubDevice {
 
     public SubDevice setId(Long id) {
         this.id = id;
+        return this;
+    }
+    public Device getDevice() {
+        return device;
+    }
+
+    public SubDevice setDevice(Device device) {
+        this.device = device;
         return this;
     }
 

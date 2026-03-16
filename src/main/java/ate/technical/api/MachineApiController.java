@@ -40,8 +40,7 @@ public class MachineApiController {
     }
 
 
-
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Void> createMachine(@RequestBody CreateMachineRequest request) {
         machineService.createMachine(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();

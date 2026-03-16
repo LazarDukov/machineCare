@@ -1,6 +1,7 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreateSubDeviceRequest;
+
+import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
 import ate.technical.services.SubDeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
