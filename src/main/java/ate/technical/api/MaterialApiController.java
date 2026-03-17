@@ -1,6 +1,6 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreateMaterialRequest;
+import ate.technical.api.requests.material.CreateMaterialRequest;
 import ate.technical.services.MaterialService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ public class MaterialApiController {
         this.materialService = materialService;
     }
 
+    @PostMapping("/add")
     public ResponseEntity<Void> createMaterial(@RequestBody CreateMaterialRequest request) {
         materialService.createMaterial(request);
         return ResponseEntity.ok().build();

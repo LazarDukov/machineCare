@@ -27,8 +27,8 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     private Machine machine;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
-    private List<UserTask> userTask;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SubDevice subDevice;
@@ -137,12 +137,12 @@ public class Task {
         return this;
     }
 
-    public List<UserTask> getUserTask() {
-        return userTask;
+    public User getUser() {
+        return user;
     }
 
-    public Task setUserTask(List<UserTask> userTask) {
-        this.userTask = userTask;
+    public Task setUser(User user) {
+        this.user = user;
         return this;
     }
 

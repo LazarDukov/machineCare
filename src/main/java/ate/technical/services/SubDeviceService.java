@@ -7,6 +7,7 @@ import ate.technical.repositories.SubDeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class SubDeviceService {
@@ -18,7 +19,7 @@ public class SubDeviceService {
         this.subDeviceRepository = subDeviceRepository;
     }
 
-    public SubDevice getById(Long id) {
+    public SubDevice findById(Long id) {
         return subDeviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Sub-device not found"));
     }
 

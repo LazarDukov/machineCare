@@ -1,10 +1,10 @@
 package ate.technical.services;
 
-import ate.technical.api.requests.CreateMaterialRequest;
-import ate.technical.model.entities.Device;
+import ate.technical.api.requests.material.CreateMaterialRequest;
 import ate.technical.model.entities.Material;
 import ate.technical.model.enums.UnitEnum;
 import ate.technical.repositories.MaterialRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,5 +39,9 @@ public class MaterialService {
         Material material = materialRepository.findById(id).orElseThrow(() -> new RuntimeException("Material not found"));
         material.setName(newName);
         materialRepository.save(material);
+    }
+
+    public Material getMaterialBySapNumber(String material) {
+        return materialRepository.findMaterialBySapNumber(material).orElseThrow(() -> new RuntimeException("Material not found"));
     }
 }

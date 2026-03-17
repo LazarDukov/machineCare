@@ -7,6 +7,8 @@ import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.ComponentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ComponentService {
     private SubDeviceService subDeviceService;
@@ -18,7 +20,7 @@ public class ComponentService {
     }
 
     public void createComponent(CreateComponentRequest request) {
-        SubDevice subDevice = subDeviceService.getById(request.getSubDeviceId());
+        SubDevice subDevice = subDeviceService.findById(request.getSubDeviceId());
         Component component = new Component();
         component.setName(request.getName());
         component.setAdditionalInfo(request.getAdditionalInfo());

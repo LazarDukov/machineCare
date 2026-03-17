@@ -1,6 +1,6 @@
 package ate.technical.api;
 
-import ate.technical.api.requests.CreatePartRequest;
+import ate.technical.api.requests.part.CreatePartRequest;
 import ate.technical.services.PartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ public class PartApiController {
         this.partService = partService;
     }
 
+    @PostMapping("/add")
     public ResponseEntity<Void> createPart(@RequestBody CreatePartRequest request) {
         partService.createPart(request);
         return ResponseEntity.ok().build();

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,6 +20,10 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public void registerNewUser(CreateUserRequest createUserRequest) {

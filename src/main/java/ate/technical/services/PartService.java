@@ -1,16 +1,20 @@
 package ate.technical.services;
 
-import ate.technical.api.requests.CreatePartRequest;
+import ate.technical.api.requests.part.CreatePartRequest;
 import ate.technical.model.entities.Part;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.PartRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PartService {
+    private SubDeviceService subDeviceService;
     private PartRepository partRepository;
 
-    public PartService(PartRepository partRepository) {
+    public PartService(SubDeviceService subDeviceService, PartRepository partRepository) {
+        this.subDeviceService = subDeviceService;
         this.partRepository = partRepository;
     }
 

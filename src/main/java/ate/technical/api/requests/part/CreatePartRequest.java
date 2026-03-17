@@ -1,11 +1,10 @@
-package ate.technical.api.requests;
+package ate.technical.api.requests.part;
 
 public class CreatePartRequest {
     private String name;
-
     private int count;
-
     private String sapNumber;
+    private Long subDeviceId;
 
     public String getName() {
         return name;
@@ -31,6 +30,15 @@ public class CreatePartRequest {
 
     public CreatePartRequest setSapNumber(String sapNumber) {
         this.sapNumber = sapNumber;
+        return this;
+    }
+
+    public Long getSubDeviceId() {
+        return subDeviceId;
+    }
+
+    public CreatePartRequest setSubDeviceId(Long subDeviceId) {
+        this.subDeviceId = subDeviceId;
         return this;
     }
 }

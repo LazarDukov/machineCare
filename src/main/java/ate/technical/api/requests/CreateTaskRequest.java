@@ -11,6 +11,17 @@ public class CreateTaskRequest {
     private int repeatedAfter;
     private PeriodEnum periodEnum;
 
+    private String user;
+
+    public String getUser() {
+        return user;
+    }
+
+    public CreateTaskRequest setUser(String user) {
+        this.user = user;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }

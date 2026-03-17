@@ -35,8 +35,8 @@ public class User {
     private DepartmentEnum departmentEnum;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserTask> tasks;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Task> tasks;
 
     @Column
     private String password;
@@ -51,7 +51,7 @@ public class User {
                 String email,
                 RoleEnum roleEnum,
                 DepartmentEnum departmentEnum,
-                List<UserTask> tasks,
+                List<Task> tasks,
                 String password) {
         this.id = id;
         this.username = username;
@@ -127,12 +127,12 @@ public class User {
         return this;
     }
 
-    public List<UserTask> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
 
-    public User setTasks(List<UserTask> tasks) {
+    public User setTasks(List<Task> tasks) {
         this.tasks = tasks;
         return this;
     }

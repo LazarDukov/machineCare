@@ -1,4 +1,4 @@
-package ate.technical.api.requests;
+package ate.technical.api.requests.material;
 
 public class CreateMaterialRequest {
     private String name;
