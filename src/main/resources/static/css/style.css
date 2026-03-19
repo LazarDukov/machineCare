@@ -85,3 +85,27 @@ button {
     color: black;
     transform: scale(1.05);
 }
+
+.register-form, .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register-form input, .login-form input,
+.register-form select, .login-form select {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+}
+
+.register-form input:focus, .login-form input:focus,
+.register-form select:focus, .login-form select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.register-form button, .login-form button {
+    margin-top: 10px;
+}
