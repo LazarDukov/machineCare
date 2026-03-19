@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 .atCommonLocations())
                         .permitAll()
                         .requestMatchers(
-                                "/login.html", "/home.html", "/register.html", "/static/**",
+                                "/","/login.html", "/index.html", "/register.html", "/static/**",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
