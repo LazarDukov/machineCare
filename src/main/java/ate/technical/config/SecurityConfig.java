@@ -32,37 +32,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(PathRequest.toStaticResources()
-                                .atCommonLocations())
-                        .permitAll()
-                        .requestMatchers(
-                                "/","/login.html", "/index.html", "/register.html", "/static/**",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/machines",
-                                "/machines/add",
-                                "/machines/**",
-                                "/api/auth/**",
-                                "/api/machines",
-                                "/api/machines/add",
-                                "/api/machines/type/**",
-                                "/machines/update/**",
-                                "/api/machines/update/**",
-                                "/api/machines/name/**",
-                                "/api/devices/**",
-                                "/api/sub-devices/**",
-                                "/api/components/**",
-                                "/api/parts/**",
-                                "/api/materials/**")
-                        .permitAll()
-                        .anyRequest().authenticated()
-                )
-
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login.html")
-                );
+                .requestMatchers(PathRequest.toStaticResources()
+                        .atCommonLocations())
+                .permitAll()
+                .requestMatchers(
+                        "/", "/login.html", "/index.html", "/register.html", "/static/**", "/machines.html",
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/machines",
+                        "/machines/add",
+                        "/machines/**",
+                        "/api/auth/**",
+                        "/api/auth/login",
+                        "/api/machines",
+                        "/api/machines/add",
+                        "/api/machines/type/**",
+                        "/machines/update/**",
+                        "/api/machines/update/**",
+                        "/api/machines/name/**",
+                        "/api/devices/**",
+                        "/api/sub-devices/**",
+                        "/api/components/**",
+                        "/api/parts/**",
+                        "/api/materials/**")
+                .permitAll()
+                .anyRequest().authenticated()
+        ).formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable);
         return http.build();
 
     }

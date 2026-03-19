@@ -16,15 +16,11 @@ loginForm.addEventListener("submit", async function (e) {
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include", // 🔥 МНОГО ВАЖНО
             body: JSON.stringify(data)
         });
 
         if (response.ok) {
-            const result = await response.json();
-
-            // очакваме token от backend
-            localStorage.setItem("token", result.token);
-
             window.location.href = "/machines.html";
         } else {
             alert("Invalid credentials");
