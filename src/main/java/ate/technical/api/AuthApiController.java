@@ -29,6 +29,7 @@ public class AuthApiController {
     // TODO: Should implement validation for password - confirm password in register.
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest createUserRequest) {
+        System.out.println("create user api called");
         userService.registerNewUser(createUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -36,6 +37,7 @@ public class AuthApiController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
+        System.out.println("login api called");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),

@@ -34,9 +34,9 @@ public class UserService {
         user.setEmail(createUserRequest.getEmail());
         user.setRole(RoleEnum.USER);
         user.setDepartment(DepartmentEnum.valueOf(createUserRequest.getDepartment()));
-
         user.setTasks(new ArrayList<>());
         user.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
+
     }
 }

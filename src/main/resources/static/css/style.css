@@ -65,7 +65,7 @@ button {
     transition: all 0.3s ease;
 }
 
-.login {
+.login, .go-to-extruders, .go-to-packaging, .go-to-other {
     background: white;
     color: black;
 }

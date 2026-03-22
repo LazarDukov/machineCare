@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Machines</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+
 </head>
 <body>
-<div class="machine-types">
-    <a href="/machines/add">ADD MACHINE</a>
-    <br><button data-type="EXTRUDER">Extruders</button>
-    <button data-type="CUTTING_MACHINE">Cutting machines</button>
+<img src="/images/logo.png" class="logo">
+
+<div class="auth-container">
+  <h1>Избери цех</h1>
+
+  <div class="auth-buttons">
+    <button class="go-to-extruders" onclick="goToExtruders()">Цех Екструдери</button>
+    <button class="go-to-packaging" onclick="goToPackaging()">Цех Конфекция</button>
+    <button class="go-to-other" onclick="goToOthers()">1000</button>
+  </div>
 </div>
 
-<hr>
+<script src="/js/machines.js"></script>
 
-<ul id="machinesList"></ul>
-
-<!--<script src="/js/machines.js"></script>-->
 </body>
 </html>
