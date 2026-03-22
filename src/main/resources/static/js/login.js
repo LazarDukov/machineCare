@@ -21,7 +21,7 @@ loginForm.addEventListener("submit", async function (e) {
         });
 
         if (response.ok) {
-            window.location.href = "/machines.html";
+            window.location.href = "/machines";
         } else {
             alert("Invalid credentials");
         }

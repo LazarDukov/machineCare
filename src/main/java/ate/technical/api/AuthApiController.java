@@ -37,7 +37,7 @@ public class AuthApiController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        System.out.println("login api called");
+        System.out.println("login.html api called");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),

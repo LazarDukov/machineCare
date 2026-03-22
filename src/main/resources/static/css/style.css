@@ -1,14 +1,12 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     background: linear-gradient(135deg, #dfe8f6, #83e6f8, #02abf3, #3b68fc);
     background-size: 400% 400%;
     animation: gradientBG 12s ease infinite;
+
     height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 500px;
     color: white;
 }
 
@@ -25,12 +23,20 @@ body {
 }
 
 .logo {
-    font-size: 100px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 32px;
     font-weight: bold;
-    text-decoration: none;
     color: white;
 }
-
+.center-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .auth-container {
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
@@ -108,4 +114,15 @@ button {
 
 .register-form button, .login-form button {
     margin-top: 10px;
+}
+
+#machines-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+#machines-container button {
+    padding: 20px;
+    font-size: 18px;
 }

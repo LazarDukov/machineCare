@@ -2,11 +2,11 @@ window.onload = function () {
 }
 
 function goToExtruders() {
-    window.location.href = "/extruders.html";
+    window.location.href = "/machines/extruders";
 }
 
 function goToPackaging() {
-    window.location.href = "/machines.html";
+    window.location.href = "/packaging.html";
 
 }
 

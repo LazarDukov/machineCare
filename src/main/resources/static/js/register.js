@@ -33,7 +33,7 @@ form.addEventListener("submit", async function (e) {
 
         if (response.status === 201) {
             alert("Registration successful!");
-            window.location.href = "/login.html";
+            window.location.href = "/login";
         } else {
             alert("Registration failed!");
         }

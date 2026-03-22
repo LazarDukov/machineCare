@@ -1,39 +1,36 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Machine care</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.png}">
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Добави екструдер</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<div>
-    <form id="machineForm">
 
-        <label for="name">Name:</label>
-        <input type="text" id="name">
-        <input type="hidden" id="machineId">
+<div class="auth-container">
+    <h1>Добави нов екструдер</h1>
 
+    <form id="machine-form" class="form">
 
-        <label for="identificationNumber">Identification number:</label>
-        <input type="text" id="identificationNumber">
+        <input type="text" name="name" placeholder="Име на машина" required>
+        <br>
 
+        <input type="text" name="identificationNumber" placeholder="Инвентарен номер" required>
+<br>
+        <input type="text" name="manufacturer" placeholder="Производител" required>
+<br>
+        <input type="text" name="model" placeholder="Модел" required>
 
-        <label for="manufacturer">Manufacturer:</label>
-        <input type="text" id="manufacturer">
+        <!-- type го фиксираме -->
+        <input type="hidden" name="type" value="EXTRUDER">
+        <br>
+        <br>
 
-
-        <label for="type">Type:</label>
-        <input type="text" id="type">
-
-        <label for="model">Model:</label>
-        <input type="text" id="model">
-
-        <button type="submit">Add</button>
+        <button type="submit" class="login">Добави</button>
 
     </form>
 </div>
-<script th:src="@{/js/machine-add-or-edit.js}"></script>
-
-
+<script src="/js/add-machine.js"></script>
 </body>
 </html>

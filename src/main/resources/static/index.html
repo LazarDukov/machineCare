@@ -9,25 +9,27 @@
 <body>
 
 <!-- Лого като линк -->
-<img src="/images/logo.png" class="logo">
+<a href="/">
+    <img src="/images/logo.png" class="logo">
+</a>
+<div class="center-wrapper">
+    <div class="auth-container">
+        <h1>Добре дошъл</h1>
+        <p>Влез или си направи акаунт</p>
 
-<div class="auth-container">
-    <h1>Добре дошъл</h1>
-    <p>Влез или си направи акаунт</p>
-
-    <div class="auth-buttons">
-        <button class="login" onclick="goToLogin()">Login</button>
-        <button class="register" onclick="goToRegister()">Register</button>
+        <div class="auth-buttons">
+            <button class="login" onclick="goToLogin()">Login</button>
+            <button class="register" onclick="goToRegister()">Register</button>
+        </div>
     </div>
 </div>
-
 <script>
     function goToLogin() {
-        window.location.href = "/login.html";
+        window.location.href = "/login";
     }
 
     function goToRegister() {
-        window.location.href = "/register.html";
+        window.location.href = "/register";
     }
 
     window.onload = function () {
