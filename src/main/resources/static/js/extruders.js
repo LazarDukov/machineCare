@@ -41,7 +41,8 @@ fetch("/api/machines/type/EXTRUDER", {
 
 // 👉 използваш твоя get by name endpoint
 function openMachine(name) {
-    window.location.href = "/machine-details.html?name=" + encodeURIComponent(name);
+    console.log(name);
+   window.location.href = "/machines/extruders/machine-details.html?name=" + encodeURIComponent(name);
 }
 
 

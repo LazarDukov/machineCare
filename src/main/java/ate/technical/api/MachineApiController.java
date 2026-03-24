@@ -31,6 +31,7 @@ public class MachineApiController {
     }
 
     @GetMapping("/name/{name}")
+    @ResponseBody
     public ResponseEntity<ViewMachineResponse> getMachineByName(@PathVariable String name) {
         Optional<ViewMachineResponse> machine = machineService.optionalGetMachineByName(name);
         return machine.map(ResponseEntity::ok)

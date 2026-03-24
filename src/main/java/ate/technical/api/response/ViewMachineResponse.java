@@ -8,6 +8,8 @@ public class ViewMachineResponse {
     private String type;
     private String model;
 
+    private String url;
+
     public String getName() {
         return name;
     }
@@ -52,22 +54,14 @@ public class ViewMachineResponse {
         this.model = model;
         return this;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public ViewMachineResponse setUrl(String url) {
+        this.url = url;
+        return this;
+    }
 }
 
-//private String identificationNumber;
-//
-//    @Column
-//    private String manufacturer;
-//
-//    @Column
-//    @Enumerated(EnumType.STRING)
-//    private TypeEnum type;
-//
-//    @Column
-//    private String model;
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Device> devices;
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Task> tasks;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Детайли за машина</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Лого -->
+<a href="/" class="logo">Моето Лого</a>
+
+<div class="center-wrapper">
+    <div class="auth-container">
+
+        <h1 id="machine-name">Машина</h1>
+
+        <!-- 🔹 Информация от API -->
+        <div id="machine-info">
+            <p>Зареждане...</p>
+        </div>
+
+        <!-- 🔹 Бутони -->
+        <div class="auth-buttons">
+            <button class="login" onclick="goToSpareParts()">Резервни части</button>
+            <button class="login" onclick="goToRepairs()">Ремонти</button>
+            <button class="login" onclick="goToMaintenance()">Превантивна поддръжка</button>
+        </div>
+
+        <!-- 🔹 Външна страница -->
+        <iframe id="machine-frame" width="100%" height="500px"></iframe>
+
+    </div>
+</div>
+
+<script src="/js/machine-details.js">
+</script>
+
+</body>
+</html>
