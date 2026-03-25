@@ -31,5 +31,9 @@ public class ViewController {
         return "forward:/add-machine.html";
     }
 
+    @GetMapping("/machines/extruders/machine-details.html")
+    public String machineDetails() {
+        return "forward:/machine-details.html";
+    }
 
 }

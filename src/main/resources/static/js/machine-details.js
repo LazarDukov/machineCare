@@ -1,13 +1,17 @@
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
 
+
 // показваме името
 document.getElementById("machine-name").innerText = machineName || "Машина";
-
+console.log("Търсим машина с име:", machineName);
 // 👉 извикване към API
 if (machineName) {
+
     fetch(`/api/machines/name/${encodeURIComponent(machineName)}`)
         .then(response => {
+            console.log("Отговор от API:", response);
+
             if (!response.ok) {
                 throw new Error("Машината не е намерена");
             }

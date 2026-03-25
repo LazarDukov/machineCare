@@ -33,7 +33,10 @@ public class MachineApiController {
     @GetMapping("/name/{name}")
     @ResponseBody
     public ResponseEntity<ViewMachineResponse> getMachineByName(@PathVariable String name) {
-        Optional<ViewMachineResponse> machine = machineService.optionalGetMachineByName(name);
+        System.out.println(name);
+        Optional<ViewMachineResponse> machine =
+                machineService
+                        .optionalGetMachineByName(name);
         return machine.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .build());

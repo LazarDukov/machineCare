@@ -22,6 +22,7 @@ public class MachineService {
 
 
     public Optional<ViewMachineResponse> optionalGetMachineByName(String name) {
+        System.out.println(name + "2");
         return machineRepository.findMachineByName(name).map(this::viewMachineResponse);
     }
 
