@@ -1,7 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
-const deviceId = params.get("deviceId");
-let currentType = "";
+
 
 // показваме името
 document.getElementById("machine-name").innerText = machineName || "Машина";
