@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<div class="main-layout">
+    <div class="auth-container">
+        <h1>Добави нов екструдер</h1>
 
-<div class="auth-container">
-    <h1>Добави нов екструдер</h1>
+        <form id="machine-form" class="form">
 
-    <form id="machine-form" class="form">
+            <input type="text" name="name" placeholder="Име на машина" required>
+            <br>
 
-        <input type="text" name="name" placeholder="Име на машина" required>
-        <br>
+            <input type="text" name="identificationNumber" placeholder="Инвентарен номер" required>
+            <br>
+            <input type="text" name="manufacturer" placeholder="Производител" required>
+            <br>
+            <input type="text" name="model" placeholder="Модел" required>
 
-        <input type="text" name="identificationNumber" placeholder="Инвентарен номер" required>
-<br>
-        <input type="text" name="manufacturer" placeholder="Производител" required>
-<br>
-        <input type="text" name="model" placeholder="Модел" required>
+            <!-- type го фиксираме -->
+            <input type="hidden" name="type" value="EXTRUDER">
+            <br>
+            <br>
 
-        <!-- type го фиксираме -->
-        <input type="hidden" name="type" value="EXTRUDER">
-        <br>
-        <br>
+            <button type="submit" class="button-click">Добави</button>
 
-        <button type="submit" class="login">Добави</button>
-
-    </form>
+        </form>
+    </div>
 </div>
 <script src="/js/add-machine.js"></script>
 </body>

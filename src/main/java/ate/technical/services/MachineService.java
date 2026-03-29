@@ -64,7 +64,10 @@ public class MachineService {
 
     public List<GetMachinesRequest> findAllByType(TypeEnum type) {
 
-        return machineRepository.findAllMachinesByType(type).stream().map(machine -> new GetMachinesRequest(machine.getId(), machine.getName())).collect(Collectors.toList());
+        return machineRepository.findAllMachinesByType(type).stream()
+                .map(machine -> new GetMachinesRequest(machine.getId(),
+                        machine.getName()))
+                .collect(Collectors.toList());
     }
 
     public void updateMachine(Long id, CreateMachineRequest request) {

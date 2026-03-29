@@ -1,6 +1,7 @@
 package ate.technical.model.entities;
 
 import ate.technical.model.enums.TypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class Machine {
     private String model;
 
     @OneToMany(fetch = FetchType.LAZY)
+
     private List<Device> devices;
 
     @OneToMany(fetch = FetchType.LAZY)

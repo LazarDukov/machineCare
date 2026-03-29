@@ -1,12 +1,16 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.device.CreateDeviceRequest;
+import ate.technical.api.response.device.ViewAllDevicesResponse;
 import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Machine;
 import ate.technical.repositories.DeviceRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DeviceService {
@@ -23,9 +27,9 @@ public class DeviceService {
     }
 
     public void createDevice(CreateDeviceRequest request) {
-        Machine machine = machineService.getMachineById(request.getMachineId());
+        Machine machine = machineService.getMachineByName(request.getMachineName());
         Device device = new Device();
-        device.setDeviceName(request.getName());
+        device.setName(request.getName());
         device.setMachine(machine);
         device.setSubDevice(new ArrayList<>());
         machine.getDevices().add(device);
@@ -39,7 +43,15 @@ public class DeviceService {
 
     public void changeDeviceName(Long id, String newName) {
         Device device = deviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Device not found"));
-        device.setDeviceName(newName);
+        device.setName(newName);
         deviceRepository.save(device);
+    }
+
+    public List<ViewAllDevicesResponse> getAllDevicesOfGivenMachine(String machineName) {
+        System.out.println("machine name: " + machineName);
+
+
+        return deviceRepository.findAllByMachine_Name(machineName).stream()
+                .map(device -> new ViewAllDevicesResponse(device.getName())).collect(Collectors.toList());
     }
 }

@@ -1,41 +1,113 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8">
-  <title>Детайли за машина</title>
-  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>Детайли за машина</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
 <!-- Лого -->
 <img src="/images/logo.png" class="logo">
 
-<div class="center-wrapper">
-    <div class="auth-container">
+<div class="main-layout">
+    <div class="left-group">
+        <div class="left-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="goToImages()">Добави снимки</button>
+                    <button class="button-click" onclick="addSparePartsByPosition()">Промени резервни части по позиция
+                    </button>
+                    <button class="button-click" onclick="addRepairs()">Промени извършени ремонти</button>
+                    <button class="button-click" onclick="addMaintenanceTask()">Промени задача за превантивна поддръжка
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 🔹 ЛЯВО МЕНЮ -->
+        <div class="left-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="goToImages()">Снимки</button>
+                    <button class="button-click" onclick="addSparePartsByPosition()">Добави резервни части по позиция
+                    </button>
+                    <button class="button-click" onclick="addRepairs()">Добави извършени ремонти</button>
+                    <button class="button-click" onclick="addMaintenanceTask()">Добави задача за превантивна поддръжка
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <h1 id="machine-name">Машина</h1>
+    </div>
+    <!-- 🔹 ЦЕНТЪР -->
+    <div class="center-wrapper">
+        <div class="auth-container">
 
-        <!-- 🔹 Информация от API -->
-        <div id="machine-info">
+            <h1 id="machine-name">Машина</h1>
+
+            <!-- 🔹 Информация от API -->
+            <div id="machine-info">
+                <p>Зареждане...</p>
+            </div>
+
+            <!-- 🔹 Бутони -->
+            <div class="auth-buttons">
+                <button class="button-click" onclick="goToSpareParts()">Резервни части</button>
+                <button class="button-click" onclick="goToRepairs()">Ремонти</button>
+                <button class="button-click" onclick="goToMaintenance()">Превантивна поддръжка</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="right-group">
+
+        <!-- 🔹 ДЯСНО МЕНЮ -->
+        <div class="right-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="openAddDeviceModal()">Добави устройство</button>
+                    <div id="add-device-modal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeAddDeviceModal()">&times;</span>
+                            <h2>Добави устройство</h2>
+
+                            <input type="text" id="device-name-input" placeholder="Име на устройството" />
+
+                            <button class="button-click" onclick="submitDevice()">Добави</button>
+
+                            <p id="add-device-message"></p>
+                        </div>
+                    </div>
+                    <button class="button-click" onclick="addSubDevice()">Добави подустройство</button>
+                    <button class="button-click" onclick="addComponent()">Добави компонент</button>
+                    <button class="button-click" onclick="addComponent()">Промени</button>
+                </div>
+            </div>
+        </div>
+        <div class="right-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="openDevicesModal()">Виж устройства</button>
+                    <button class="button-click" onclick="addSubDevice()">Виж подустройство</button>
+                    <button class="button-click" onclick="addComponent()">Виж компонент</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 🔹 MODAL ЗА УСТРОЙСТВА -->
+<div id="devices-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeDevicesModal()">&times;</span>
+        <h2>Устройства</h2>
+
+        <div id="devices-container">
             <p>Зареждане...</p>
         </div>
-
-        <!-- 🔹 Бутони -->
-        <div class="auth-buttons">
-            <button class="login" onclick="goToSpareParts()">Резервни части</button>
-            <button class="login" onclick="goToRepairs()">Ремонти</button>
-            <button class="login" onclick="goToMaintenance()">Превантивна поддръжка</button>
-        </div>
-
-        <!-- 🔹 Външна страница -->
-<!--        <iframe id="machine-frame" width="100%" height="500px"></iframe>-->
-
     </div>
 </div>
 
-<script src="/js/machine-details.js">
-</script>
+<script src="/js/machine-details.js"></script>
 
 </body>
-</html>

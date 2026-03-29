@@ -2,8 +2,18 @@ package ate.technical.api.requests.device;
 
 public class CreateDeviceRequest {
     private String name;
+    private String machineName;
 
-    private Long machineId;
+
+
+    public String getMachineName() {
+        return machineName;
+    }
+
+    public CreateDeviceRequest setMachineName(String machineName) {
+        this.machineName = machineName;
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -14,12 +24,5 @@ public class CreateDeviceRequest {
         return this;
     }
 
-    public Long getMachineId() {
-        return machineId;
-    }
 
-    public CreateDeviceRequest setMachineId(Long machineId) {
-        this.machineId = machineId;
-        return this;
-    }
 }

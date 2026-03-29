@@ -12,7 +12,7 @@ public class Device {
     private Long id;
 
     @Column
-    private String deviceName;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Machine machine;
@@ -47,12 +47,12 @@ public class Device {
         return this;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getName() {
+        return name;
     }
 
-    public Device setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
+    public Device setName(String name) {
+        this.name = name;
         return this;
     }
 

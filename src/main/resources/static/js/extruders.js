@@ -22,7 +22,7 @@ fetch("/api/machines/type/EXTRUDER", {
         machines.forEach(machine => {
 
             const btn = document.createElement("button");
-            btn.className = "login";
+            btn.className = "button-click";
 
             // ⚠️ важно: според твоето DTO
             btn.innerText = machine.name;
