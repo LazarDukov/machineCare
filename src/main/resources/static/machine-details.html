@@ -60,27 +60,15 @@
 
         </div>
     </div>
-    <div class="right-group">
 
-        <!-- 🔹 ДЯСНО МЕНЮ -->
+    <!-- 🔹 ДЯСНО МЕНЮ -->
+    <div class="right-group">
         <div class="right-wrapper">
             <div class="auth-container">
                 <div class="auth-buttons">
-                    <button class="button-click" onclick="openAddDeviceModal()">Добави устройство</button>
-                    <div id="add-device-modal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeAddDeviceModal()">&times;</span>
-                            <h2>Добави устройство</h2>
-
-                            <input type="text" id="device-name-input" placeholder="Име на устройството" />
-
-                            <button class="button-click" onclick="submitDevice()">Добави</button>
-
-                            <p id="add-device-message"></p>
-                        </div>
-                    </div>
-                    <button class="button-click" onclick="addSubDevice()">Добави подустройство</button>
-                    <button class="button-click" onclick="addComponent()">Добави компонент</button>
+                    <button class="button-click" onclick="openEntityModal('device')">Добави устройство</button>
+                    <button class="button-click" onclick="openEntityModal('subDevice')">Добави подустройство</button>
+                    <button class="button-click" onclick="openEntityModal('component')">Добави компонент</button>
                     <button class="button-click" onclick="addComponent()">Промени</button>
                 </div>
             </div>
@@ -99,7 +87,7 @@
 <!-- 🔹 MODAL ЗА УСТРОЙСТВА -->
 <div id="devices-modal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeDevicesModal()">&times;</span>
+        <span class="close" onclick="closeModal(this)">&times;</span>
         <h2>Устройства</h2>
 
         <div id="devices-container">
@@ -107,7 +95,18 @@
         </div>
     </div>
 </div>
-
+<div id="add-entity-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal(this)">&times;</span>
+        <h2 id="modal-title">Добавяне</h2>
+        <div id="relation-select-container" style="display:none;">
+            <select id="relation-select"></select>
+        </div>
+        <input type="text" id="entity-name-input" placeholder="Име"/>
+        <button class="button-click" onclick="submitEntity()">Добави</button>
+        <p id="entity-message"></p>
+    </div>
+</div>
 <script src="/js/machine-details.js"></script>
 
 </body>

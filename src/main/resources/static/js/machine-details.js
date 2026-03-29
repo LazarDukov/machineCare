@@ -1,6 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
-
+const deviceId = params.get("deviceId");
+let currentType = "";
 
 // показваме името
 document.getElementById("machine-name").innerText = machineName || "Машина";
@@ -96,66 +97,152 @@ function openDevicesModal() {
         });
 }
 
-function closeDevicesModal() {
-    document.getElementById("devices-modal").style.display = "none";
+
+function openEntityModal(type) {
+    currentType = type;
+
+    const modal = document.getElementById("add-entity-modal");
+    const title = document.getElementById("modal-title");
+    const selectContainer = document.getElementById("relation-select-container");
+    const select = document.getElementById("relation-select");
+
+    modal.style.display = "flex";
+    select.innerHTML = "";
+
+    if (type === "device") {
+        title.innerText = "Добави устройство";
+        selectContainer.style.display = "none";
+    } else if (type === "subDevice") {
+        title.innerText = "Добави подустройство";
+        selectContainer.style.display = "block";
+        loadDevices(select);
+    } else if (type === "component") {
+        title.innerText = "Добави компонент";
+        selectContainer.style.display = "block";
+
+        loadSubDevices(select);
+    }
+
+    document.getElementById("entity-name-input").value = "";
+    document.getElementById("entity-message").innerText = "";
 }
 
-function openAddDeviceModal() {
-    document.getElementById("add-device-modal").style.display = "block";
-    document.getElementById("device-name-input").value = "";
-    document.getElementById("add-device-message").innerText = "";
+function loadDevices(select) {
+    fetch(`/api/devices/all/${encodeURIComponent(machineName)}`, {
+        credentials: "include"
+    })
+        .then(res => res.json())
+        .then(devices => {
+            if (!devices.length) {
+                select.innerHTML = "<option>Няма устройства</option>";
+                return;
+            }
+
+            devices.forEach(device => {
+                const option = document.createElement("option");
+
+                option.value = device.id;      // 👉 ВАЖНО: ID
+                option.textContent = device.name; // 👉 показваш име
+
+                select.appendChild(option);
+            });
+        });
 }
 
-function closeAddDeviceModal() {
-    document.getElementById("add-device-modal").style.display = "none";
+function loadSubDevices(select) {
+    fetch(`/api/sub-devices/all/${encodeURIComponent(deviceId)}`, {
+        credentials: "include"
+    })
+        .then(res => res.json())
+        .then(subDevices => {
+
+            if (!subDevices.length) {
+                select.innerHTML = "<option value=''>Няма подустройства</option>";
+                return;
+            }
+
+            subDevices.forEach(sd => {
+                const option = document.createElement("option");
+                const deviceId = new URLSearchParams(window.location.search).get("deviceId");
+                option.value = sd.id;      // 👉 ВАЖНО: ID
+                option.textContent = sd.name; // 👉 показваш име
+
+                select.appendChild(deviceId);
+            });
+        });
 }
 
-function submitDevice() {
-    const input = document.getElementById("device-name-input");
-    const message = document.getElementById("add-device-message");
+function closeModal(element) {
+    const modal = element.closest(".modal");
+    modal.style.display = "none";
 
-    const deviceName = input.value.trim();
+}
 
-    if (!deviceName) {
+function submitEntity() {
+    const input = document.getElementById("entity-name-input");
+    const message = document.getElementById("entity-message");
+    const selectedId = document.getElementById("relation-select").value;
+
+    const name = input.value.trim();
+
+    if (!name) {
         message.style.color = "red";
         message.innerText = "Моля въведи име";
         return;
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const machineName = params.get("name");
+    let url = "";
+    let body = {
+        name: name,
+        machineName: machineName
+    };
 
-    fetch("/api/devices/add", {
+    if (currentType === "device") {
+        url = "/api/devices/add";
+    }
+
+    if (currentType === "subDevice") {
+
+        if (!selectedId) {
+            alert("Избери устройство!");
+            return;
+        }
+
+        url = "/api/sub-devices/add";
+        body.deviceId = Number(selectedId);
+    }
+
+    if (currentType === "component") {
+        if (!selectedId) {
+            alert("Избери подустройство!");
+            return;
+        }
+
+        url = "/api/components/add";
+        body.subDeviceId = Number(selectedId);
+    }
+
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         credentials: "include",
-        body: JSON.stringify({
-            name: deviceName,
-            machineName: machineName
-        })
+        body: JSON.stringify(body)   // ✅ използваш body-то
     })
         .then(res => {
             if (!res.ok) {
-                throw new Error("Грешка при добавяне");
+                throw new Error("Грешка");
             }
             return res.text();
         })
-        .then(data => {
+        .then(() => {
             message.style.color = "green";
-            message.innerText = "Устройството е добавено успешно";
-
-            input.value = "";
-
-            // по желание: затваря след 1 секунда
-            setTimeout(() => {
-                closeAddDeviceModal();
-            }, 1000);
+            message.innerText = "Успешно добавено";
         })
         .catch(err => {
             console.error(err);
             message.style.color = "red";
-            message.innerText = "Грешка при добавяне";
+            message.innerText = "Грешка";
         });
 }

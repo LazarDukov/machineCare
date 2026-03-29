@@ -156,7 +156,7 @@ button {
 
 /* 🔹 MODAL BOX */
 .modal-content {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgb(196, 226, 248);
     color: black;
     margin: 10% auto;
     padding: 20px;
@@ -180,10 +180,3 @@ button {
     gap: 10px;
 }
 
-#add-device-modal input {
-    width: 90%;
-    padding: 10px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
