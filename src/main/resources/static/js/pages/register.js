@@ -1,3 +1,5 @@
+import { registerUser } from "../api/authApi.js";
+
 const form = document.querySelector(".register-form");
 
 form.addEventListener("submit", async function (e) {
@@ -8,6 +10,7 @@ form.addEventListener("submit", async function (e) {
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
 
+    // 👉 validation остава тук
     if (password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
@@ -23,24 +26,13 @@ form.addEventListener("submit", async function (e) {
     };
 
     try {
-        const response = await fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
+        await registerUser(data);
 
-        if (response.status === 201) {
-            alert("Registration successful!");
-            window.location.href = "/login";
-        } else {
-            alert("Registration failed!");
-        }
+        alert("Registration successful!");
+        window.location.href = "/login";
 
     } catch (error) {
         console.error(error);
-        alert("Error connecting to server");
+        alert(error.message);
     }
 });
-

@@ -1,4 +1,5 @@
 const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
 const machineName = params.get("name");
 
 
@@ -98,7 +99,6 @@ function openDevicesModal() {
 
 
 function openEntityModal(type) {
-    currentType = type;
 
     const modal = document.getElementById("add-entity-modal");
     const title = document.getElementById("modal-title");
@@ -137,19 +137,20 @@ function loadDevices(select) {
                 return;
             }
 
+            select.innerHTML = "<option value=''>-- Избери устройство --</option>";
             devices.forEach(device => {
                 const option = document.createElement("option");
-
-                option.value = device.id;      // 👉 ВАЖНО: ID
+                option.value = device.id      // 👉 ВАЖНО: ID
                 option.textContent = device.name; // 👉 показваш име
-
                 select.appendChild(option);
+
+                console.log("DEVICE OBJECT:", device);
             });
         });
 }
 
 function loadSubDevices(select) {
-    fetch(`/api/sub-devices/all/${encodeURIComponent(deviceId)}`, {
+    fetch(`/api/sub-devices/add`, {
         credentials: "include"
     })
         .then(res => res.json())
@@ -162,11 +163,10 @@ function loadSubDevices(select) {
 
             subDevices.forEach(sd => {
                 const option = document.createElement("option");
-                const deviceId = new URLSearchParams(window.location.search).get("deviceId");
                 option.value = sd.id;      // 👉 ВАЖНО: ID
                 option.textContent = sd.name; // 👉 показваш име
 
-                select.appendChild(deviceId);
+                select.appendChild(option);
             });
         });
 }
@@ -180,8 +180,8 @@ function closeModal(element) {
 function submitEntity() {
     const input = document.getElementById("entity-name-input");
     const message = document.getElementById("entity-message");
-    const selectedId = document.getElementById("relation-select").value;
-
+    const select = document.getElementById("relation-select").options[document.getElementById("relation-select").selectedIndex];
+    const selectId = select.value;
     const name = input.value.trim();
 
     if (!name) {
@@ -190,44 +190,45 @@ function submitEntity() {
         return;
     }
 
+    console.log("Въвеждано име:", selectId, select);
     let url = "";
-    let body = {
-        name: name,
-        machineName: machineName
-    };
+    let body = {name, selectedId: selectId};
 
-    if (currentType === "device") {
+    let currentType = document.getElementById("modal-title").innerText.substring(6).trim();
+    console.log("Текущ тип за добавяне:", currentType)
+    if (currentType === "устройство") {
         url = "/api/devices/add";
     }
+    console.log("Избрано ID за връзка:", selectId)
+    if (currentType === "подустройство") {
 
-    if (currentType === "subDevice") {
-
-        if (!selectedId) {
+        if (!selectId) {
             alert("Избери устройство!");
             return;
         }
 
         url = "/api/sub-devices/add";
-        body.deviceId = Number(selectedId);
+        body.name = name;
+        body.deviceId = selectId;
     }
 
-    if (currentType === "component") {
-        if (!selectedId) {
+    if (currentType === "компонент") {
+        if (!selectId) {
             alert("Избери подустройство!");
             return;
         }
 
         url = "/api/components/add";
-        body.subDeviceId = Number(selectedId);
+        body.subDeviceId = Number(selectId);
     }
-
+    console.log("SELECTED:", document.getElementById("relation-select").value);
     fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         credentials: "include",
-        body: JSON.stringify(body)   // ✅ използваш body-то
+        body: JSON.stringify(body) // ✅ използваш body-то
     })
         .then(res => {
             if (!res.ok) {

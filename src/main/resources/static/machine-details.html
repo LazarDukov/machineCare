@@ -100,13 +100,15 @@
         <span class="close" onclick="closeModal(this)">&times;</span>
         <h2 id="modal-title">Добавяне</h2>
         <div id="relation-select-container" style="display:none;">
-            <select id="relation-select"></select>
+            <select id="relation-select">
+                <option id="option"></option>
+            </select>
         </div>
         <input type="text" id="entity-name-input" placeholder="Име"/>
         <button class="button-click" onclick="submitEntity()">Добави</button>
         <p id="entity-message"></p>
     </div>
 </div>
-<script src="/js/machine-details.js"></script>
+<script src="/js/pages/machine-details.js"></script>
 
 </body>

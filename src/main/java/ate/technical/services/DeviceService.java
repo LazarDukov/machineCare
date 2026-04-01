@@ -52,6 +52,6 @@ public class DeviceService {
 
 
         return deviceRepository.findAllByMachine_Name(machineName).stream()
-                .map(device -> new ViewAllDevicesResponse(device.getName())).collect(Collectors.toList());
+                .map(device -> new ViewAllDevicesResponse(device.getId(), device.getName())).collect(Collectors.toList());
     }
 }

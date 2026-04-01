@@ -31,12 +31,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)).authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers(PathRequest.toStaticResources()
-                                        .atCommonLocations())
-                                .permitAll()
-                                .requestMatchers(
-                                        "/",
-                                        "/index.html",
+                        .requestMatchers(PathRequest.toStaticResources()
+                                .atCommonLocations())
+                        .permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
                                 "/login.html",
                                 "/login",
                                 "/register",
@@ -67,11 +67,12 @@ public class SecurityConfig {
                                 "/api/machines/name/**",
                                 "/api/devices/**",
                                 "/api/sub-devices/**",
+                                "/api/sub-devices/add",
                                 "/api/components/**",
                                 "/api/parts/**",
                                 "/api/materials/**")
-                                .permitAll()
-                                .anyRequest().authenticated()
+                        .permitAll()
+                        .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));

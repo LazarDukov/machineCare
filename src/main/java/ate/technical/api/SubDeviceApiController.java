@@ -15,7 +15,7 @@ public class SubDeviceApiController {
         this.subDeviceService = subDeviceService;
     }
 
-    @PostMapping("/add/{deviceId}")
+    @PostMapping("/add")
     public ResponseEntity<Void> createSubDevice(@RequestBody CreateSubDeviceRequest request) {
         System.out.println("Creating sub-device with name: " + request.getName() + " for device ID: " + request.getDeviceId());
         subDeviceService.createSubDevice(request);
