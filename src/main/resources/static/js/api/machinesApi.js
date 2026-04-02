@@ -1,10 +1,17 @@
-export async function getMachinesByType(type) {
-    const res = await fetch(`/api/machines/type/${type}`, {
-        credentials: "include"
-    });
+export async function getMachineByName(name) {
+    const res = await fetch(`/api/machines/name/${encodeURIComponent(name)}`);
 
     if (!res.ok) {
-        throw new Error("Грешка при заявката");
+        throw new Error("Машината не е намерена");
+    }
+
+    return res.json();
+}
+export async function getMachinesByType(type) {
+    const res = await fetch(`/api/machines/type/${encodeURIComponent(type)}`);
+
+    if (!res.ok) {
+        throw new Error("Машината не е намерена");
     }
 
     return res.json();
