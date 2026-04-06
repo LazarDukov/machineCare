@@ -1,4 +1,4 @@
-import {loadDevices, loadSubDevices} from "./selectLoader.js";
+import {loadDevices, loadSubDevicesByDevice} from "./selectLoader.js";
 import {getDevices} from "../api/devicesApi.js";
 import {getSubDevicesByDeviceId} from "../api/subDevicesApi.js";
 
@@ -40,10 +40,11 @@ export function openEntityModal(type) {
     const modal = document.getElementById("add-entity-modal");
     const title = document.getElementById("modal-title");
     const selectContainer = document.getElementById("relation-select-container");
-    const select = document.getElementById("relation-select");
+    const selectDevice = document.getElementById("device-select");
+    const selectSubDevice = document.getElementById("subDevice-select");
 
     modal.style.display = "flex";
-    select.innerHTML = "";
+    selectDevice.innerHTML = "";
 
     if (type === "device") {
         title.innerText = "Добави устройство";
@@ -53,13 +54,35 @@ export function openEntityModal(type) {
     if (type === "subDevice") {
         title.innerText = "Добави подустройство";
         selectContainer.style.display = "block";
-        loadDevices(select);
+        loadDevices(selectDevice);
     }
 
     if (type === "component") {
         title.innerText = "Добави компонент";
         selectContainer.style.display = "block";
-        loadSubDevices(select);
+
+        const deviceSelect = document.getElementById("device-select");
+        const subDeviceSelect = document.getElementById("subDevice-select");
+
+        if (!selectDevice || !selectSubDevice) {
+            console.error("❌ Липсват select елементи!");
+            return;
+        }
+
+        // reset
+        deviceSelect.innerHTML = "";
+        subDeviceSelect.innerHTML = "<option>Първо избери устройство</option>";
+        subDeviceSelect.disabled = true;
+
+        // load devices
+        loadDevices(selectDevice);
+
+        deviceSelect.onchange = () => {
+            const deviceId = deviceSelect.value;
+
+            subDeviceSelect.innerHTML = "<option>Зареждане...</option>";
+            loadSubDevicesByDevice(subDeviceSelect, selectDevice.value);
+        };
     }
 
     document.getElementById("entity-name-input").value = "";

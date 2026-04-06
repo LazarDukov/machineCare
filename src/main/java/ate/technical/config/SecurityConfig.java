@@ -68,7 +68,9 @@ public class SecurityConfig {
                                 "/api/devices/**",
                                 "/api/sub-devices/**",
                                 "/api/sub-devices/add",
+                                "/api/sub-devices/device/**",
                                 "/api/components/**",
+                                "/api/components/add",
                                 "/api/parts/**",
                                 "/api/materials/**")
                         .permitAll()

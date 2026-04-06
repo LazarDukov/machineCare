@@ -56,6 +56,7 @@ public class SubDeviceService {
                     .setName(subDevice.getName())
                     .setDeviceId(subDevice.getDevice().getId()));
         }
+        System.out.println("Found " + response.size() + " sub-devices for device ID: " + deviceId);
         return response;
 
     }

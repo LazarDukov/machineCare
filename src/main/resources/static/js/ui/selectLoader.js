@@ -1,46 +1,55 @@
 import {getDevices} from "../api/devicesApi.js";
+import {getSubDevicesByDeviceId} from "../api/subDevicesApi.js";
 
-export function loadDevices(select) {
+export function loadDevices(selectDevice) {
     const params = new URLSearchParams(window.location.search);
     const machineName = params.get("name");
 
     getDevices(machineName).then(devices => {
         if (!devices.length) {
-            select.innerHTML = "<option>Няма устройства</option>";
+            selectDevice.innerHTML = "<option>Няма устройства</option>";
             return;
         }
 
-        select.innerHTML = "<option value=''>-- Избери устройство --</option>";
+        selectDevice.innerHTML = "<option value=''>-- Избери устройство --</option>";
 
         devices.forEach(device => {
             const option = document.createElement("option");
             option.value = device.id;
             option.textContent = device.name;
 
-            select.appendChild(option);
+            selectDevice.appendChild(option);
         });
     });
 }
 
-export function loadSubDevices(select) {
-    fetch(`/api/sub-devices/all`, {
-        credentials: "include"
-    })
-        .then(res => res.json())
-        .then(subDevices => {
+
+    export function loadSubDevicesByDevice(suDeviceSelect, deviceId) {
+
+        if (!deviceId) {
+            suDeviceSelect.innerHTML = "<option>Първо избери устройство</option>";
+            suDeviceSelect.disabled = true;
+            return;
+        }
+
+        suDeviceSelect.disabled = false;
+
+        getSubDevicesByDeviceId(deviceId).then(subDevices => {
+
             if (!subDevices.length) {
-                select.innerHTML = "<option>Няма подустройства</option>";
+                suDeviceSelect.innerHTML = "<option>Няма подустройства</option>";
                 return;
             }
 
-            select.innerHTML = "<option value=''>-- Избери подустройство --</option>";
+            suDeviceSelect.innerHTML = "<option value=''>-- Избери подустройство --</option>";
 
             subDevices.forEach(sd => {
                 const option = document.createElement("option");
                 option.value = sd.id;
                 option.textContent = sd.name;
 
-                select.appendChild(option);
+                suDeviceSelect.appendChild(option);
             });
         });
+
 }

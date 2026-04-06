@@ -1,6 +1,6 @@
 import {addDevice} from "../api/devicesApi.js";
 
-export async function submitEntity(name, selectId, message) {
+export async function submitEntity(name, selectDevice, selectSubDevice, message) {
     const params = new URLSearchParams(window.location.search);
     const machineName = params.get("name");
     if (!name) {
@@ -23,12 +23,12 @@ export async function submitEntity(name, selectId, message) {
         }
 
         if (currentType === "подустройство") {
-            if (!selectId) {
+            if (!selectDevice) {
                 alert("Избери устройство!");
                 return;
             }
 
-            body.deviceId = selectId;
+            body.deviceId = selectDevice;
 
             await fetch("/api/sub-devices/add", {
                 method: "POST",
@@ -39,12 +39,12 @@ export async function submitEntity(name, selectId, message) {
         }
 
         if (currentType === "компонент") {
-            if (!selectId) {
-                alert("Избери подустройство!");
+            if (!selectDevice) {
+                alert("Избери устройство!");
                 return;
             }
 
-            body.subDeviceId = Number(selectId);
+            body.subDeviceId = selectSubDevice;
 
             await fetch("/api/components/add", {
                 method: "POST",

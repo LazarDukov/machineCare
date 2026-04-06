@@ -55,11 +55,12 @@ function goToMaintenance() {
 async function handleSubmit() {
     const input = document.getElementById("entity-name-input");
     const message = document.getElementById("entity-message");
-    const selectId = document.getElementById("relation-select").value;
+    const selectDevice = document.getElementById("device-select").value;
+    const selectSubDevice = document.getElementById("subDevice-select").value;
 
     const name = input.value.trim();
 
-    await submitEntity(name, selectId, message);
+    await submitEntity(name, selectDevice,selectSubDevice, message);
 }
 
 document.addEventListener("DOMContentLoaded", init);

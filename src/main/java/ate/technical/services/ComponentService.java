@@ -5,6 +5,7 @@ import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.ComponentRepository;
+import ate.technical.repositories.SubDeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,9 +15,11 @@ public class ComponentService {
     private SubDeviceService subDeviceService;
     private ComponentRepository componentRepository;
 
+
     public ComponentService(SubDeviceService subDeviceService, ComponentRepository componentRepository) {
         this.subDeviceService = subDeviceService;
         this.componentRepository = componentRepository;
+
     }
 
     public void createComponent(CreateComponentRequest request) {
@@ -25,6 +28,7 @@ public class ComponentService {
         component.setName(request.getName());
         component.setAdditionalInfo(request.getAdditionalInfo());
         component.setSubDevice(subDevice);
+        subDevice.getComponents().add(component);
         componentRepository.save(component);
     }
 
