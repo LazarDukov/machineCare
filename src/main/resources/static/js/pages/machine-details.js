@@ -1,25 +1,8 @@
 import {getMachineByName} from "../api/machinesApi.js";
-
 import {submitEntity} from "../ui/entityHandler.js";
 
+// 👉 глобално за страницата
 let machineName = null;
-
-function init() {
-    const params = new URLSearchParams(window.location.search);
-    machineName = params.get("name");
-
-    document.getElementById("machine-name").innerText = machineName || "Машина";
-
-    if (machineName) {
-        loadMachine(machineName);
-    }
-
-    // 👉 правим функции достъпни за HTML
-    window.goToSpareParts = goToSpareParts;
-    window.goToRepairs = goToRepairs;
-    window.goToMaintenance = goToMaintenance;
-    window.handleSubmit = handleSubmit;
-}
 
 async function loadMachine(name) {
     const container = document.getElementById("machine-info");
@@ -33,13 +16,26 @@ async function loadMachine(name) {
             <p><strong>Описание:</strong> ${data.description || "Няма"}</p>
         `;
 
-        if (data.url) {
-            document.getElementById("machine-frame").src = data.url;
-        }
-
     } catch (err) {
         container.innerHTML = `<p style="color:red;">${err.message}</p>`;
     }
+}
+
+function init() {
+    const params = new URLSearchParams(window.location.search);
+    machineName = params.get("name");
+
+    document.getElementById("machine-name").innerText = machineName || "Машина";
+
+    console.log("Търсим машина с име:", machineName);
+
+    loadMachine(machineName);
+
+    // 👉 expose към HTML
+    window.goToSpareParts = goToSpareParts;
+    window.goToRepairs = goToRepairs;
+    window.goToMaintenance = goToMaintenance;
+    window.handleSubmit = handleSubmit;
 }
 
 // 👉 navigation
@@ -58,22 +54,12 @@ function goToMaintenance() {
 // 👉 submit wrapper
 async function handleSubmit() {
     const input = document.getElementById("entity-name-input");
-    const selectId = document.getElementById("relation-select").value;
     const message = document.getElementById("entity-message");
+    const selectId = document.getElementById("relation-select").value;
 
     const name = input.value.trim();
-    const type = document.getElementById("modal-title").innerText.substring(6).trim();
 
-    try {
-        await submitEntity(type, name, selectId);
-
-        message.style.color = "green";
-        message.innerText = "Успешно добавено";
-
-    } catch (err) {
-        message.style.color = "red";
-        message.innerText = err.message;
-    }
+    await submitEntity(name, selectId, message);
 }
 
 document.addEventListener("DOMContentLoaded", init);

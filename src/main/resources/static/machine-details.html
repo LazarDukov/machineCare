@@ -77,8 +77,8 @@
             <div class="auth-container">
                 <div class="auth-buttons">
                     <button class="button-click" onclick="openDevicesModal()">Виж устройства</button>
-                    <button class="button-click" onclick="addSubDevice()">Виж подустройство</button>
-                    <button class="button-click" onclick="addComponent()">Виж компонент</button>
+                    <button class="button-click" onclick="openSubDevicesModal()">Виж подустройства</button>
+                    <button class="button-click" onclick="addComponent()">Виж компоненти</button>
                 </div>
             </div>
         </div>
@@ -105,11 +105,13 @@
             </select>
         </div>
         <input type="text" id="entity-name-input" placeholder="Име"/>
-        <button class="button-click" onclick="submitEntity()">Добави</button>
+        <button class="button-click" onclick="handleSubmit()">Добави</button>
         <p id="entity-message"></p>
     </div>
 </div>
 <script type="module" src="/js/pages/machine-details.js"></script>
 <script type="module" src="/js/ui/modal.js"></script>
+<script type="module" src="/js/api/devicesApi.js"></script>
+<script type="module" src="/js/ui/entityHandler.js"></script>
 
 </body>

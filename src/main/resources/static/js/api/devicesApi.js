@@ -4,11 +4,12 @@ export function getDevices(machineName) {
     }).then(r => r.json());
 }
 
-export function addDevice(data) {
+export function addDevice(body) {
     return fetch("/api/devices/add", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         credentials: "include",
-        body: JSON.stringify(data)
+        body: JSON.stringify(body)
     });
 }
+

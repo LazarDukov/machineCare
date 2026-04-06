@@ -158,11 +158,14 @@ button {
 .modal-content {
     background: rgb(196, 226, 248);
     color: black;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     width: 400px;
+    height: fit-content;
     border-radius: 15px;
     text-align: center;
+    max-height: 80vh;   /* максимум 80% от екрана */
+    overflow-y: auto;
 }
 
 /* 🔹 CLOSE BUTTON */

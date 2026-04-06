@@ -1,12 +1,14 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
+import ate.technical.api.response.subDevice.ViewAllSubDevicesResponse;
 import ate.technical.model.entities.Device;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.SubDeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +45,18 @@ public class SubDeviceService {
 
     public void deleteSubDevice(Long id) {
         subDeviceRepository.deleteById(id);
+    }
+
+    public List<ViewAllSubDevicesResponse> getSubDevicesByDeviceId(Long deviceId) {
+        List<SubDevice> subDevices = subDeviceRepository.findByDeviceId(deviceId);
+        List<ViewAllSubDevicesResponse> response = new ArrayList<>();
+        for (SubDevice subDevice : subDevices) {
+            response.add(new ViewAllSubDevicesResponse()
+                    .setId(subDevice.getId())
+                    .setName(subDevice.getName())
+                    .setDeviceId(subDevice.getDevice().getId()));
+        }
+        return response;
+
     }
 }

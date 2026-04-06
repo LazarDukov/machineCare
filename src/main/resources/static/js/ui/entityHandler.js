@@ -1,26 +1,65 @@
-import { addDevice } from "../api/devicesApi.js";
-import { addSubDevice } from "../api/subDevicesApi.js";
-// import { addComponent } from "../api/componentsApi.js";
+import {addDevice} from "../api/devicesApi.js";
 
-export async function submitEntity(type, name, selectId) {
-
+export async function submitEntity(name, selectId, message) {
+    const params = new URLSearchParams(window.location.search);
+    const machineName = params.get("name");
     if (!name) {
-        throw new Error("Моля въведи име");
+        message.style.color = "red";
+        message.innerText = "Моля въведи име";
+        return;
     }
 
-    if (type === "устройство") {
-        return addDevice({ name });
-    }
+    let currentType = document
+        .getElementById("modal-title")
+        .innerText
+        .substring(6)
+        .trim();
 
-    if (type === "подустройство") {
-        if (!selectId) throw new Error("Избери устройство!");
-        return addSubDevice({ name, deviceId: selectId });
-    }
+    let body = {name, machineName};
 
-    if (type === "компонент") {
-        if (!selectId) throw new Error("Избери подустройство!");
-        return addComponent({ name, subDeviceId: Number(selectId) });
-    }
+    try {
+        if (currentType === "устройство") {
+            await addDevice(body);
+        }
 
-    throw new Error("Невалиден тип");
+        if (currentType === "подустройство") {
+            if (!selectId) {
+                alert("Избери устройство!");
+                return;
+            }
+
+            body.deviceId = selectId;
+
+            await fetch("/api/sub-devices/add", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
+                body: JSON.stringify(body)
+            });
+        }
+
+        if (currentType === "компонент") {
+            if (!selectId) {
+                alert("Избери подустройство!");
+                return;
+            }
+
+            body.subDeviceId = Number(selectId);
+
+            await fetch("/api/components/add", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
+                body: JSON.stringify(body)
+            });
+        }
+
+        message.style.color = "green";
+        message.innerText = "Успешно добавено";
+
+    } catch (err) {
+        console.error(err);
+        message.style.color = "red";
+        message.innerText = "Грешка";
+    }
 }
