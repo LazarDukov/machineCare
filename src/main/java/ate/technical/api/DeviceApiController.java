@@ -26,11 +26,11 @@ public class DeviceApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/all/{machineName}")
-    @ResponseBody
-    public ResponseEntity<List<ViewAllDevicesResponse>> getAllDevicesByGivenMachine(@PathVariable String machineName) {
-        return ResponseEntity.ok(deviceService.getAllDevicesOfGivenMachine(machineName));
-    }
+//    @GetMapping("/all/{machineName}")
+//    @ResponseBody
+//    public ResponseEntity<List<ViewAllDevicesResponse>> getAllDevicesByGivenMachine(@PathVariable String machineName) {
+//        return ResponseEntity.ok(deviceService.getAllDevicesOfGivenMachine(machineName));
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editDeviceName(@PathVariable Long id, String newName) {

@@ -3,7 +3,12 @@ package ate.technical.api.response.component;
 public class ViewAllComponentResponse {
     private Long id;
     private String name;
-    private String additionalInfo;
+
+
+    public ViewAllComponentResponse(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -20,15 +25,6 @@ public class ViewAllComponentResponse {
 
     public ViewAllComponentResponse setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public ViewAllComponentResponse setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
         return this;
     }
 }

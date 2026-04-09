@@ -25,11 +25,11 @@ public class SubDeviceApiController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/device/{deviceId}")
-    public List<ViewAllSubDevicesResponse> getSubDevicesByDeviceId(@PathVariable Long deviceId) {
-        System.out.println("Fetching sub-devices for device ID: " + deviceId);
-        return subDeviceService.getSubDevicesByDeviceId(deviceId);
-    }
+//    @GetMapping("/device/{deviceId}")
+//    public List<ViewAllSubDevicesResponse> getSubDevicesByDeviceId(@PathVariable Long deviceId) {
+//        System.out.println("Fetching sub-devices for device ID: " + deviceId);
+//        return subDeviceService.getSubDevicesByDeviceId(deviceId);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editSubDeviceName(@PathVariable Long id, String newName) {

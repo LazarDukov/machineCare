@@ -1,8 +1,10 @@
 package ate.technical.repositories;
 
+import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,5 +16,7 @@ public interface MachineRepository extends JpaRepository<Machine, Long> {
     Optional<Machine> findMachineByName(String name);
 
     List<Machine> findAllMachinesByType(TypeEnum type);
+
+
 
 }

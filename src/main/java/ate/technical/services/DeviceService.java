@@ -47,11 +47,11 @@ public class DeviceService {
         deviceRepository.save(device);
     }
 
-    public List<ViewAllDevicesResponse> getAllDevicesOfGivenMachine(String machineName) {
-        System.out.println("machine name: " + machineName);
-
-
-        return deviceRepository.findAllByMachine_Name(machineName).stream()
-                .map(device -> new ViewAllDevicesResponse(device.getId(), device.getName())).collect(Collectors.toList());
-    }
+//    public List<ViewAllDevicesResponse> getAllDevicesOfGivenMachine(String machineName) {
+//        System.out.println("machine name: " + machineName);
+//
+//
+//        return deviceRepository.findAllByMachine_Name(machineName).stream()
+//                .map(device -> new ViewAllDevicesResponse(device.getId(), device.getName(), new ArrayList<>())).collect(Collectors.toList());
+//    }
 }

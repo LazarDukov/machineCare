@@ -47,17 +47,9 @@ public class SubDeviceService {
         subDeviceRepository.deleteById(id);
     }
 
-    public List<ViewAllSubDevicesResponse> getSubDevicesByDeviceId(Long deviceId) {
-        List<SubDevice> subDevices = subDeviceRepository.findByDeviceId(deviceId);
-        List<ViewAllSubDevicesResponse> response = new ArrayList<>();
-        for (SubDevice subDevice : subDevices) {
-            response.add(new ViewAllSubDevicesResponse()
-                    .setId(subDevice.getId())
-                    .setName(subDevice.getName())
-                    .setDeviceId(subDevice.getDevice().getId()));
-        }
-        System.out.println("Found " + response.size() + " sub-devices for device ID: " + deviceId);
-        return response;
-
-    }
+//    public List<SubDevice> getSubDevicesByDeviceId(Long deviceId) {
+//        return subDeviceRepository.findByDeviceId(deviceId);
+//
+//
+//    }
 }

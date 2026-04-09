@@ -2,12 +2,15 @@ package ate.technical.services;
 
 
 import ate.technical.api.requests.component.CreateComponentRequest;
+import ate.technical.api.response.component.ViewAllComponentResponse;
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.ComponentRepository;
 import ate.technical.repositories.SubDeviceRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,4 +45,8 @@ public class ComponentService {
     public void deleteComponent(Long id) {
         componentRepository.deleteById(id);
     }
+
+//    public List<Component> getComponentsBySubDeviceId(Long subDeviceId) {
+//        return componentRepository.findBySubDeviceId(subDeviceId);
+//    }
 }

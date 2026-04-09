@@ -2,9 +2,15 @@ package ate.technical.services;
 
 import ate.technical.api.requests.machine.CreateMachineRequest;
 import ate.technical.api.requests.machine.GetMachinesRequest;
+import ate.technical.api.response.ViewAllStructure;
 import ate.technical.api.response.ViewMachineResponse;
+import ate.technical.api.response.component.ViewAllComponentResponse;
+import ate.technical.api.response.device.ViewAllDevicesResponse;
+import ate.technical.api.response.subDevice.ViewAllSubDevicesResponse;
+import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.enums.TypeEnum;
+import ate.technical.repositories.DeviceRepository;
 import ate.technical.repositories.MachineRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class MachineService {
     private final MachineRepository machineRepository;
+    private final DeviceRepository deviceRepository;
 
-    public MachineService(MachineRepository machineRepository) {
+
+
+    public MachineService(MachineRepository machineRepository, DeviceRepository deviceRepository) {
         this.machineRepository = machineRepository;
+
+        this.deviceRepository = deviceRepository;
     }
 
 
@@ -89,4 +100,47 @@ public class MachineService {
     }
 
 
+    public ViewAllStructure getMachineStructureByName(String name) {
+        List<Device> devices = deviceRepository.findFullStructure(name);
+
+        ViewAllStructure response = new ViewAllStructure();
+
+        List<ViewAllDevicesResponse> deviceView = devices.stream().map(device -> {
+
+            // 🔹 SubDevices
+            List<ViewAllSubDevicesResponse> subDeviceView =
+                    device.getSubDevice() != null
+                            ? device.getSubDevice().stream().map(sub -> {
+
+                        List<ViewAllComponentResponse> componentView =
+                                sub.getComponents() != null
+                                        ? sub.getComponents().stream().map(comp ->
+                                        new ViewAllComponentResponse(
+                                                comp.getId(),
+                                                comp.getName()
+                                        )
+                                ).toList()
+                                        : List.of();
+
+                        return new ViewAllSubDevicesResponse(
+                                sub.getId(),
+                                sub.getName(),
+                                componentView
+                        );
+
+                    }).toList()
+                            : List.of();
+
+            return new ViewAllDevicesResponse(
+                    device.getId(),
+                    device.getName(),
+                    subDeviceView
+            );
+
+        }).toList();
+
+        response.setDevicesResponses(deviceView);
+
+        return response;
+    }
 }
