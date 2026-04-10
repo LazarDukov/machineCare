@@ -1,9 +1,7 @@
 package ate.technical.api;
 
 import ate.technical.api.requests.device.CreateDeviceRequest;
-import ate.technical.api.response.ViewMachineResponse;
-import ate.technical.api.response.device.ViewAllDevicesResponse;
-import ate.technical.model.entities.Device;
+import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
 import ate.technical.services.DeviceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +23,11 @@ public class DeviceApiController {
         deviceService.createDevice(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-//    @GetMapping("/all/{machineName}")
-//    @ResponseBody
-//    public ResponseEntity<List<ViewAllDevicesResponse>> getAllDevicesByGivenMachine(@PathVariable String machineName) {
-//        return ResponseEntity.ok(deviceService.getAllDevicesOfGivenMachine(machineName));
-//    }
+    @GetMapping("/all/{machineName}")
+    @ResponseBody
+    public ResponseEntity<List<AddSubDeviceDropDownResponse>> getAllDevicesByGivenMachine(@PathVariable String machineName) {
+        return ResponseEntity.ok(deviceService.getAllDevicesOfGivenMachine(machineName));
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editDeviceName(@PathVariable Long id, String newName) {

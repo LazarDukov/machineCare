@@ -2,16 +2,14 @@ package ate.technical.services;
 
 
 import ate.technical.api.requests.component.CreateComponentRequest;
-import ate.technical.api.response.component.ViewAllComponentResponse;
+import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.ComponentRepository;
-import ate.technical.repositories.SubDeviceRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ComponentService {
@@ -46,7 +44,16 @@ public class ComponentService {
         componentRepository.deleteById(id);
     }
 
-//    public List<Component> getComponentsBySubDeviceId(Long subDeviceId) {
-//        return componentRepository.findBySubDeviceId(subDeviceId);
-//    }
+    public List<ComponentStructureResponse> getComponentsBySubDeviceId(Long subDeviceId) {
+        List<Component> components = componentRepository.findBySubDeviceId(subDeviceId);
+        List<ComponentStructureResponse> response = new ArrayList<>();
+        for (Component component : components) {
+            response.add(new ComponentStructureResponse()
+                    .setId(component.getId())
+                    .setName(component.getName()));
+        }
+        System.out.println("Found " + response.size() + " sub-devices for device ID: " + subDeviceId);
+        return response;
+
+    }
 }

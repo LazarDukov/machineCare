@@ -14,18 +14,18 @@ public class Device {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Machine machine;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<SubDevice> subDevice;
+    @OneToMany
+    private List<SubDevice> subDevices;
 
 
-    public List<SubDevice> getSubDevice() {
-        return subDevice;
+    public List<SubDevice> getSubDevices() {
+        return subDevices;
     }
 
-    public Device setSubDevice(List<SubDevice> subDevice) {
-        this.subDevice = subDevice;
+    public Device setSubDevices(List<SubDevice> subDevices) {
+        this.subDevices = subDevices;
         return this;
     }
 

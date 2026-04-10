@@ -1,16 +1,14 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.device.CreateDeviceRequest;
-import ate.technical.api.response.device.ViewAllDevicesResponse;
+import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
 import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Machine;
 import ate.technical.repositories.DeviceRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DeviceService {
@@ -31,7 +29,7 @@ public class DeviceService {
         Device device = new Device();
         device.setName(request.getName());
         device.setMachine(machine);
-        device.setSubDevice(new ArrayList<>());
+        device.setSubDevices(new ArrayList<>());
         machine.getDevices().add(device);
         // TODO: Should create method for give this device to a given machine
         deviceRepository.save(device);
@@ -47,11 +45,8 @@ public class DeviceService {
         deviceRepository.save(device);
     }
 
-//    public List<ViewAllDevicesResponse> getAllDevicesOfGivenMachine(String machineName) {
-//        System.out.println("machine name: " + machineName);
-//
-//
-//        return deviceRepository.findAllByMachine_Name(machineName).stream()
-//                .map(device -> new ViewAllDevicesResponse(device.getId(), device.getName(), new ArrayList<>())).collect(Collectors.toList());
-//    }
+    public List<AddSubDeviceDropDownResponse> getAllDevicesOfGivenMachine(String machineName) {
+        return deviceRepository.findAllByMachine_Name(machineName).stream()
+                .map(device -> new AddSubDeviceDropDownResponse(device.getId(), device.getName())).toList();
+    }
 }

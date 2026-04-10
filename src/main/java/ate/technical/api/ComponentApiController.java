@@ -1,7 +1,7 @@
 package ate.technical.api;
 
 import ate.technical.api.requests.component.CreateComponentRequest;
-import ate.technical.api.response.component.ViewAllComponentResponse;
+import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.services.ComponentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +23,10 @@ public class ComponentApiController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/sub-devices/{subDeviceId}")
-//    public List<ViewAllComponentResponse> getComponentsBySubDeviceId(@PathVariable Long subDeviceId) {
-//        return componentService.getComponentsBySubDeviceId(subDeviceId);
-//     }
+    @GetMapping("/sub-devices/{subDeviceId}")
+    public List<ComponentStructureResponse> getComponentsBySubDeviceId(@PathVariable Long subDeviceId) {
+        return componentService.getComponentsBySubDeviceId(subDeviceId);
+     }
 
 
     @PutMapping("/{id}")

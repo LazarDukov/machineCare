@@ -16,7 +16,7 @@ export async function submitEntity(name, selectDevice, selectSubDevice, message)
         .trim();
 
     let body = {name, machineName};
-
+    console.log(currentType, body)
     try {
         if (currentType === "устройство") {
             await addDevice(body);

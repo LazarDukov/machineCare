@@ -2,18 +2,23 @@ package ate.technical.services;
 
 import ate.technical.api.requests.machine.CreateMachineRequest;
 import ate.technical.api.requests.machine.GetMachinesRequest;
-import ate.technical.api.response.ViewAllStructure;
+import ate.technical.api.response.ViewStructureResponse;
 import ate.technical.api.response.ViewMachineResponse;
-import ate.technical.api.response.component.ViewAllComponentResponse;
-import ate.technical.api.response.device.ViewAllDevicesResponse;
-import ate.technical.api.response.subDevice.ViewAllSubDevicesResponse;
+import ate.technical.api.response.component.ComponentStructureResponse;
+import ate.technical.api.response.device.DevicesStructureResponse;
+import ate.technical.api.response.subDevice.SubDevicesStructureResponse;
+import ate.technical.model.entities.Component;
 import ate.technical.model.entities.Device;
 import ate.technical.model.entities.Machine;
+import ate.technical.model.entities.SubDevice;
 import ate.technical.model.enums.TypeEnum;
+import ate.technical.repositories.ComponentRepository;
 import ate.technical.repositories.DeviceRepository;
 import ate.technical.repositories.MachineRepository;
+import ate.technical.repositories.SubDeviceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,13 +27,17 @@ import java.util.stream.Collectors;
 public class MachineService {
     private final MachineRepository machineRepository;
     private final DeviceRepository deviceRepository;
+    private final SubDeviceRepository subDeviceRepository;
+
+    private final ComponentRepository componentRepository;
 
 
-
-    public MachineService(MachineRepository machineRepository, DeviceRepository deviceRepository) {
+    public MachineService(MachineRepository machineRepository, DeviceRepository deviceRepository, SubDeviceRepository subDeviceRepository, ComponentRepository componentRepository) {
         this.machineRepository = machineRepository;
 
         this.deviceRepository = deviceRepository;
+        this.subDeviceRepository = subDeviceRepository;
+        this.componentRepository = componentRepository;
     }
 
 
@@ -46,11 +55,7 @@ public class MachineService {
     }
 
     private ViewMachineResponse viewMachineResponse(Machine machine) {
-        return new ViewMachineResponse().setName(machine.getName())
-                .setIdentificationNumber(machine.getIdentificationNumber())
-                .setManufacturer(machine.getManufacturer())
-                .setType(machine.getType().name())
-                .setModel(machine.getModel());
+        return new ViewMachineResponse().setName(machine.getName()).setIdentificationNumber(machine.getIdentificationNumber()).setManufacturer(machine.getManufacturer()).setType(machine.getType().name()).setModel(machine.getModel());
     }
 
 
@@ -75,10 +80,7 @@ public class MachineService {
 
     public List<GetMachinesRequest> findAllByType(TypeEnum type) {
 
-        return machineRepository.findAllMachinesByType(type).stream()
-                .map(machine -> new GetMachinesRequest(machine.getId(),
-                        machine.getName()))
-                .collect(Collectors.toList());
+        return machineRepository.findAllMachinesByType(type).stream().map(machine -> new GetMachinesRequest(machine.getId(), machine.getName())).collect(Collectors.toList());
     }
 
     public void updateMachine(Long id, CreateMachineRequest request) {
@@ -100,47 +102,45 @@ public class MachineService {
     }
 
 
-    public ViewAllStructure getMachineStructureByName(String name) {
-        List<Device> devices = deviceRepository.findFullStructure(name);
+    public ViewStructureResponse viewStructure(String name) {
+        Machine machine = machineRepository.findMachineByName(name).orElseThrow(() -> new RuntimeException("Machine not found"));
+        List<DevicesStructureResponse> devices = new ArrayList<>();
+        for (Device device : machine.getDevices()) {
+            DevicesStructureResponse view = new DevicesStructureResponse();
 
-        ViewAllStructure response = new ViewAllStructure();
+            view.setId(device.getId());
+            view.setName(device.getName());
+            List<SubDevice> subDevicesDb = subDeviceRepository.findByDeviceId(device.getId());
+            List<SubDevicesStructureResponse> subDevices = new ArrayList<>();
+            view.setSubDevices(new ArrayList<>());
+            for (SubDevice subDevice : subDevicesDb) {
 
-        List<ViewAllDevicesResponse> deviceView = devices.stream().map(device -> {
+                SubDevicesStructureResponse subDeviceView = new SubDevicesStructureResponse();
+                subDeviceView.setId(subDevice.getId());
+                subDeviceView.setName(subDevice.getName());
+                subDeviceView.setComponents(new ArrayList<>());
+                List<ComponentStructureResponse> components = new ArrayList<>();
+                List<Component> componentsDb = componentRepository.findBySubDeviceId(subDevice.getId());
+                for (Component component : componentsDb) {
+                    ComponentStructureResponse componentView = new ComponentStructureResponse();
+                    componentView.setId(component.getId());
+                    componentView.setName(component.getName());
+                    components.add(componentView);
+                }
 
-            // 🔹 SubDevices
-            List<ViewAllSubDevicesResponse> subDeviceView =
-                    device.getSubDevice() != null
-                            ? device.getSubDevice().stream().map(sub -> {
+                subDeviceView.setComponents(components);
+                subDevices.add(subDeviceView);
+            }
 
-                        List<ViewAllComponentResponse> componentView =
-                                sub.getComponents() != null
-                                        ? sub.getComponents().stream().map(comp ->
-                                        new ViewAllComponentResponse(
-                                                comp.getId(),
-                                                comp.getName()
-                                        )
-                                ).toList()
-                                        : List.of();
+            view.setSubDevices(subDevices);
+            devices.add(view);
+        }
 
-                        return new ViewAllSubDevicesResponse(
-                                sub.getId(),
-                                sub.getName(),
-                                componentView
-                        );
+        ViewStructureResponse response = new ViewStructureResponse();
+        response.setStructure(devices);
 
-                    }).toList()
-                            : List.of();
-
-            return new ViewAllDevicesResponse(
-                    device.getId(),
-                    device.getName(),
-                    subDeviceView
-            );
-
-        }).toList();
-
-        response.setDevicesResponses(deviceView);
 
         return response;
     }
+
 }

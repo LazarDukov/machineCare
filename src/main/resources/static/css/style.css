@@ -160,7 +160,7 @@ button {
     color: black;
     margin: 5% auto;
     padding: 20px;
-    width: 400px;
+    width: 700px;
     height: fit-content;
     border-radius: 15px;
     text-align: center;
@@ -181,5 +181,6 @@ button {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
 }
 
