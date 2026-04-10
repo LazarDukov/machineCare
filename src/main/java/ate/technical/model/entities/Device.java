@@ -16,7 +16,7 @@ public class Device {
 
     @ManyToOne
     private Machine machine;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<SubDevice> subDevices;
 
 
