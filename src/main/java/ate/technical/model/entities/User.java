@@ -35,7 +35,7 @@ public class User {
     private DepartmentEnum departmentEnum;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<Task> tasks;
 
     @Column

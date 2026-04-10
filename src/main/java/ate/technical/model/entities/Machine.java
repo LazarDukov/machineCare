@@ -29,11 +29,11 @@ public class Machine {
     @Column
     private String model;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
 
     private List<Device> devices;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Task> tasks;
 
 

@@ -17,7 +17,7 @@ public class SubDevice {
     private Device device;
 
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Component> components;
 
     public Long getId() {

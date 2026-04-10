@@ -15,7 +15,7 @@ public class Component {
     @Column
     private String additionalInfo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private SubDevice subDevice;
 
     public Long getId() {

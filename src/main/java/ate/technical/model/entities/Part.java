@@ -18,7 +18,7 @@ public class Part {
     @Column
     private String sapNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SubDevice subDevice;
 
     public SubDevice getSubDevice() {

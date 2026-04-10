@@ -18,7 +18,6 @@ import ate.technical.repositories.MachineRepository;
 import ate.technical.repositories.SubDeviceRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +92,11 @@ public class MachineService {
         machineRepository.save(machine);
     }
 
+    private Machine findMachineByName(String name) {
+        return machineRepository.findMachineByName(name)
+                .orElseThrow(() -> new RuntimeException("Machine not found"));
+    }
+
     public Machine findMachineById(Long id) {
         return machineRepository.findById(id).orElseThrow(() -> new RuntimeException("Machine not found"));
     }
@@ -101,46 +105,56 @@ public class MachineService {
         machineRepository.deleteById(id);
     }
 
-
     public ViewStructureResponse viewStructure(String name) {
-        Machine machine = machineRepository.findMachineByName(name).orElseThrow(() -> new RuntimeException("Machine not found"));
-        List<DevicesStructureResponse> devices = new ArrayList<>();
-        for (Device device : machine.getDevices()) {
-            DevicesStructureResponse view = new DevicesStructureResponse();
+        Machine machine = findMachineByName(name);
 
-            view.setId(device.getId());
-            view.setName(device.getName());
-            List<SubDevice> subDevicesDb = subDeviceRepository.findByDeviceId(device.getId());
-            List<SubDevicesStructureResponse> subDevices = new ArrayList<>();
-            view.setSubDevices(new ArrayList<>());
-            for (SubDevice subDevice : subDevicesDb) {
-
-                SubDevicesStructureResponse subDeviceView = new SubDevicesStructureResponse();
-                subDeviceView.setId(subDevice.getId());
-                subDeviceView.setName(subDevice.getName());
-                subDeviceView.setComponents(new ArrayList<>());
-                List<ComponentStructureResponse> components = new ArrayList<>();
-                List<Component> componentsDb = componentRepository.findBySubDeviceId(subDevice.getId());
-                for (Component component : componentsDb) {
-                    ComponentStructureResponse componentView = new ComponentStructureResponse();
-                    componentView.setId(component.getId());
-                    componentView.setName(component.getName());
-                    components.add(componentView);
-                }
-
-                subDeviceView.setComponents(components);
-                subDevices.add(subDeviceView);
-            }
-
-            view.setSubDevices(subDevices);
-            devices.add(view);
-        }
+        List<DevicesStructureResponse> devices = machine.getDevices().stream()
+                .map(this::mapDevice)
+                .toList();
 
         ViewStructureResponse response = new ViewStructureResponse();
         response.setStructure(devices);
 
-
         return response;
     }
+
+
+    private DevicesStructureResponse mapDevice(Device device) {
+        DevicesStructureResponse deviceView = new DevicesStructureResponse();
+        deviceView.setId(device.getId());
+        deviceView.setName(device.getName());
+
+        List<SubDevicesStructureResponse> subDevices = subDeviceRepository
+                .findByDeviceId(device.getId())
+                .stream()
+                .map(this::mapSubDevice)
+                .toList();
+
+        deviceView.setSubDevices(subDevices);
+        return deviceView;
+    }
+
+    private SubDevicesStructureResponse mapSubDevice(SubDevice subDevice) {
+        SubDevicesStructureResponse subView = new SubDevicesStructureResponse();
+        subView.setId(subDevice.getId());
+        subView.setName(subDevice.getName());
+
+        List<ComponentStructureResponse> components = componentRepository
+                .findBySubDeviceId(subDevice.getId())
+                .stream()
+                .map(this::mapComponent)
+                .toList();
+
+        subView.setComponents(components);
+        return subView;
+    }
+
+    private ComponentStructureResponse mapComponent(Component component) {
+        ComponentStructureResponse compView = new ComponentStructureResponse();
+        compView.setId(component.getId());
+        compView.setName(component.getName());
+        return compView;
+    }
+
 
 }
