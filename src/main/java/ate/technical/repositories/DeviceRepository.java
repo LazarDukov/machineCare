@@ -13,11 +13,5 @@ import java.util.List;
 public interface DeviceRepository extends JpaRepository<Device, Long> {
     List<Device> findAllByMachine_Name(String machineName);
 
-    @Query("""
-    SELECT DISTINCT d FROM Device d
-    LEFT JOIN FETCH d.subDevice sd
-    LEFT JOIN FETCH sd.components
-    WHERE d.machine.name = :name
-""")
-    List<Device> findFullStructure(@Param("name") String name);
+
 }

@@ -2,8 +2,8 @@ package ate.technical.api;
 
 import ate.technical.api.requests.machine.CreateMachineRequest;
 import ate.technical.api.requests.machine.GetMachinesRequest;
-import ate.technical.api.response.ViewAllStructure;
 import ate.technical.api.response.ViewMachineResponse;
+import ate.technical.api.response.ViewStructureResponse;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.services.MachineService;
 import org.springframework.http.HttpStatus;
@@ -45,8 +45,8 @@ public class MachineApiController {
     }
 
     @GetMapping("/name/{name}/structure")
-    public ViewAllStructure getMachineStructureByName(@PathVariable String name) {
-        return machineService.getMachineStructureByName(name);
+    public ResponseEntity<ViewStructureResponse> getMachineStructureByName(@PathVariable String name) {
+        return ResponseEntity.ok(machineService.viewStructure(name));
     }
 
     @PostMapping("/add")

@@ -1,11 +1,13 @@
 package ate.technical.api.response.component;
 
-public class ViewAllComponentResponse {
+public class ComponentStructureResponse {
     private Long id;
     private String name;
 
+    public ComponentStructureResponse() {
+    }
 
-    public ViewAllComponentResponse(Long id, String name) {
+    public ComponentStructureResponse(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -14,7 +16,7 @@ public class ViewAllComponentResponse {
         return id;
     }
 
-    public ViewAllComponentResponse setId(Long id) {
+    public ComponentStructureResponse setId(Long id) {
         this.id = id;
         return this;
     }
@@ -23,7 +25,7 @@ public class ViewAllComponentResponse {
         return name;
     }
 
-    public ViewAllComponentResponse setName(String name) {
+    public ComponentStructureResponse setName(String name) {
         this.name = name;
         return this;
     }

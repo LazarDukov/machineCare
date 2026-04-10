@@ -15,7 +15,7 @@ public class Component {
     @Column
     private String additionalInfo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private SubDevice subDevice;
 
     public Long getId() {

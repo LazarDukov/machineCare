@@ -13,11 +13,11 @@ public class SubDevice {
 
     @Column
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Device device;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<Component> components;
 
     public Long getId() {
