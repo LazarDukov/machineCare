@@ -115,12 +115,12 @@ export function openEntityModal(type) {
     selectSubDevice.style.display = "none";
     if (type === "device") {
         title.innerText = "Добави устройство";
-        selectContainer.style.display = "none";
+        selectContainer.style.display = "flex";
     }
 
     if (type === "subDevice") {
         title.innerText = "Добави подустройство";
-        selectContainer.style.display = "block";
+        selectContainer.style.display = "flex";
 
         selectDevice.style.display = "block";     // 👈 само това
         selectSubDevice.style.display = "none";   // ❌ скриваме
@@ -131,7 +131,7 @@ export function openEntityModal(type) {
 
     if (type === "component") {
         title.innerText = "Добави компонент";
-        selectContainer.style.display = "block";
+        selectContainer.style.display = "flex";
         extraInfoContainer.style.display = "block";
 
         selectDevice.style.display = "block";     // 👈 показваме и двете
