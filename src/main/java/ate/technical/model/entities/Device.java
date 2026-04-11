@@ -14,9 +14,11 @@ public class Device {
     @Column
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "machine_id")
     private Machine machine;
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL)
     private List<SubDevice> subDevices;
 
 

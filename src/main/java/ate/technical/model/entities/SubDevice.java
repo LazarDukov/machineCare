@@ -13,13 +13,12 @@ public class SubDevice {
 
     @Column
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id")
     private Device device;
 
-
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subDevice", cascade = CascadeType.ALL)
     private List<Component> components;
-
     public Long getId() {
         return id;
     }

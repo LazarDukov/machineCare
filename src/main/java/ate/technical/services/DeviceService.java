@@ -31,7 +31,6 @@ public class DeviceService {
         device.setMachine(machine);
         device.setSubDevices(new ArrayList<>());
         machine.getDevices().add(device);
-        // TODO: Should create method for give this device to a given machine
         deviceRepository.save(device);
     }
 

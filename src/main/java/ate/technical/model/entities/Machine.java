@@ -29,11 +29,10 @@ public class Machine {
     @Column
     private String model;
 
-    @OneToMany(fetch = FetchType.EAGER)
-
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
     private List<Device> devices;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
     private List<Task> tasks;
 
 

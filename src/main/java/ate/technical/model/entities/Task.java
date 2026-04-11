@@ -21,21 +21,29 @@ public class Task {
     @Column
     private String additionalInfo;
 
-    @ManyToMany
-    private List<Material> materials;
-
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "machine_id")
     private Machine machine;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_device_id")
     private SubDevice subDevice;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "component_id")
     private Component component;
 
+    @ManyToMany
+    @JoinTable(
+            name = "task_materials",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "material_id")
+    )
+    private List<Material> materials;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column
     private boolean active;
 
