@@ -15,9 +15,9 @@ public class Component {
     @Column
     private String additionalInfo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_device_id")
     private SubDevice subDevice;
-
     public Long getId() {
         return id;
     }

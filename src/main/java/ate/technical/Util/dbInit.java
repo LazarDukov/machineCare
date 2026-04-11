@@ -5,13 +5,15 @@ import ate.technical.model.enums.DepartmentEnum;
 import ate.technical.repositories.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Service
-public class dbInit {
+public class dbInit implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -32,7 +34,6 @@ public class dbInit {
         this.componentRepository = componentRepository;
     }
 
-    @PostConstruct
 
     public void init() {
         if (userRepository.count() == 0) {
@@ -75,9 +76,7 @@ public class dbInit {
         machine.setIdentificationNumber("54006");
         machine.setManufacturer("Windmoeller & Hoelscher");
         machine.setModel("Varex");
-        System.out.println(machine.getName());
         machine.setType(ate.technical.model.enums.TypeEnum.EXTRUDER);
-        System.out.println(machine.getType());
         machine.setDevices(new ArrayList<>());
         machineRepository.save(machine);
 
@@ -90,9 +89,8 @@ public class dbInit {
         Machine machine = machineRepository.findMachineByName("Нана").orElseThrow(() -> new RuntimeException("Machine not found"));
         device.setName("Дозираща система");
         device.setSubDevices(new ArrayList<>());
-        machine.getDevices().add(device);
+        device.setMachine(machine);
         deviceRepository.save(device);
-        machineRepository.save(machine);
 
     }
 
@@ -103,10 +101,8 @@ public class dbInit {
         Device device = deviceRepository.findById(1L).get();
         subDevice.setName("маса 'А'");
         subDevice.setComponents(new ArrayList<>());
-        device.getSubDevices().add(subDevice);
+        subDevice.setDevice(device);
         subDeviceRepository.save(subDevice);
-        deviceRepository.save(device);
-
     }
 
 
@@ -116,10 +112,15 @@ public class dbInit {
         SubDevice subDevice = subDeviceRepository.findById(1L).get();
         component.setName("Дозатор 1 - въздушен филтър");
         component.setAdditionalInfo("Почиства се на всеки 3 дни! При нужда - подмяна с нов!");
-        subDevice.getComponents().add(component);
+        component.setSubDevice(subDevice);
         componentRepository.save(component);
-        subDeviceRepository.save(subDevice);
 
 
+    }
+
+    @Override
+    @Transactional
+    public void run(String... args) throws Exception {
+        init();
     }
 }
