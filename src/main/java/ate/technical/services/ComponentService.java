@@ -29,7 +29,6 @@ public class ComponentService {
         component.setName(request.getName());
         component.setAdditionalInfo(request.getAdditionalInfo());
         component.setSubDevice(subDevice);
-        subDevice.getComponents().add(component);
         componentRepository.save(component);
     }
 

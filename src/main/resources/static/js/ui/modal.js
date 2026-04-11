@@ -98,17 +98,21 @@ export function openFullStructureModal() {
 }
 
 
-
 export function openEntityModal(type) {
     const modal = document.getElementById("add-entity-modal");
     const title = document.getElementById("modal-title");
     const selectContainer = document.getElementById("relation-select-container");
     const selectDevice = document.getElementById("device-select");
     const selectSubDevice = document.getElementById("subDevice-select");
+    const extraInfoContainer = document.getElementById("extra-info-container");
+    const extraInfoInput = document.getElementById("extra-info-input");
 
     modal.style.display = "flex";
     selectDevice.innerHTML = "";
-
+    extraInfoContainer.style.display = "none";
+    extraInfoInput.value = "";
+    selectDevice.style.display = "none";
+    selectSubDevice.style.display = "none";
     if (type === "device") {
         title.innerText = "Добави устройство";
         selectContainer.style.display = "none";
@@ -117,38 +121,38 @@ export function openEntityModal(type) {
     if (type === "subDevice") {
         title.innerText = "Добави подустройство";
         selectContainer.style.display = "block";
+
+        selectDevice.style.display = "block";     // 👈 само това
+        selectSubDevice.style.display = "none";   // ❌ скриваме
+
         loadDevices(selectDevice);
     }
+
 
     if (type === "component") {
         title.innerText = "Добави компонент";
         selectContainer.style.display = "block";
+        extraInfoContainer.style.display = "block";
 
-        const deviceSelect = document.getElementById("devices-select");
-        const subDeviceSelect = document.getElementById("subDevices-select");
+        selectDevice.style.display = "block";     // 👈 показваме и двете
+        selectSubDevice.style.display = "block";
 
-        if (!selectDevice || !selectSubDevice) {
-            console.error("❌ Липсват select елементи!");
-            return;
-        }
+        selectDevice.innerHTML = "";
+        selectSubDevice.innerHTML = "<option>Първо избери устройство</option>";
 
-        // reset
-        deviceSelect.innerHTML = "";
-        subDeviceSelect.innerHTML = "<option>Първо избери устройство</option>";
-        subDeviceSelect.disabled = true;
-
-        // load devices
         loadDevices(selectDevice);
 
-        deviceSelect.onchange = () => {
-
-            subDeviceSelect.innerHTML = "<option>Зареждане...</option>";
-            loadSubDevicesByDevice(subDeviceSelect, selectDevice.value);
+        selectDevice.onchange = () => {
+            selectSubDevice.innerHTML = "<option>Зареждане...</option>";
+            // TODO: Repair selectSubDevice to take ID, not name!
+            loadSubDevicesByDevice(selectSubDevice, selectDevice.value);
         };
     }
 
+
     document.getElementById("entity-name-input").value = "";
     document.getElementById("entity-message").innerText = "";
+
 }
 
 

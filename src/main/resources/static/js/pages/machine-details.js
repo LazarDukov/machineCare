@@ -57,10 +57,11 @@ async function handleSubmit() {
     const message = document.getElementById("entity-message");
     const selectDevice = document.getElementById("device-select").value;
     const selectSubDevice = document.getElementById("subDevice-select").value;
+    const additionalInfo = document.getElementById("extra-info-input")?.value || "";
 
     const name = input.value.trim();
 
-    await submitEntity(name, selectDevice,selectSubDevice, message);
+    await submitEntity(name, selectDevice,selectSubDevice, additionalInfo,message);
 }
 
 document.addEventListener("DOMContentLoaded", init);

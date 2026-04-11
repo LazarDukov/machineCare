@@ -2,9 +2,13 @@ package ate.technical.api;
 
 
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
+import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
+import ate.technical.api.response.subDevice.AddComponentDropDownResponse;
 import ate.technical.services.SubDeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/sub-devices")
@@ -21,6 +25,13 @@ public class SubDeviceApiController {
         subDeviceService.createSubDevice(request);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/device/{deviceId}")
+    @ResponseBody
+    public ResponseEntity<List<AddComponentDropDownResponse>> getAllSubDevicesByGivenDeviceId(@PathVariable Long deviceId) {
+        return ResponseEntity.ok(subDeviceService.getAllSubDevicesOfGivenDeviceId(deviceId));
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editSubDeviceName(@PathVariable Long id, String newName) {
