@@ -1,4 +1,4 @@
-package ate.technical.api.response;
+package ate.technical.api.response.machine;
 
 import ate.technical.api.response.device.DevicesStructureResponse;
 

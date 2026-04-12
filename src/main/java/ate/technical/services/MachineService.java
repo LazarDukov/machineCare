@@ -2,8 +2,8 @@ package ate.technical.services;
 
 import ate.technical.api.requests.machine.CreateMachineRequest;
 import ate.technical.api.requests.machine.GetMachinesRequest;
-import ate.technical.api.response.ViewStructureResponse;
-import ate.technical.api.response.ViewMachineResponse;
+import ate.technical.api.response.machine.ViewStructureResponse;
+import ate.technical.api.response.machine.ViewMachineResponse;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.api.response.device.DevicesStructureResponse;
 import ate.technical.api.response.subDevice.SubDevicesStructureResponse;
