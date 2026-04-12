@@ -1,4 +1,4 @@
-package ate.technical.api.requests;
+package ate.technical.api.requests.task;
 
 import ate.technical.model.enums.PeriodEnum;
 

@@ -1,9 +1,9 @@
-package ate.technical.api;
+package ate.technical.api.controllers;
 
 import ate.technical.api.requests.machine.CreateMachineRequest;
 import ate.technical.api.requests.machine.GetMachinesRequest;
-import ate.technical.api.response.ViewMachineResponse;
-import ate.technical.api.response.ViewStructureResponse;
+import ate.technical.api.response.machine.ViewMachineResponse;
+import ate.technical.api.response.machine.ViewStructureResponse;
 import ate.technical.model.enums.TypeEnum;
 import ate.technical.services.MachineService;
 import org.springframework.http.HttpStatus;

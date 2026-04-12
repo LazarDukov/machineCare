@@ -1,6 +1,6 @@
 package ate.technical.services;
 
-import ate.technical.api.requests.CreateTaskRequest;
+import ate.technical.api.requests.task.CreateTaskRequest;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.entities.Material;
 import ate.technical.model.entities.Task;
@@ -9,7 +9,6 @@ import ate.technical.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class TaskService {

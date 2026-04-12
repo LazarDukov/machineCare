@@ -1,4 +1,4 @@
-package ate.technical.api.response;
+package ate.technical.api.response.machine;
 
 
 public class ViewMachineResponse {
