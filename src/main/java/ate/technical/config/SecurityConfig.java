@@ -72,7 +72,8 @@ public class SecurityConfig {
                                 "/api/components/**",
                                 "/api/components/add",
                                 "/api/parts/**",
-                                "/api/materials/**")
+                                "/api/materials/**",
+                                "/api/tasks/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)

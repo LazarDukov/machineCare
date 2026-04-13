@@ -32,6 +32,10 @@ public class ComponentService {
         componentRepository.save(component);
     }
 
+    public Component findById(Long id) {
+        return componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
+    }
+
     public void changeComponentName(Long id, String newName) {
 
         Component component = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
