@@ -1,8 +1,9 @@
 import {addDevice} from "../api/devicesApi.js";
 
-export async function submitEntity(name, selectDevice, selectSubDevice, message) {
+export async function submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message) {
     const params = new URLSearchParams(window.location.search);
     const machineName = params.get("name");
+
     if (!name) {
         message.style.color = "red";
         message.innerText = "Моля въведи име";
@@ -14,15 +15,16 @@ export async function submitEntity(name, selectDevice, selectSubDevice, message)
         .innerText
         .substring(6)
         .trim();
+    let body = {name, machineName, additionalInfo};
 
-    let body = {name, machineName};
-    console.log(currentType, body)
     try {
         if (currentType === "устройство") {
+
             await addDevice(body);
         }
 
         if (currentType === "подустройство") {
+
             if (!selectDevice) {
                 alert("Избери устройство!");
                 return;
@@ -39,12 +41,14 @@ export async function submitEntity(name, selectDevice, selectSubDevice, message)
         }
 
         if (currentType === "компонент") {
+
             if (!selectDevice) {
                 alert("Избери устройство!");
                 return;
             }
 
-            body.subDeviceId = selectSubDevice;
+            body.subDeviceId = selectSubDevice
+            body.additionalInfo = additionalInfo
 
             await fetch("/api/components/add", {
                 method: "POST",

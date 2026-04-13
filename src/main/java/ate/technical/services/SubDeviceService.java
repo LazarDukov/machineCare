@@ -1,6 +1,8 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
+import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
+import ate.technical.api.response.subDevice.AddComponentDropDownResponse;
 import ate.technical.model.entities.Device;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.SubDeviceRepository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubDeviceService {
@@ -45,10 +48,14 @@ public class SubDeviceService {
         subDeviceRepository.deleteById(id);
     }
 
-    public List<SubDevice> getSubDevicesByDeviceId(Long deviceId) {
-        return subDeviceRepository.findByDeviceId(deviceId);
+    public List<AddComponentDropDownResponse> getAllSubDevicesOfGivenDeviceId(Long deviceId) {
+
+        return subDeviceRepository.findByDeviceId(deviceId).stream().map(subDevice -> new AddComponentDropDownResponse(
+                subDevice.getId(),
+                subDevice.getName())).toList();
 
 
     }
+
 
 }
