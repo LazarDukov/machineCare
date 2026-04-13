@@ -29,6 +29,10 @@ public class ViewController {
     public String addMachineView() {
         return "forward:/add-machine.html";
     }
+@GetMapping("/tasks/add")
+    public String addTaskView() {
+        return "forward:/add-task.html";
+    }
 
     @GetMapping("/machines/extruders/machine-details.html")
     public String machineDetails() {

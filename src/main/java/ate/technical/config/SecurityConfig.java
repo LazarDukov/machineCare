@@ -59,6 +59,7 @@ public class SecurityConfig {
                                 "/machines/**",
                                 "/api/auth/**",
                                 "/api/auth/login.html",
+                                "/add-task.html",
                                 "/api/machines",
                                 "/api/machines/add",
                                 "/api/machines/type/**",
@@ -73,7 +74,8 @@ public class SecurityConfig {
                                 "/api/components/add",
                                 "/api/parts/**",
                                 "/api/materials/**",
-                                "/api/tasks/**")
+                        "/api/tasks/**",
+                        "/tasks/add")
                         .permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)

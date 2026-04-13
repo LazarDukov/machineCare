@@ -35,6 +35,7 @@ function init() {
     window.goToSpareParts = goToSpareParts;
     window.goToRepairs = goToRepairs;
     window.goToMaintenance = goToMaintenance;
+    window.goToAddTask = goToAddTask;
     window.handleSubmit = handleSubmit;
 }
 
@@ -51,6 +52,10 @@ function goToMaintenance() {
     window.location.href = `/maintenance.html?name=${encodeURIComponent(machineName)}`;
 }
 
+function goToAddTask() {
+    window.location.href = `/tasks/add?name=${encodeURIComponent(machineName)}`;
+}
+
 // 👉 submit wrapper
 async function handleSubmit() {
     const input = document.getElementById("entity-name-input");
@@ -61,7 +66,7 @@ async function handleSubmit() {
 
     const name = input.value.trim();
 
-    await submitEntity(name, selectDevice,selectSubDevice, additionalInfo,message);
+    await submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message);
 }
 
 document.addEventListener("DOMContentLoaded", init);
