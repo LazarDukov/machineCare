@@ -1,4 +1,4 @@
-package ate.technical.api;
+package ate.technical.api.controllers;
 
 
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;

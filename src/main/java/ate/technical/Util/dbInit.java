@@ -2,8 +2,8 @@ package ate.technical.Util;
 
 import ate.technical.model.entities.*;
 import ate.technical.model.enums.DepartmentEnum;
+import ate.technical.model.enums.UnitEnum;
 import ate.technical.repositories.*;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,15 +23,17 @@ public class dbInit implements CommandLineRunner {
     private final DeviceRepository deviceRepository;
     private final SubDeviceRepository subDeviceRepository;
     private final ComponentRepository componentRepository;
+    private final MaterialRepository materialRepository;
 
     @Autowired
-    public dbInit(UserRepository userRepository, PasswordEncoder passwordEncoder, MachineRepository machineRepository, DeviceRepository deviceRepository, SubDeviceRepository subDeviceRepository, ComponentRepository componentRepository) {
+    public dbInit(UserRepository userRepository, PasswordEncoder passwordEncoder, MachineRepository machineRepository, DeviceRepository deviceRepository, SubDeviceRepository subDeviceRepository, ComponentRepository componentRepository, MaterialRepository materialRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.machineRepository = machineRepository;
         this.deviceRepository = deviceRepository;
         this.subDeviceRepository = subDeviceRepository;
         this.componentRepository = componentRepository;
+        this.materialRepository = materialRepository;
     }
 
 
@@ -51,6 +53,9 @@ public class dbInit implements CommandLineRunner {
         }
         if (componentRepository.count() == 0) {
             initComponent();
+        }
+        if (materialRepository.count() == 0) {
+            initMaterial();
         }
     }
 
@@ -116,6 +121,15 @@ public class dbInit implements CommandLineRunner {
         componentRepository.save(component);
 
 
+    }
+
+    public void initMaterial() {
+        Material material = new Material();
+        material.setName("Смазочен материал - WD-40");
+        material.setQuantity(5L);
+        material.setSapNumber("6-5045");
+        material.setUnit(UnitEnum.PIECE);
+        materialRepository.save(material);
     }
 
     @Override
