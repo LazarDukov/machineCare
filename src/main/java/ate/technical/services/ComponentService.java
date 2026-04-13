@@ -56,4 +56,8 @@ public class ComponentService {
         return response;
 
     }
+
+    public Component getComponentsById(Long componentId) {
+        return componentRepository.findById(componentId).orElseThrow(() -> new RuntimeException("Component not found"));
+    }
 }

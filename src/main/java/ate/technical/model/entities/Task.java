@@ -24,6 +24,10 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "machine_id")
     private Machine machine;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id")
+    private Device device;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_device_id")
@@ -169,6 +173,15 @@ public class Task {
 
     public Task setComponent(Component component) {
         this.component = component;
+        return this;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public Task setDevice(Device device) {
+        this.device = device;
         return this;
     }
 }

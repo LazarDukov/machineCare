@@ -4,6 +4,7 @@ import ate.technical.model.entities.Device;
 
 public class CreateComponentRequest {
     private String name;
+    //TODO: maybe additionalInfo should be removed here because not needed in my project
     private String additionalInfo;
     private Long subDeviceId;
 

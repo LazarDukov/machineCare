@@ -51,4 +51,7 @@ public class SubDeviceService {
 
     }
 
+    public SubDevice getSubDeviceById(Long subDeviceId) {
+        return subDeviceRepository.findById(subDeviceId).orElseThrow(() -> new RuntimeException("Sub-device not found"));
+    }
 }

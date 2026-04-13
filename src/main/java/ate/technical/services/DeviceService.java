@@ -25,6 +25,7 @@ public class DeviceService {
     }
 
     public void createDevice(CreateDeviceRequest request) {
+        //TODO: Should take machine by ID not by name!
         Machine machine = machineService.getMachineByName(request.getMachineName());
         Device device = new Device();
         device.setName(request.getName());
