@@ -17,7 +17,7 @@ public class TaskApiController {
         this.taskService = taskService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Void> createTask(@RequestBody CreateTaskRequest request) {
     taskService.createTask(request);
         return ResponseEntity.ok().build();

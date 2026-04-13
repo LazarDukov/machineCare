@@ -6,21 +6,14 @@ public class CreateTaskRequest {
     private String title;
     private String description;
     private String additionalInfo;
-    private String material;
     private String machineName;
+
+    private Long deviceId;
+    private Long subDeviceId;
+    private Long componentId;
     private int repeatedAfter;
     private PeriodEnum periodEnum;
 
-    private String user;
-
-    public String getUser() {
-        return user;
-    }
-
-    public CreateTaskRequest setUser(String user) {
-        this.user = user;
-        return this;
-    }
 
     public String getTitle() {
         return title;
@@ -49,14 +42,34 @@ public class CreateTaskRequest {
         return this;
     }
 
-    public String getMaterial() {
-        return material;
+    public Long getDeviceId() {
+        return deviceId;
     }
 
-    public CreateTaskRequest setMaterial(String material) {
-        this.material = material;
+    public CreateTaskRequest setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
         return this;
     }
+
+    public Long getSubDeviceId() {
+        return subDeviceId;
+    }
+
+    public CreateTaskRequest setSubDeviceId(Long subDeviceId) {
+        this.subDeviceId = subDeviceId;
+        return this;
+    }
+
+    public Long getComponentId() {
+        return componentId;
+    }
+
+    public CreateTaskRequest setComponentId(Long componentId) {
+        this.componentId = componentId;
+        return this;
+    }
+
+
 
     public String getMachineName() {
         return machineName;

@@ -20,7 +20,9 @@ public class DeviceService {
         this.deviceRepository = deviceRepository;
     }
 
-    public Device getDeviceById(Long id) {
+
+
+    public Device findById(Long id) {
         return deviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Device not found"));
     }
 
