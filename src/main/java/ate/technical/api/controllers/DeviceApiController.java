@@ -23,9 +23,13 @@ public class DeviceApiController {
         deviceService.createDevice(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
     @GetMapping("/all/{machineName}")
     @ResponseBody
+
     public ResponseEntity<List<AddSubDeviceDropDownResponse>> getAllDevicesByGivenMachine(@PathVariable String machineName) {
+        System.out.println("Retrieving all devices of machine: " + machineName);
+
         return ResponseEntity.ok(deviceService.getAllDevicesOfGivenMachine(machineName));
     }
 
