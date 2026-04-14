@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/machines.html",
                                 "/extruders",
                                 "/extruders.html",
+                                "/tasks/**",
                                 "/static/**",
                                 "/css/**",
                                 "/js/**",
@@ -74,10 +75,11 @@ public class SecurityConfig {
                                 "/api/components/add",
                                 "/api/parts/**",
                                 "/api/materials/**",
-                        "/api/tasks/**",
-                        "/tasks/add")
+                                "/api/tasks/**",
+                                "/tasks/add",
+                                "/api/tasks/all/**")
                         .permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().anonymous()
                 ).formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));

@@ -2,6 +2,7 @@ package ate.technical.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class ViewController {
@@ -29,9 +30,15 @@ public class ViewController {
     public String addMachineView() {
         return "forward:/add-machine.html";
     }
-@GetMapping("/tasks/add")
+
+    @GetMapping("/tasks/add")
     public String addTaskView() {
         return "forward:/add-task.html";
+    }
+
+    @GetMapping("/tasks/all")
+    public String allTasksView() {
+        return "forward:/tasks.html";
     }
 
     @GetMapping("/machines/extruders/machine-details.html")

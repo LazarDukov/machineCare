@@ -1,11 +1,14 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.task.CreateTaskRequest;
+import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.model.entities.*;
 import ate.technical.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -50,5 +53,29 @@ public class TaskService {
         machine.getTasks().add(task);
 
 
+    }
+
+    public List<ViewAllTasksResponse> getAllTasks(String machineName) {
+        List<ViewAllTasksResponse> responseList = new ArrayList<>();
+        System.out.println(machineName);
+        List<Task> tasks = taskRepository.findAllByMachine_Name(machineName);
+        System.out.println(tasks.size());
+        for (Task task : tasks) {
+            ViewAllTasksResponse response = new ViewAllTasksResponse();
+            response.setId(task.getId());
+            response.setTitle(task.getTitle());
+            response.setMachineId(task.getMachine().getId());
+            response.setMachineName(task.getMachine().getName());
+            response.setDeviceId(task.getDevice().getId());
+            response.setDeviceName(task.getDevice().getName());
+            response.setSubDeviceId(task.getSubDevice().getId());
+            response.setSubDeviceName(task.getSubDevice().getName());
+            response.setComponentId(task.getComponent().getId());
+            response.setComponentName(task.getComponent().getName());
+            response.setDescription(task.getDescription());
+            responseList.add(response);
+        }
+
+        return responseList;
     }
 }

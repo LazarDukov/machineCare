@@ -34,7 +34,7 @@ function init() {
     // 👉 expose към HTML
     window.goToSpareParts = goToSpareParts;
     window.goToRepairs = goToRepairs;
-    window.goToMaintenance = goToMaintenance;
+    window.goToTasks = goToTasks;
     window.goToAddTask = goToAddTask;
     window.handleSubmit = handleSubmit;
 }
@@ -48,11 +48,14 @@ function goToRepairs() {
     window.location.href = `/repairs.html?name=${encodeURIComponent(machineName)}`;
 }
 
-function goToMaintenance() {
-    window.location.href = `/maintenance.html?name=${encodeURIComponent(machineName)}`;
+function goToTasks() {
+    const params = new URLSearchParams(window.location.search);
+    const machineName = params.get("name");
+
+    window.location.href = `/tasks/all?name=${encodeURIComponent(machineName)}`;
 }
 
-function goToAddTask() {
+function goToAddTask() { // this is ready!
     window.location.href = `/tasks/add?name=${encodeURIComponent(machineName)}`;
 }
 
