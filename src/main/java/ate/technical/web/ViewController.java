@@ -41,6 +41,11 @@ public class ViewController {
         return "forward:/tasks.html";
     }
 
+    @GetMapping("/full-structure")
+    public String viewMachineStructure() {
+        return "forward:/full-machine-structure.html";
+    }
+
     @GetMapping("/machines/extruders/machine-details.html")
     public String machineDetails() {
         return "forward:/machine-details.html";

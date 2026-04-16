@@ -36,6 +36,7 @@ function init() {
     window.goToRepairs = goToRepairs;
     window.goToTasks = goToTasks;
     window.goToAddTask = goToAddTask;
+    window.goToFullStructure = goToFullStructure;
     window.handleSubmit = handleSubmit;
 }
 
@@ -57,6 +58,10 @@ function goToTasks() {
 
 function goToAddTask() { // this is ready!
     window.location.href = `/tasks/add?name=${encodeURIComponent(machineName)}`;
+}
+
+function goToFullStructure() {
+    window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
 }
 
 // 👉 submit wrapper

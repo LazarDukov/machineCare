@@ -44,7 +44,7 @@ public class MachineApiController {
 
     }
 
-    @GetMapping("/name/{name}/structure")
+    @GetMapping("/full-structure/{name}")
     public ResponseEntity<ViewStructureResponse> getMachineStructureByName(@PathVariable String name) {
         return ResponseEntity.ok(machineService.viewStructure(name));
     }
