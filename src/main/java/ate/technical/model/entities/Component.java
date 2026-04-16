@@ -2,6 +2,8 @@ package ate.technical.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "components")
 public class Component {
@@ -18,6 +20,10 @@ public class Component {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_device_id")
     private SubDevice subDevice;
+
+    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL)
+    private List<ComponentPart> parts;
+
     public Long getId() {
         return id;
     }
@@ -51,6 +57,15 @@ public class Component {
 
     public Component setSubDevice(SubDevice subDevice) {
         this.subDevice = subDevice;
+        return this;
+    }
+
+    public List<ComponentPart> getParts() {
+        return parts;
+    }
+
+    public Component setParts(List<ComponentPart> parts) {
+        this.parts = parts;
         return this;
     }
 }

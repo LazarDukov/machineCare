@@ -21,7 +21,6 @@ public class PartService {
     public void createPart(CreatePartRequest request) {
         Part part = new Part();
         part.setPartName(request.getName());
-        part.setCount(request.getCount());
         part.setSapNumber(request.getSapNumber());
         partRepository.save(part);
     }
