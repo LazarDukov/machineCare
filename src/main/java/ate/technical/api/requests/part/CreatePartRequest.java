@@ -2,9 +2,10 @@ package ate.technical.api.requests.part;
 
 public class CreatePartRequest {
     private String name;
-    private int count;
+    private String description;
     private String sapNumber;
-    private Long subDeviceId;
+
+    //TODO: Should create request body for add part to given component!
 
     public String getName() {
         return name;
@@ -15,14 +16,6 @@ public class CreatePartRequest {
         return this;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public CreatePartRequest setCount(int count) {
-        this.count = count;
-        return this;
-    }
 
     public String getSapNumber() {
         return sapNumber;
@@ -33,12 +26,12 @@ public class CreatePartRequest {
         return this;
     }
 
-    public Long getSubDeviceId() {
-        return subDeviceId;
+    public String getDescription() {
+        return description;
     }
 
-    public CreatePartRequest setSubDeviceId(Long subDeviceId) {
-        this.subDeviceId = subDeviceId;
+    public CreatePartRequest setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

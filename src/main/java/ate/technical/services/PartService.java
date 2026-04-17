@@ -1,11 +1,14 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.part.CreatePartRequest;
+import ate.technical.api.response.part.ViewAllPartsResponse;
+import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.model.entities.Part;
 import ate.technical.model.entities.SubDevice;
 import ate.technical.repositories.PartRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +25,7 @@ public class PartService {
         Part part = new Part();
         part.setPartName(request.getName());
         part.setSapNumber(request.getSapNumber());
+        part.setDescription(request.getDescription());
         partRepository.save(part);
     }
 
@@ -34,5 +38,13 @@ public class PartService {
 
     public void deletePart(Long id) {
         partRepository.deleteById(id);
+    }
+
+    public List<ViewAllPartsResponse> getAllParts() {
+
+
+        return partRepository.findAll().stream()
+                .map(part -> new ViewAllPartsResponse(part.getId(), part.getPartName(), part.getDescription(), part.getSapNumber()))
+                .toList();
     }
 }

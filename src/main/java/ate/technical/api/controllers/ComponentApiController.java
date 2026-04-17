@@ -1,5 +1,6 @@
 package ate.technical.api.controllers;
 
+import ate.technical.api.requests.component.AddPartToComponentRequest;
 import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.services.ComponentService;
@@ -23,10 +24,16 @@ public class ComponentApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/add-part")
+    public ResponseEntity<Void> addPartToComponent(@RequestBody AddPartToComponentRequest request) {
+        componentService.addPartToComponent(request.getComponentId(), request.getPartId(), request.getQuantity());
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/sub-devices/{subDeviceId}")
     public List<ComponentStructureResponse> getComponentsBySubDeviceId(@PathVariable Long subDeviceId) {
         return componentService.getComponentsBySubDeviceId(subDeviceId);
-     }
+    }
 
 
     @PutMapping("/{id}")

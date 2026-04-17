@@ -1,4 +1,5 @@
-import {getFullStructure} from "../api/machine-detailsApi.js";
+import {getFullStructure} from "../api/machinesApi.js";
+import {showAddPartRow} from "../ui/modal.js";
 
 const container = document.getElementById("structure-container");
 
@@ -6,9 +7,15 @@ const container = document.getElementById("structure-container");
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
 
-loadStructure();
 
-function loadStructure() {
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("structure-container");
+    if (container) {
+        loadStructure();
+    }
+});
+//TODO: should check why it goes in this method !
+export function loadStructure() {
 
     console.log("Machine:", machineName);
 
@@ -21,8 +28,8 @@ function loadStructure() {
             return;
         }
 
-        // Заглавие с име на машината
-        const title = document.createElement("h2");
+        // Заглавие
+        const title = document.createElement("h1");
         title.textContent = machineName;
         container.innerHTML = "";
         container.appendChild(title);
@@ -35,7 +42,7 @@ function loadStructure() {
         // Header
         const headerRow = document.createElement("tr");
 
-        ["Устройство", "Подустройство", "Компонент"].forEach(text => {
+        ["Устройство", "Подустройство", "Компонент", "Част"].forEach(text => {
             const th = document.createElement("th");
             th.textContent = text;
             th.style.border = "1px solid #ccc";
@@ -49,11 +56,11 @@ function loadStructure() {
 
         devices.forEach(device => {
 
-            // няма subDevices
             if (!device.subDevices || !device.subDevices.length) {
                 const row = document.createElement("tr");
 
                 row.appendChild(createCell(device.name));
+                row.appendChild(createCell("-"));
                 row.appendChild(createCell("-"));
                 row.appendChild(createCell("-"));
 
@@ -63,12 +70,12 @@ function loadStructure() {
 
             device.subDevices.forEach(sd => {
 
-                // няма компоненти
                 if (!sd.components || !sd.components.length) {
                     const row = document.createElement("tr");
 
                     row.appendChild(createCell(device.name));
                     row.appendChild(createCell(sd.name));
+                    row.appendChild(createCell("-"));
                     row.appendChild(createCell("-"));
 
                     table.appendChild(row);
@@ -76,22 +83,55 @@ function loadStructure() {
                 }
 
                 sd.components.forEach(c => {
-                    const row = document.createElement("tr");
 
-                    row.appendChild(createCell(device.name));
-                    row.appendChild(createCell(sd.name));
-                    row.appendChild(createCell(c.name));
+                    if (!c.parts || !c.parts.length) {
+                        const row = document.createElement("tr");
 
-                    table.appendChild(row);
+                        row.appendChild(createCell(device.name));
+                        row.appendChild(createCell(sd.name));
+                        row.appendChild(createCell(c.name));
+
+                        // 👉 клетка с бутон
+                        const actionCell = document.createElement("td");
+
+                        const btn = document.createElement("button");
+                        btn.textContent = "Добави";
+                        btn.className = "button-click";
+
+                        btn.onclick = () => {
+                            showAddPartRow(row, c.id).then();
+                        };
+
+                        actionCell.appendChild(btn);
+                        row.appendChild(actionCell);
+
+                        table.appendChild(row);
+                        return;
+                    }
+
+                    // 👉 ТУК беше големият проблем – липсваше loop за parts
+                    c.parts.forEach(p => {
+                        const row = document.createElement("tr");
+
+                        row.appendChild(createCell(device.name));
+                        row.appendChild(createCell(sd.name));
+                        row.appendChild(createCell(c.name));
+                        row.appendChild(createCell(p.part?.partName || "-"));
+
+                        table.appendChild(row);
+                    });
+
                 });
 
             });
+
         });
 
         container.appendChild(table);
     });
 }
 
+// helper
 function createCell(text) {
     const td = document.createElement("td");
     td.textContent = text || "-";
