@@ -69,7 +69,7 @@
                     <button class="button-click" onclick="openEntityModal('device')">Добави устройство</button>
                     <button class="button-click" onclick="openEntityModal('subDevice')">Добави подустройство</button>
                     <button class="button-click" onclick="openEntityModal('component')">Добави компонент</button>
-                    <button class="button-click" onclick="addComponent()">Промени</button>
+                    <button class="button-click" onclick="openEntityModal('part')">Добави част</button>
                 </div>
             </div>
         </div>
@@ -104,11 +104,17 @@
             <select id="subDevice-select" disabled>
                 <option id="option-subDevice" disabled></option>
             </select>
+            <select id="component-select" style="display: none;"></select>
         </div>
         <input type="text" id="entity-name-input" placeholder="Име"/>
         <div id="extra-info-container" style="display:none;">
             <input type="text" id="extra-info-input" placeholder="Допълнителна информация"/>
         </div>
+        <div id="part-extra-fields" style="display:none;">
+            <input type="text" id="part-description-input" placeholder="Описание"/>
+            <input type="text" id="part-sap-input" placeholder="SAP номер"/>
+        </div>
+
         <button class="button-click" onclick="handleSubmit()">Добави</button>
         <p id="entity-message"></p>
     </div>
@@ -117,6 +123,6 @@
 <script type="module" src="/js/ui/modal.js"></script>
 <script type="module" src="/js/api/devicesApi.js"></script>
 <script type="module" src="/js/ui/entityHandler.js"></script>
-<!--<script type="module" src="/js/pages/add-task.js"></script>-->
+<script type="module" src="/js/pages/fullStructure.js"></script>
 
 </body>
