@@ -59,6 +59,7 @@ function goToAddTask() { // this is ready!
 }
 
 function goToFullStructure() {
+    console.log("machineName:", machineName);
     window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
 }
 

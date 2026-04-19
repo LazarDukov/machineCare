@@ -58,7 +58,8 @@ export function openEntityModal(type) {
     }
     if (type === "part") {
         title.innerText = "Добави част";
-        selectContainer.style.display = "flex";
+
+        selectContainer.style.display = "none"; // ❗ ключово
         partExtraFields.style.display = "block";
     }
 
@@ -66,6 +67,19 @@ export function openEntityModal(type) {
     document.getElementById("entity-name-input").value = "";
     document.getElementById("entity-message").innerText = "";
 
+}
+
+let onPartCreatedCallback = null;
+
+export function setOnPartCreatedCallback(cb) {
+    onPartCreatedCallback = cb;
+}
+
+export async function triggerPartCreated(newPart) {
+    if (onPartCreatedCallback) {
+        onPartCreatedCallback(newPart);
+        onPartCreatedCallback = null;
+    }
 }
 
 export async function showAddPartRow(row, componentId) {
@@ -106,13 +120,10 @@ export async function showAddPartRow(row, componentId) {
             return;
         }
 
-        const res = await addPartToComponent(componentId, partId, quantity);
+        await addPartToComponent(componentId, partId, quantity);
+        alert("Частта е добавена успешно!");
+        loadStructure(); // презареждаме таблицата
 
-        if (res.ok) {
-            loadStructure(); // refresh
-        } else {
-            alert("Грешка");
-        }
     };
 
     // бутон cancel

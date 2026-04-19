@@ -19,6 +19,12 @@ public class Part {
     @Column
     private String description;
 
+
+
+    public Part() {
+
+    }
+
     public Long getId() {
         return id;
     }
