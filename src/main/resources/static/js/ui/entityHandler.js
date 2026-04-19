@@ -1,5 +1,6 @@
 import {addDevice} from "../api/devicesApi.js";
 import {addPart} from "../api/partsApi.js";
+import {triggerPartCreated} from "../ui/modal.js";
 
 export async function submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message) {
     const params = new URLSearchParams(window.location.search);
@@ -66,9 +67,12 @@ export async function submitEntity(name, selectDevice, selectSubDevice, addition
             body.description = description;
             body.sapNumber = sapNumber;
 
-            await addPart(body);
-        }
+            const res = await addPart(body);
+            const newPart = await res.json();
 
+            // ✅ ЕТО ТУК
+            triggerPartCreated(newPart);
+        }
         message.style.color = "green";
         message.innerText = "Успешно добавено";
 

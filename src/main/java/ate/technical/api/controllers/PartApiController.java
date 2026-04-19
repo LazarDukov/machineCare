@@ -1,6 +1,7 @@
 package ate.technical.api.controllers;
 
 import ate.technical.api.requests.part.CreatePartRequest;
+import ate.technical.api.requests.part.CreatePartToComponentRequest;
 import ate.technical.api.response.part.ViewAllPartsResponse;
 import ate.technical.services.PartService;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,12 @@ public class PartApiController {
     @PostMapping("/add")
     public ResponseEntity<Void> createPart(@RequestBody CreatePartRequest request) {
         partService.createPart(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add-to-component")
+    public ResponseEntity<Void> addPartToComponent(@RequestBody CreatePartToComponentRequest request) {
+        partService.addPartToComponent(request);
         return ResponseEntity.ok().build();
     }
 
