@@ -1,5 +1,5 @@
 import {getFullStructure} from "../api/machinesApi.js";
-import {showAddPartRow} from "../ui/modal.js";
+import {openAddPartToComponent} from "../ui/modal.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 
 const container = document.getElementById("structure-container");
@@ -88,6 +88,7 @@ export async function loadStructure() {
             for (const c of sd.components) {
 
                 const parts = await getPartsByComponentId(c.id);
+
                 console.log(`Component: ${c.name}, Parts:`, parts, `(Component ID: ${c.id})`);
                 console.log(parts.length)
                 // 👉 ако няма части
@@ -106,7 +107,7 @@ export async function loadStructure() {
                     btn.className = "button-click";
 
                     btn.onclick = () => {
-                        showAddPartRow(row, c.id);
+                        openAddPartToComponent(c.id);
                     };
 
                     actionCell.appendChild(btn);
@@ -116,17 +117,87 @@ export async function loadStructure() {
 
                 } else {
                     // 👉 има части
-                    for (const cp of parts) {
-                        console.log(cp);
+                    if (parts.length === 0) {
                         const row = document.createElement("tr");
 
                         row.appendChild(createCell(device.name));
                         row.appendChild(createCell(sd.name));
                         row.appendChild(createCell(c.name));
-                        row.appendChild(createCell(cp.partName + "," + cp.description + ", SAP номер: " + cp.sapNumber || "-"));
-
+                        row.appendChild(createCell("-"));
 
                         table.appendChild(row);
+
+                    } else {
+                        parts.forEach((cp, index) => {
+                            const row = document.createElement("tr");
+
+                            // 👉 само при първия ред добавяме device/subDevice/component
+                            if (index === 0) {
+                                const deviceCell = createCell(device.name);
+                                deviceCell.rowSpan = parts.length;
+                                row.appendChild(deviceCell);
+
+                                const sdCell = createCell(sd.name);
+                                sdCell.rowSpan = parts.length;
+                                row.appendChild(sdCell);
+
+                                const compCell = createCell();
+
+                                const nameDiv = document.createElement("div");
+                                nameDiv.textContent = c.name;
+
+
+                                const addBtn = document.createElement("button");
+                                addBtn.textContent = "Добави част";
+                                addBtn.className = "button-click";
+
+// 👇 по-малък бутон
+                                addBtn.style.fontSize = "12px";
+                                addBtn.style.padding = "3px 6px";
+                                addBtn.style.marginTop = "5px";
+
+                                addBtn.onclick = () => {
+                                    // намираме първия ред на компонента
+                                    const row = compCell.parentElement;
+                                    openAddPartToComponent(c.id);
+                                };
+
+                                compCell.appendChild(nameDiv);
+                                compCell.appendChild(addBtn);
+                                compCell.rowSpan = parts.length;
+                                row.appendChild(compCell);
+
+                                if (parts.length > 0) {
+                                    deviceCell.style.borderBottom = "3px solid #1b6bff";
+                                    sdCell.style.borderBottom = "3px solid #1b6bff";
+                                    compCell.style.borderBottom = "3px solid #1b6bff";
+                                }
+
+                            }
+                            // 👉 частта винаги се добавя
+                            console.log(cp.quantity);
+
+                            const partCell = createCell(
+                                `${index + 1}. ${cp.partName} (${cp.quantity} бр.)`
+                            );
+
+                            const details = document.createElement("div");
+                            details.style.fontSize = "12px";
+                            details.style.color = "gray";
+                            details.textContent = `SAP: ${cp.sapNumber} | ${cp.description}`;
+
+                            partCell.appendChild(document.createElement("br"));
+                            partCell.appendChild(details);
+
+                            row.appendChild(partCell);
+                            console.log("CP OBJECT:", cp);
+                            table.appendChild(row);
+                            if (index === parts.length - 1) {
+                                Array.from(row.children).forEach(td => {
+                                    td.style.borderBottom = "3px solid #1b6bff";
+                                });
+                            }
+                        });
                     }
                 }
             }

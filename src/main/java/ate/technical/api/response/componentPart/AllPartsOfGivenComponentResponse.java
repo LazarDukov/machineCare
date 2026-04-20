@@ -6,11 +6,14 @@ public class AllPartsOfGivenComponentResponse {
     private String sapNumber;
     private String description;
 
-    public AllPartsOfGivenComponentResponse(Long id, String partName, String sapNumber, String description) {
+    private int quantity;
+
+    public AllPartsOfGivenComponentResponse(Long id, String partName, String sapNumber, String description, int quantity) {
         this.partId = id;
         this.partName = partName;
         this.sapNumber = sapNumber;
         this.description = description;
+        this.quantity = quantity;
     }
 
     public Long getPartId() {
@@ -46,6 +49,15 @@ public class AllPartsOfGivenComponentResponse {
 
     public AllPartsOfGivenComponentResponse setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public AllPartsOfGivenComponentResponse setQuantity(int quantity) {
+        this.quantity = quantity;
         return this;
     }
 }

@@ -36,3 +36,4 @@ export async function getAllParts() {
 
     return res.json();
 }
+
