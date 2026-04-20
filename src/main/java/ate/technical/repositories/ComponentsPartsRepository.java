@@ -11,4 +11,6 @@ import java.util.List;
 public interface ComponentsPartsRepository extends JpaRepository<ComponentPart, Long> {
 
     List<ComponentPart> findAllByComponentId(Long componentId);
+
+    ComponentPart findByComponentIdAndPartId(Long componentId, Long id);
 }

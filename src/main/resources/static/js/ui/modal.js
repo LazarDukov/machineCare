@@ -4,6 +4,7 @@ import {loadStructure} from "../pages/fullStructure.js";
 import {getAllParts} from "../api/partsApi.js";
 
 
+
 export function openEntityModal(type) {
     const modal = document.getElementById("add-entity-modal");
     const title = document.getElementById("modal-title");
@@ -82,62 +83,78 @@ export async function triggerPartCreated(newPart) {
     }
 }
 
-export async function showAddPartRow(row, componentId) {
+
+let currentComponentId = null;
+
+export async function openAddPartToComponent(componentId) {
+
+        currentComponentId = componentId;
+
+        const modal = document.getElementById("add-entity-modal");
+        modal.style.display = "flex";
+
+        await renderPartSelector(componentId); // ✔ достатъчно
+
+    const title = document.getElementById("modal-title");
+    const selectContainer = document.getElementById("relation-select-container");
+    const partExtraFields = document.getElementById("part-extra-fields");
+
+    title.innerText = "Добави част към компонент";
+
+    selectContainer.style.display = "none";
+    partExtraFields.style.display = "none";
+
+}
+async function renderPartSelector(componentId) {
+    const container = document.getElementById("extra-info-container");
+    container.style.display = "block";
+    container.innerHTML = "";
 
     const parts = await getAllParts();
 
-    // чистим последната клетка
-    const actionCell = row.children[3];
-    actionCell.innerHTML = "";
-
-    // dropdown
     const select = document.createElement("select");
 
     parts.forEach(p => {
         const option = document.createElement("option");
         option.value = p.id;
-        option.textContent = "Част: " + p.partName + "; Тип: " + p.description;
+        option.textContent = `${p.partName} (${p.description})`;
         select.appendChild(option);
     });
 
-    // количество
+    // 👉 опция за нова част
+    const newOption = document.createElement("option");
+    newOption.value = "new";
+    newOption.textContent = "➕ Добави нова част";
+    select.appendChild(newOption);
+
     const qtyInput = document.createElement("input");
     qtyInput.type = "number";
     qtyInput.placeholder = "бр.";
-    qtyInput.style.width = "60px";
 
-    // бутон save
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Запази";
     saveBtn.className = "button-click";
 
     saveBtn.onclick = async () => {
-        const partId = select.value;
-        const quantity = qtyInput.value;
+        if (select.value === "new") {
+            openEntityModal("part");
 
-        if (!quantity || quantity <= 0) {
-            alert("Въведи брой!");
+            // 👉 след създаване → добавяме към component
+            setOnPartCreatedCallback(async (newPart) => {
+                await addPartToComponent(componentId, newPart.id, qtyInput.value);
+                await loadStructure();
+            });
+
             return;
         }
 
-        await addPartToComponent(componentId, partId, quantity);
-        alert("Частта е добавена успешно!");
-        loadStructure(); // презареждаме таблицата
-
+        await addPartToComponent(componentId, select.value, qtyInput.value);
+        await loadStructure();
     };
 
-    // бутон cancel
-    const cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Отказ";
-
-    cancelBtn.onclick = () => {
-        loadStructure(); // връща таблицата
-    };
-
-    actionCell.appendChild(select);
-    actionCell.appendChild(qtyInput);
-    actionCell.appendChild(saveBtn);
-    actionCell.appendChild(cancelBtn);
+    container.appendChild(select);
+    container.appendChild(qtyInput);
+    container.appendChild(saveBtn);
 }
 
 
@@ -148,7 +165,7 @@ function closeModal(element) {
 
 // 👉 expose към HTML
 window.openEntityModal = openEntityModal;
-window.showAddPartRow = showAddPartRow;
+window.openAddPartToComponent = openAddPartToComponent;
 window.closeModal = closeModal;
 
 

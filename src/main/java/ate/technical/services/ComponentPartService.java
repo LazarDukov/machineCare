@@ -1,7 +1,6 @@
 package ate.technical.services;
 
 import ate.technical.api.response.componentPart.AllPartsOfGivenComponentResponse;
-import ate.technical.model.entities.Component;
 import ate.technical.model.entities.ComponentPart;
 import ate.technical.model.entities.Part;
 import ate.technical.repositories.ComponentsPartsRepository;
@@ -19,20 +18,25 @@ public class ComponentPartService {
     }
 
     public List<AllPartsOfGivenComponentResponse> getAllPartsOfGivenComponent(Long componentId) {
-        List<ComponentPart> partsByGivenComponent = componentsPartsRepository.findAllByComponentId(componentId);
 
-        List<Part> parts = new ArrayList<>();
-        for (ComponentPart componentPart : partsByGivenComponent) {
-            parts.add(componentPart.getPart());
-            System.out.println(componentPart.getPart().getPartName());
-            System.out.println(parts.size());
-        }
+        List<ComponentPart> cps =
+                componentsPartsRepository.findAllByComponentId(componentId);
+
         List<AllPartsOfGivenComponentResponse> response = new ArrayList<>();
-        for (Part part : parts) {
-            response.add(new AllPartsOfGivenComponentResponse(part.getId(), part.getPartName(), part.getSapNumber(), part.getDescription()));
+
+        for (ComponentPart cp : cps) {
+
+            Part part = cp.getPart();
+
+            response.add(new AllPartsOfGivenComponentResponse(
+                    part.getId(),
+                    part.getPartName(),
+                    part.getSapNumber(),
+                    part.getDescription(),
+                    cp.getQuantity() // ✅ директно от entity
+            ));
         }
 
         return response;
-
     }
 }
