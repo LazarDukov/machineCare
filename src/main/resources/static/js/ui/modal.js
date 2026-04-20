@@ -1,4 +1,7 @@
 import {loadDevices, loadSubDevicesByDevice} from "./selectLoader.js";
+import {addPartToComponent} from "../api/partsApi.js";
+import {loadStructure} from "../pages/fullStructure.js";
+import {getAllParts} from "../api/partsApi.js";
 
 
 export function openEntityModal(type) {
@@ -9,6 +12,7 @@ export function openEntityModal(type) {
     const selectSubDevice = document.getElementById("subDevice-select");
     const extraInfoContainer = document.getElementById("extra-info-container");
     const extraInfoInput = document.getElementById("extra-info-input");
+    const partExtraFields = document.getElementById("part-extra-fields");
 
     modal.style.display = "flex";
     selectDevice.innerHTML = "";
@@ -16,6 +20,7 @@ export function openEntityModal(type) {
     extraInfoInput.value = "";
     selectDevice.style.display = "none";
     selectSubDevice.style.display = "none";
+    partExtraFields.style.display = "none";
     if (type === "device") {
         title.innerText = "Добави устройство";
         selectContainer.style.display = "flex";
@@ -51,11 +56,88 @@ export function openEntityModal(type) {
             loadSubDevicesByDevice(selectSubDevice, selectDevice.value);
         };
     }
+    if (type === "part") {
+        title.innerText = "Добави част";
+
+        selectContainer.style.display = "none"; // ❗ ключово
+        partExtraFields.style.display = "block";
+    }
 
 
     document.getElementById("entity-name-input").value = "";
     document.getElementById("entity-message").innerText = "";
 
+}
+
+let onPartCreatedCallback = null;
+
+export function setOnPartCreatedCallback(cb) {
+    onPartCreatedCallback = cb;
+}
+
+export async function triggerPartCreated(newPart) {
+    if (onPartCreatedCallback) {
+        onPartCreatedCallback(newPart);
+        onPartCreatedCallback = null;
+    }
+}
+
+export async function showAddPartRow(row, componentId) {
+
+    const parts = await getAllParts();
+
+    // чистим последната клетка
+    const actionCell = row.children[3];
+    actionCell.innerHTML = "";
+
+    // dropdown
+    const select = document.createElement("select");
+
+    parts.forEach(p => {
+        const option = document.createElement("option");
+        option.value = p.id;
+        option.textContent = "Част: " + p.partName + "; Тип: " + p.description;
+        select.appendChild(option);
+    });
+
+    // количество
+    const qtyInput = document.createElement("input");
+    qtyInput.type = "number";
+    qtyInput.placeholder = "бр.";
+    qtyInput.style.width = "60px";
+
+    // бутон save
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Запази";
+    saveBtn.className = "button-click";
+
+    saveBtn.onclick = async () => {
+        const partId = select.value;
+        const quantity = qtyInput.value;
+
+        if (!quantity || quantity <= 0) {
+            alert("Въведи брой!");
+            return;
+        }
+
+        await addPartToComponent(componentId, partId, quantity);
+        alert("Частта е добавена успешно!");
+        loadStructure(); // презареждаме таблицата
+
+    };
+
+    // бутон cancel
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Отказ";
+
+    cancelBtn.onclick = () => {
+        loadStructure(); // връща таблицата
+    };
+
+    actionCell.appendChild(select);
+    actionCell.appendChild(qtyInput);
+    actionCell.appendChild(saveBtn);
+    actionCell.appendChild(cancelBtn);
 }
 
 
@@ -66,6 +148,7 @@ function closeModal(element) {
 
 // 👉 expose към HTML
 window.openEntityModal = openEntityModal;
+window.showAddPartRow = showAddPartRow;
 window.closeModal = closeModal;
 
 

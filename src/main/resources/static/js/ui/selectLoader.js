@@ -1,6 +1,7 @@
 import {getDevices} from "../api/devicesApi.js";
 import {getSubDevicesByDeviceId} from "../api/subDevicesApi.js";
 
+
 export function loadDevices(selectDevice) {
     const params = new URLSearchParams(window.location.search);
     const machineName = params.get("name");
@@ -24,32 +25,32 @@ export function loadDevices(selectDevice) {
 }
 
 
-    export function loadSubDevicesByDevice(suDeviceSelect, deviceId) {
+export function loadSubDevicesByDevice(suDeviceSelect, deviceId) {
 
-        if (!deviceId) {
-            suDeviceSelect.innerHTML = "<option>Първо избери устройство</option>";
-            suDeviceSelect.disabled = true;
+    if (!deviceId) {
+        suDeviceSelect.innerHTML = "<option>Първо избери устройство</option>";
+        suDeviceSelect.disabled = true;
+        return;
+    }
+
+    suDeviceSelect.disabled = false;
+
+    getSubDevicesByDeviceId(deviceId).then(subDevices => {
+
+        if (!subDevices.length) {
+            suDeviceSelect.innerHTML = "<option>Няма подустройства</option>";
             return;
         }
 
-        suDeviceSelect.disabled = false;
+        suDeviceSelect.innerHTML = "<option value=''>-- Избери подустройство --</option>";
 
-        getSubDevicesByDeviceId(deviceId).then(subDevices => {
+        subDevices.forEach(sd => {
+            const option = document.createElement("option");
+            option.value = sd.id;
+            option.textContent = sd.name;
 
-            if (!subDevices.length) {
-                suDeviceSelect.innerHTML = "<option>Няма подустройства</option>";
-                return;
-            }
-
-            suDeviceSelect.innerHTML = "<option value=''>-- Избери подустройство --</option>";
-
-            subDevices.forEach(sd => {
-                const option = document.createElement("option");
-                option.value = sd.id;
-                option.textContent = sd.name;
-
-                suDeviceSelect.appendChild(option);
-            });
+            suDeviceSelect.appendChild(option);
         });
+    });
 
 }

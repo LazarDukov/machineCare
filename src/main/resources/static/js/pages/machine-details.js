@@ -29,7 +29,7 @@ function init() {
 
     console.log("Търсим машина с име:", machineName);
 
-    loadMachine(machineName);
+    loadMachine(machineName).then();
 
     // 👉 expose към HTML
     window.goToSpareParts = goToSpareParts;
@@ -50,8 +50,6 @@ function goToRepairs() {
 }
 
 function goToTasks() {
-    const params = new URLSearchParams(window.location.search);
-    const machineName = params.get("name");
 
     window.location.href = `/tasks/all?name=${encodeURIComponent(machineName)}`;
 }
@@ -61,6 +59,7 @@ function goToAddTask() { // this is ready!
 }
 
 function goToFullStructure() {
+    console.log("machineName:", machineName);
     window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
 }
 
