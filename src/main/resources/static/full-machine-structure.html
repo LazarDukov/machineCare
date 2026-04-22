@@ -1,25 +1,59 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8">
-  <title>Структура на машина</title>
-  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>Структура на машина</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
 <div class="main-layout">
-  <div class="auth-container" style="width: 90%;">
+    <div class="auth-container" style="width: 90%;">
 
-    <h1>Структура на машина</h1>
+        <h1>Структура на машина</h1>
 
-    <div id="structure-container">
-      <p>Зареждане...</p>
+        <div id="structure-container">
+
+            <p>Зареждане...</p>
+        </div>
+
     </div>
-
-  </div>
 </div>
+<div id="add-entity-modal" class="modal" style="display:none;">
+    <div class="modal-content">
 
+        <span onclick="closeModal(this)" style="float:right;cursor:pointer;">&times;</span>
+
+        <h2 id="modal-title">Добави</h2>
+
+        <!-- 👉 име -->
+        <input id="entity-name-input" type="text" placeholder="Име"/>
+
+        <!-- 👉 допълнителна информация -->
+
+        <div id="extra-info-container">
+            <input id="extra-info-input" type="text" placeholder="Описание"/>
+            <input id="sap-number-input" type="text" placeholder="SAP номер"/>
+        </div>
+
+        <!-- 👉 quantity -->
+        <input id="part-quantity-input" type="number" placeholder="Брой"/>
+
+        <!-- 👉 скрито (за други режими) -->
+        <div id="relation-select-container" style="display:none;">
+            <select id="device-select"></select>
+            <select id="subDevice-select"></select>
+        </div>
+
+        <div id="part-extra-fields" style="display:none;"></div>
+
+        <button class="button-click" onclick="handleSubmit()">Добави</button>
+
+        <p id="entity-message"></p>
+
+    </div>
+</div>
 <script type="module" src="/js/pages/fullStructure.js"></script>
 
 </body>

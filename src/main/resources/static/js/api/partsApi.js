@@ -7,16 +7,13 @@ export async function addPart(body) {
     });
 }
 
-export async function addPartToComponent(componentId, partId, quantity) {
+export async function addPartToComponent(body) {
     fetch(`/api/parts/add-to-component`, {
         method: "POST",
         credentials: "include",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            componentId,
-            partId,
-            quantity
-        })
+        body: JSON.stringify(body
+        )
     }).then(r => {
         if (!r.ok) {
             throw new Error("Грешка при добавяне на частта");

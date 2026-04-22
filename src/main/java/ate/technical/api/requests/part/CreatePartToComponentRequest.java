@@ -1,8 +1,8 @@
 package ate.technical.api.requests.part;
 
 public class CreatePartToComponentRequest {
-    private Long partId;
     private Long componentId;
+    private Long partId;
     private int quantity;
 
     public Long getPartId() {

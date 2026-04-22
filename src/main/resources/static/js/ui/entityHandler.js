@@ -1,12 +1,12 @@
 import {addDevice} from "../api/devicesApi.js";
-import {addPart} from "../api/partsApi.js";
+import {addPart, addPartToComponent} from "../api/partsApi.js";
 import {triggerPartCreated} from "../ui/modal.js";
 
 export async function submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message) {
     const params = new URLSearchParams(window.location.search);
     const machineName = params.get("name");
-    const description = document.getElementById("part-description-input")?.value.trim() || "";
-    const sapNumber = document.getElementById("part-sap-input")?.value.trim() || "";
+    const description = document.getElementById("extra-info-input")?.value.trim() || "";
+    const sapNumber = document.getElementById("sap-number-input")?.value.trim() || "";
 
     if (!name) {
         message.style.color = "red";
@@ -68,14 +68,18 @@ export async function submitEntity(name, selectDevice, selectSubDevice, addition
             body.sapNumber = sapNumber;
 
             const res = await addPart(body);
-            const newPart = await res.json();
+            await addPartToComponent(res);
 
-            // ✅ ЕТО ТУК
-            triggerPartCreated(newPart);
         }
+
         message.style.color = "green";
         message.innerText = "Успешно добавено";
 
+// ✅ ТУК
+        const modal = document.getElementById("add-entity-modal");
+        if (modal) {
+            modal.style.display = "none";
+        }
     } catch (err) {
         console.error(err);
         message.style.color = "red";
