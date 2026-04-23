@@ -28,12 +28,13 @@ public class PartService {
         this.componentPartRepository = componentPartRepository;
     }
 
-    public void createPart(CreatePartRequest request) {
+    public Long createPart(CreatePartRequest request) {
         Part part = new Part();
         part.setPartName(request.getName());
         part.setSapNumber(request.getSapNumber());
         part.setDescription(request.getDescription());
         partRepository.save(part);
+        return part.getId();
     }
 
     public void changePartName(Long id, String newName) {
@@ -55,9 +56,9 @@ public class PartService {
                 .toList();
     }
 
-    public void addPartToComponent(CreatePartToComponentRequest request) {
+    public void addPartToComponent(Long id, CreatePartToComponentRequest request) {
         Part part = partRepository.findById(request.getPartId()).orElseThrow(() -> new RuntimeException("Part not found"));
-        Component component = componentRepository.findById(request.getComponentId()).orElseThrow(() -> new RuntimeException("Component not found"));
+        Component component = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
         ComponentPart componentPart = new ComponentPart();
         componentPart.setPart(part);
         componentPart.setComponent(component);

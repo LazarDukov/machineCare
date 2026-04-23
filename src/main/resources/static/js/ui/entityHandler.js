@@ -1,6 +1,7 @@
 import {addDevice} from "../api/devicesApi.js";
 import {addPart, addPartToComponent} from "../api/partsApi.js";
 import {triggerPartCreated} from "../ui/modal.js";
+import {loadStructure} from "../pages/fullStructure.js";
 
 export async function submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message) {
     const params = new URLSearchParams(window.location.search);
@@ -67,9 +68,21 @@ export async function submitEntity(name, selectDevice, selectSubDevice, addition
             body.description = description;
             body.sapNumber = sapNumber;
 
+            // 1. създаваме част
             const res = await addPart(body);
-            await addPartToComponent(res);
+            const partId = await res.json(); // ✅ ВЕЧЕ ИМА ID
 
+            // 2. взимаме quantity
+            const qty = parseInt(document.getElementById("part-quantity-input").value) || 0;
+
+            // 3. взимаме componentId (от modal state)
+            const componentId = window.currentComponentId;
+
+            // 4. връзваме
+            await addPartToComponent(componentId, partId, qty);
+
+            // 5. refresh
+            await loadStructure();
         }
 
         message.style.color = "green";

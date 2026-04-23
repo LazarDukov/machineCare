@@ -25,14 +25,14 @@ public class PartApiController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Void> createPart(@RequestBody CreatePartRequest request) {
-        partService.createPart(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> createPart(@RequestBody CreatePartRequest request) {
+        Long id = partService.createPart(request);
+        return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/add-to-component")
-    public ResponseEntity<Void> addPartToComponent(@RequestBody CreatePartToComponentRequest request) {
-        partService.addPartToComponent(request);
+    @PostMapping("/add-to-component/{componentId}")
+    public ResponseEntity<Void> addPartToComponent(@PathVariable Long id, @RequestBody CreatePartToComponentRequest request) {
+        partService.addPartToComponent(id, request);
         return ResponseEntity.ok().build();
     }
 
