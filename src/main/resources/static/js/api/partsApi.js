@@ -7,21 +7,22 @@ export async function addPart(body) {
     });
 }
 
-export async function addPartToComponent(body) {
-    fetch(`/api/parts/add-to-component`, {
+export async function addPartToComponent(componentId, partId, quantity) {
+    const res = await fetch(`/api/components/add-part`, {
         method: "POST",
         credentials: "include",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(body
-        )
-    }).then(r => {
-        if (!r.ok) {
-            throw new Error("Грешка при добавяне на частта");
-        }
+        body: JSON.stringify({
+            componentId,
+            partId,
+            quantity
+        })
     });
 
+    if (!res.ok) {
+        throw new Error("Грешка при връзване на част към компонент");
+    }
 }
-
 export async function getAllParts() {
     const res = await fetch(`/api/parts/all`, {
         credentials: "include"

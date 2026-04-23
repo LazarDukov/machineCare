@@ -101,19 +101,9 @@ export async function triggerPartCreated(newPart) {
 let currentComponentId = null;
 
 export function openAddPartToComponent(componentId) {
-    currentComponentId = componentId;
+    window.currentComponentId = componentId; // 👈 глобално
 
     openEntityModal("part");
-
-    // 👉 когато се създаде част → я връзваме към component
-    triggerPartCreated(async (newPart) => {
-        console.log("New part created, linking to component...", newPart)
-        const qtyInput = document.getElementById("part-quantity-input");
-        const qty = parseInt(qtyInput.value) || 0;
-        await addPartToComponent(currentComponentId, newPart.id, qty);
-
-        await loadStructure();
-    }).then(r => console.log("Callback for part created set"));
 }
 
 function closeModal(element) {
