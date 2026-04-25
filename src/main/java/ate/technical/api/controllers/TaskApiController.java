@@ -24,11 +24,19 @@ public class TaskApiController {
 
     }
 
+
     @GetMapping("/all/{machineName}")
     @ResponseBody
     public ResponseEntity<List<ViewAllTasksResponse>> getAllTasks(@PathVariable String machineName) {
         System.out.println("Retrieving all tasks for machine: " + machineName);
         return ResponseEntity.ok(taskService.getAllTasks(machineName));
     }
+
+    @PostMapping("/complete-task/{taskId}/{userId}")
+    public ResponseEntity<Void> completeTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        taskService.completeTask(taskId, userId);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

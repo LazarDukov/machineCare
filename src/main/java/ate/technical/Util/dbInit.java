@@ -72,6 +72,25 @@ public class dbInit implements CommandLineRunner {
         user.setPassword(passwordEncoder.encode("123"));
         userRepository.save(user);
 
+        User technician = new User();
+        technician.setUsername("technician");
+        technician.setFirstName("Tehnik");
+        technician.setLastName("Tehnikov");
+        technician.setDepartment(DepartmentEnum.TECHNICAL_DEPARTMENT);
+        technician.setEmail("tehnikov@abv.bg");
+        technician.setRole(ate.technical.model.enums.RoleEnum.USER);
+        technician.setPassword(passwordEncoder.encode("123"));
+        userRepository.save(technician);
+
+        User operator = new User();
+        operator.setUsername("operator");
+        operator.setFirstName("Operator");
+        operator.setLastName("Operatorov");
+        operator.setDepartment(DepartmentEnum.PRODUCTION_DEPARTMENT);
+        operator.setEmail("operators@email.com");
+        operator.setRole(ate.technical.model.enums.RoleEnum.USER);
+        operator.setPassword(passwordEncoder.encode("123"));
+        userRepository.save(operator);
     }
 
     public void initMachine() {

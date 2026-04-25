@@ -1,29 +1,38 @@
-import {getAllTasks, completeTask} from "../api/tasksApi.js";
-import {getOperatorsTechnicians} from "../api/usersApi.js";
+import { getAllTasks, completeTask } from "../api/tasksApi.js";
+import { getOperatorsTechnicians } from "../api/usersApi.js";
 
 const container = document.getElementById("tasks-container");
 
 // 👉 взимаме machineName от URL
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
-const userSelect = document.getElementById("user-select");
-const users = null;
 
 loadTasks();
 
-function loadTasks() {
+async function loadTasks() {
+    try {
+        console.log("Machine:", machineName);
 
-    console.log("Machine:", machineName);
-
-    getAllTasks(machineName).then(tasks => {
+        // ✅ Load data
+        const [tasks, rawUsers] = await Promise.all([
+            getAllTasks(machineName),
+            getOperatorsTechnicians()
+        ]);
 
         console.log("Tasks:", tasks);
+        console.log("Raw users:", rawUsers);
+
+        // ✅ Extract employees from your structure
+        const users = rawUsers;
+
+        console.log("Parsed users:", users);
 
         if (!tasks.length) {
             container.innerHTML = "<p>Няма задачи</p>";
             return;
         }
 
+        // ✅ Sorting
         tasks.sort((a, b) => {
             return (
                 (a.machineId || 0) - (b.machineId || 0) ||
@@ -33,6 +42,7 @@ function loadTasks() {
             );
         });
 
+        // ✅ Table setup
         const table = document.createElement("table");
         table.style.width = "100%";
         table.style.borderCollapse = "collapse";
@@ -53,6 +63,7 @@ function loadTasks() {
 
         table.appendChild(headerRow);
 
+        // ✅ Rows
         tasks.forEach(task => {
 
             const row = document.createElement("tr");
@@ -64,65 +75,72 @@ function loadTasks() {
             row.appendChild(createCell(task.title));
             row.appendChild(createCell(task.description || "-"));
 
-            // const input = document.createElement("input");
-            // input.placeholder = "User...";
-            userSelect.innerHTML = "<option value=''>-- Избери служител --</option>";
-            getOperatorsTechnicians().then(users => {
+            // ✅ Dropdown per row
+            const userSelect = document.createElement("select");
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "-- Избери служител --";
+            userSelect.appendChild(defaultOption);
+
             users.forEach(u => {
                 const option = document.createElement("option");
                 option.value = u.id;
-                option.textContent = u.name;
+                option.textContent = `${u.firstName} ${u.lastName}`;
                 userSelect.appendChild(option);
-
-                // const userCell = document.createElement("td");
-                // userCell.appendChild(input);
-
-                const btn = document.createElement("button");
-                btn.textContent = "Приключи";
-                btn.className = "button-click";
-
-                btn.onclick = async () => {
-                    const username = input.value.trim();
-
-                    if (!username) {
-                        alert("Въведи user!");
-                        return;
-                    }
-
-                    const response = await completeTask(task.id, username);
-
-                    if (response.ok) {
-                        btn.disabled = true;
-                        btn.textContent = "✔";
-                        row.style.opacity = "0.5";
-                    } else {
-                        alert("Грешка");
-                    }
-                };
-
-                const actionCell = document.createElement("td");
-                actionCell.appendChild(btn);
-
-                row.appendChild(userCell);
-                row.appendChild(actionCell);
-
-                table.appendChild(row);
             });
 
-            container.innerHTML = "";
-            container.appendChild(table);
+            const userCell = document.createElement("td");
+            userCell.appendChild(userSelect);
+
+            // ✅ Button
+            const btn = document.createElement("button");
+            btn.textContent = "Приключи";
+            btn.className = "button-click";
+
+            btn.onclick = async () => {
+                const userId = userSelect.value;
+
+                if (!userId) {
+                    alert("Избери служител!");
+                    return;
+                }
+
+                const response = await completeTask(task.id, userId);
+
+                if (response.ok) {
+                    btn.disabled = true;
+                    btn.textContent = "✔";
+                    row.style.opacity = "0.5";
+                } else {
+                    alert("Грешка при приключване");
+                }
+            };
+
+            const actionCell = document.createElement("td");
+            actionCell.appendChild(btn);
+
+            row.appendChild(userCell);
+            row.appendChild(actionCell);
+
+            table.appendChild(row);
         });
-    }).catch(err => {
+
+        container.innerHTML = "";
+        container.appendChild(table);
+
+    } catch (err) {
         console.error("Error loading tasks:", err);
         container.innerHTML = "<p>Грешка при зареждане на задачите.</p>";
-    });
-
-    function createCell(text) {
-        const td = document.createElement("td");
-        td.textContent = text || "-";
-        td.style.border = "1px solid #ccc";
-        td.style.padding = "8px";
-        td.style.textAlign = "center";
-        return td;
     }
+}
+
+// ✅ Helper
+function createCell(text) {
+    const td = document.createElement("td");
+    td.textContent = text || "-";
+    td.style.border = "1px solid #ccc";
+    td.style.padding = "8px";
+    td.style.textAlign = "center";
+    return td;
 }
