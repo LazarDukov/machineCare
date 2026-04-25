@@ -6,14 +6,14 @@ export function getAllTasks(machineName) {
 
 
 // TODO: This method isnt implemented yet!
-export function completeTask(taskId, username) {
-    return fetch(`/api/tasks/complete`, {
+export function completeTask(taskId, userId) {
+    return fetch(`/api/tasks/complete-task/${encodeURIComponent(taskId)}/${encodeURIComponent(userId)}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         credentials: "include",
         body: JSON.stringify({
             taskId: taskId,
-            username: username
+            userId: userId
         })
     });
 }

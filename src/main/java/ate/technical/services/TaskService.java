@@ -4,6 +4,7 @@ import ate.technical.api.requests.task.CreateTaskRequest;
 import ate.technical.api.response.user.ViewAllTasksResponse;
 import ate.technical.model.entities.*;
 import ate.technical.repositories.TaskRepository;
+import ate.technical.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +24,9 @@ public class TaskService {
 
     private final UserService userService;
 
-    public TaskService(TaskRepository taskRepository, MachineService machineService, DeviceService deviceService, SubDeviceService subDeviceService, ComponentService componentService, MaterialService materialService, UserService userService) {
+    private final UserRepository userRepository;
+
+    public TaskService(TaskRepository taskRepository, MachineService machineService, DeviceService deviceService, SubDeviceService subDeviceService, ComponentService componentService, MaterialService materialService, UserService userService, UserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.machineService = machineService;
         this.deviceService = deviceService;
@@ -31,6 +34,7 @@ public class TaskService {
         this.componentService = componentService;
         this.materialService = materialService;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     public void createTask(CreateTaskRequest request) {
@@ -76,5 +80,17 @@ public class TaskService {
         }
 
         return responseList;
+    }
+
+    public void completeTask(Long taskId, Long userId) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
+        User user = userService.getUserById(userId);
+        task.setActive(false);
+        task.setUser(user);
+
+        taskRepository.save(task);
+        user.getTasks().add(task);
+        userRepository.save(user);
+
     }
 }

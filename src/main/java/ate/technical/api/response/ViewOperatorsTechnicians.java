@@ -1,13 +1,16 @@
 package ate.technical.api.response;
 
-public class ViewOperatorsTechnicians {
-    private Long id;
-    private String name;
+import ate.technical.model.entities.User;
 
-    public ViewOperatorsTechnicians(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+import java.util.List;
+
+public class ViewOperatorsTechnicians {
+
+    private Long id;
+
+    private String firstName;
+    private String lastName;
+
 
     public Long getId() {
         return id;
@@ -18,12 +21,21 @@ public class ViewOperatorsTechnicians {
         return this;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public ViewOperatorsTechnicians setName(String name) {
-        this.name = name;
+    public ViewOperatorsTechnicians setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public ViewOperatorsTechnicians setLastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 }

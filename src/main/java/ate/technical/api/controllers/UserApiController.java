@@ -4,8 +4,11 @@ import ate.technical.api.response.ViewOperatorsTechnicians;
 import ate.technical.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,8 +20,9 @@ public class UserApiController {
     }
 
     @GetMapping("/operators-technicians")
-    public ResponseEntity<ViewOperatorsTechnicians>getOperatorsAndTechnicians() {
+    public ResponseEntity<List<ViewOperatorsTechnicians>> getOperatorsAndTechnicians() {
         return ResponseEntity.ok(userService.getOperatorsAndTechnicians());
 
     }
+
 }
