@@ -23,7 +23,7 @@ export function openEntityModal(type) {
     const extraInfoContainer = document.getElementById("extra-info-container");
     const extraInfoInput = document.getElementById("extra-info-input");
     const partExtraFields = document.getElementById("part-extra-fields");
-    const sapNumberInput = document.getElementById("sap-number-input");
+
 
     modal.style.display = "flex";
     selectDevice.innerHTML = "";
@@ -32,7 +32,7 @@ export function openEntityModal(type) {
     selectDevice.style.display = "none";
     selectSubDevice.style.display = "none";
     partExtraFields.style.display = "none";
-    sapNumberInput.value = "";
+
 
     if (type === "device") {
         title.innerText = "Добави устройство";
@@ -84,21 +84,16 @@ export function openEntityModal(type) {
 
 }
 
-let onPartCreatedCallback = null;
+// let onPartCreatedCallback = null;
+//
+//
+// export async function triggerPartCreated(newPart) {
+//     if (onPartCreatedCallback) {
+//         onPartCreatedCallback(newPart);
+//         onPartCreatedCallback = null;
+//     }
+// }
 
-export function setOnPartCreatedCallback(cb) {
-    onPartCreatedCallback = cb;
-}
-
-export async function triggerPartCreated(newPart) {
-    if (onPartCreatedCallback) {
-        onPartCreatedCallback(newPart);
-        onPartCreatedCallback = null;
-    }
-}
-
-
-let currentComponentId = null;
 
 export function openAddPartToComponent(componentId) {
     window.currentComponentId = componentId; // 👈 глобално

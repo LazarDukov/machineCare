@@ -1,6 +1,5 @@
 import {addDevice} from "../api/devicesApi.js";
 import {addPart, addPartToComponent} from "../api/partsApi.js";
-import {triggerPartCreated} from "../ui/modal.js";
 import {loadStructure} from "../pages/fullStructure.js";
 
 export async function submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message) {

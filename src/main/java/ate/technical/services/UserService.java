@@ -1,6 +1,7 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.auth.CreateUserRequest;
+import ate.technical.api.response.ViewOperatorsTechnicians;
 import ate.technical.model.dtos.RegisterDto;
 import ate.technical.model.entities.User;
 import ate.technical.model.enums.DepartmentEnum;
@@ -38,5 +39,16 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
 
+    }
+
+    public ViewOperatorsTechnicians getOperatorsAndTechnicians() {
+        Optional<User> technician = userRepository.findFirstByDepartment(DepartmentEnum.TECHNICAL_DEPARTMENT);
+        Optional<User> operator = userRepository.findFirstByDepartment(DepartmentEnum.PRODUCTION_DEPARTMENT);
+
+        if (operator.isPresent() && technician.isPresent()) {
+            return new ViewOperatorsTechnicians(operator.get().getId(), operator.get().getFirstName() + " " + operator.get().getLastName());
+        } else {
+            throw new RuntimeException("Operator or Technician not found");
+        }
     }
 }
