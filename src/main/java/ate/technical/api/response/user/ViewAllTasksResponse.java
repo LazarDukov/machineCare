@@ -1,4 +1,4 @@
-package ate.technical.api.response.task;
+package ate.technical.api.response.user;
 
 public class ViewAllTasksResponse {
     private Long id;

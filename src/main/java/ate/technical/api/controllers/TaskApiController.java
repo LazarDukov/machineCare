@@ -1,7 +1,7 @@
 package ate.technical.api.controllers;
 
 import ate.technical.api.requests.task.CreateTaskRequest;
-import ate.technical.api.response.task.ViewAllTasksResponse;
+import ate.technical.api.response.user.ViewAllTasksResponse;
 import ate.technical.services.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,11 +1,10 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.task.CreateTaskRequest;
-import ate.technical.api.response.task.ViewAllTasksResponse;
+import ate.technical.api.response.user.ViewAllTasksResponse;
 import ate.technical.model.entities.*;
 import ate.technical.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class TaskService {
         List<ViewAllTasksResponse> responseList = new ArrayList<>();
         System.out.println(machineName);
         List<Task> tasks = taskRepository.findAllByMachine_Name(machineName);
-        System.out.println(tasks.size());
+        System.out.println(tasks.size() + 1);
         for (Task task : tasks) {
             ViewAllTasksResponse response = new ViewAllTasksResponse();
             response.setId(task.getId());

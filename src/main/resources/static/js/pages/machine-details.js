@@ -32,7 +32,6 @@ function init() {
     loadMachine(machineName).then();
 
     // 👉 expose към HTML
-    window.goToSpareParts = goToSpareParts;
     window.goToRepairs = goToRepairs;
     window.goToTasks = goToTasks;
     window.goToAddTask = goToAddTask;
@@ -40,9 +39,10 @@ function init() {
     window.handleSubmit = handleSubmit;
 }
 
-// 👉 navigation
-function goToSpareParts() {
-    window.location.href = `/spare-parts.html?name=${encodeURIComponent(machineName)}`;
+
+function goToFullStructure() {
+    console.log("machineName:", machineName);
+    window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
 }
 
 function goToRepairs() {
@@ -58,10 +58,6 @@ function goToAddTask() { // this is ready!
     window.location.href = `/tasks/add?name=${encodeURIComponent(machineName)}`;
 }
 
-function goToFullStructure() {
-    console.log("machineName:", machineName);
-    window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
-}
 
 // 👉 submit wrapper
 async function handleSubmit() {
