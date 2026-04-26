@@ -84,15 +84,6 @@ export function openEntityModal(type) {
 
 }
 
-// let onPartCreatedCallback = null;
-//
-//
-// export async function triggerPartCreated(newPart) {
-//     if (onPartCreatedCallback) {
-//         onPartCreatedCallback(newPart);
-//         onPartCreatedCallback = null;
-//     }
-// }
 
 
 export function openAddPartToComponent(componentId) {
