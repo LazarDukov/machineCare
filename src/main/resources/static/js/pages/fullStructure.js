@@ -1,6 +1,7 @@
-import { getFullStructure } from "../api/machinesApi.js";
-import { openAddPartToComponent } from "../ui/modal.js";
-import { getPartsByComponentId } from "../api/componentsPartsApi.js";
+import {getFullStructure} from "../api/machinesApi.js";
+import {openAddPartToComponent} from "../ui/modal.js";
+import {getPartsByComponentId} from "../api/componentsPartsApi.js";
+import {openEditComponentModal} from "../ui/modal.js";
 
 const container = document.getElementById("structure-container");
 
@@ -74,8 +75,10 @@ export async function loadStructure() {
             }
 
             for (const c of sd.components) {
-
+                console.log("COMPONENT FULL OBJECT:", c);
+                console.log("COMPONENT ID:", c?.id);
                 const parts = await getPartsByComponentId(c.id);
+                console.log(`Component ${c.id} has parts:`, parts)
 
                 // 👉 НЯМА ЧАСТИ
                 if (!parts || parts.length === 0) {
@@ -150,18 +153,39 @@ function createComponentCell(component) {
     const nameDiv = document.createElement("div");
     nameDiv.textContent = component.name;
 
+    // 👉 BUTTON WRAPPER (so they stay side by side)
+    const btnWrapper = document.createElement("div");
+    btnWrapper.style.marginTop = "5px";
+    btnWrapper.style.display = "flex";
+    btnWrapper.style.justifyContent = "center";
+    btnWrapper.style.gap = "5px";
+
+    // 👉 Добави част
     const addBtn = document.createElement("button");
     addBtn.textContent = "Добави част";
     addBtn.className = "button-click";
-
     addBtn.style.fontSize = "12px";
     addBtn.style.padding = "3px 6px";
-    addBtn.style.marginTop = "5px";
 
     addBtn.onclick = () => openAddPartToComponent(component.id);
 
+    // 👉 ПРОМЕНИ
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Промени";
+    editBtn.className = "button-click";
+    editBtn.style.fontSize = "12px";
+    editBtn.style.padding = "3px 6px";
+
+    editBtn.onclick = () => {
+        openEditComponentModal(component);
+    };
+
+    // 👉 append buttons
+    btnWrapper.appendChild(addBtn);
+    btnWrapper.appendChild(editBtn);
+
     td.appendChild(nameDiv);
-    td.appendChild(addBtn);
+    td.appendChild(btnWrapper);
 
     td.style.border = "1px solid #ccc";
     td.style.padding = "8px";

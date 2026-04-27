@@ -80,6 +80,7 @@ export async function submitEntity(name, selectDevice, selectSubDevice, addition
             // 4. връзваме
             await addPartToComponent(componentId, partId, qty);
 
+
             // 5. refresh
             await loadStructure();
         }
