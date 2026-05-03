@@ -4,8 +4,8 @@ export async function getPartsByComponentId(componentId){
     });
 
     if (!res.ok) {
-        throw new Error("Грешка при зареждане на частите");
+        throw new Error("Грешка при зареждане на части");
     }
 
-    return res.json();
+    return res.json(); // 🔥 ТОВА ЛИПСВА
 }

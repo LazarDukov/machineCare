@@ -62,66 +62,14 @@
     </div>
 
     <!-- 🔹 ДЯСНО МЕНЮ -->
-    <div class="right-group">
-        <div class="right-wrapper">
-            <div class="auth-container">
-                <div class="auth-buttons">
-                    <button class="button-click" onclick="openEntityModal('device')">Добави устройство</button>
-                    <button class="button-click" onclick="openEntityModal('subDevice')">Добави подустройство</button>
-                    <button class="button-click" onclick="openEntityModal('component')">Добави компонент</button>
-                </div>
-            </div>
-        </div>
-        <div class="right-wrapper">
-            <div class="auth-container">
-                <div class="auth-buttons">
 
-
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- 🔹 MODAL ЗА УСТРОЙСТВА -->
-<div id="devices-modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal(this)">&times;</span>
 
-        <div id="devices-container">
-            <p>Зареждане...</p>
-        </div>
-    </div>
-</div>
-<div id="add-entity-modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal(this)">&times;</span>
-        <h2 id="modal-title">Добавяне</h2>
-        <div id="relation-select-container" style="display:none;">
-            <select id="device-select">
-                <option id="option-device"></option>
-            </select>
-            <select id="subDevice-select" disabled>
-                <option id="option-subDevice" disabled></option>
-            </select>
-            <select id="component-select" style="display: none;"></select>
-        </div>
-        <input type="text" id="entity-name-input" placeholder="Име"/>
-        <div id="extra-info-container" style="display:none;">
-            <input type="text" id="extra-info-input" placeholder="Допълнителна информация"/>
-        </div>
-        <div id="part-extra-fields" style="display:none;">
-            <input type="text" id="part-description-input" placeholder="Описание"/>
-            <input type="text" id="part-sap-input" placeholder="SAP номер"/>
-        </div>
 
-        <button class="button-click" onclick="handleSubmit()">Добави</button>
-        <p id="entity-message"></p>
-    </div>
-</div>
 <script type="module" src="/js/pages/machine-details.js"></script>
-<script type="module" src="/js/ui/modal.js"></script>
+<script type="module" src="/js/ui/modals.js"></script>
 <script type="module" src="/js/api/devicesApi.js"></script>
-<script type="module" src="/js/ui/entityHandler.js"></script>
 <script type="module" src="/js/pages/fullStructure.js"></script>
 
 </body>

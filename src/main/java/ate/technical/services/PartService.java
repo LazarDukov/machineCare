@@ -1,14 +1,18 @@
 package ate.technical.services;
 
+import ate.technical.api.requests.part.ChangePartQuantityIntoComponent;
+import ate.technical.api.requests.part.ChangePartRequest;
 import ate.technical.api.requests.part.CreatePartRequest;
 import ate.technical.api.requests.part.CreatePartToComponentRequest;
 import ate.technical.api.response.part.ViewAllPartsResponse;
+
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.ComponentPart;
 import ate.technical.model.entities.Part;
 import ate.technical.repositories.ComponentPartRepository;
 import ate.technical.repositories.ComponentRepository;
 import ate.technical.repositories.PartRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,11 +41,14 @@ public class PartService {
         return part.getId();
     }
 
-    public void changePartName(Long id, String newName) {
-
-        Part part = partRepository.findById(id).orElseThrow(() -> new RuntimeException("Part not found"));
-        part.setPartName(newName);
+    public Long changePart(ChangePartRequest request) {
+        System.out.println("Changing part with id: " + request.getId());
+        Part part = partRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Part not found"));
+        part.setPartName(request.getPartName());
+        part.setDescription(request.getDescription());
+        part.setSapNumber(request.getSapNumber());
         partRepository.save(part);
+        return part.getId();
     }
 
     public void deletePart(Long id) {
@@ -56,12 +63,20 @@ public class PartService {
                 .toList();
     }
 
-    public void addPartToComponent(Long id, CreatePartToComponentRequest request) {
+    public void addPartToComponent(CreatePartToComponentRequest request) {
         Part part = partRepository.findById(request.getPartId()).orElseThrow(() -> new RuntimeException("Part not found"));
-        Component component = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
+        Component component = componentRepository.findById(request.getComponentId()).orElseThrow(() -> new RuntimeException("Component not found"));
         ComponentPart componentPart = new ComponentPart();
         componentPart.setPart(part);
         componentPart.setComponent(component);
+        componentPart.setQuantity(request.getQuantity());
+        componentPartRepository.save(componentPart);
+    }
+
+
+    public void changePartQuantityIntoComponent(ChangePartQuantityIntoComponent request) {
+        ComponentPart componentPart = componentPartRepository.findByComponentIdAndPartId(request.getComponentId(), request.getPartId())
+                .orElseThrow(() -> new RuntimeException("ComponentPart not found"));
         componentPart.setQuantity(request.getQuantity());
         componentPartRepository.save(componentPart);
     }
