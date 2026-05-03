@@ -1,143 +1,129 @@
 import {getFullStructure} from "../api/machinesApi.js";
-import {openAddPartToComponent} from "../ui/modal.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
-import {openEditComponentModal} from "../ui/modal.js";
+
+import {
+    createCell,
+    createDeviceCell,
+    createSubDeviceCell,
+    createComponentCell,
+    createPartCell
+} from "../ui/fullStructureUI.js";
+
+import {
+    openAddDeviceModal,
+    openAddSubDeviceModal,
+    openAddComponentModal,
+    openAddPartToComponent,
+    openEditPart, initDeviceModal, initSubDeviceModal, initComponentModal, initPartModal, initEditPartModal
+} from "../ui/modals.js";
 
 const container = document.getElementById("structure-container");
 
-// 👉 machineName от URL
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (container) {
-        loadStructure().then(() => console.log("Structure loaded"));
-    }
+    if (container) loadStructure();
 });
 
 export async function loadStructure() {
-    console.log("Machine:", machineName);
-
     const data = await getFullStructure(machineName);
     const devices = data.structure;
 
-    if (!devices || !devices.length) {
-        container.innerHTML = "<p>Няма данни</p>";
-        return;
-    }
+    container.innerHTML = "";
 
-    // Заглавие
     const title = document.createElement("h1");
     title.textContent = machineName;
-    container.innerHTML = "";
     container.appendChild(title);
 
     const table = document.createElement("table");
     table.style.width = "100%";
     table.style.borderCollapse = "collapse";
-    table.style.marginTop = "10px";
 
-    // Header
-    const headerRow = document.createElement("tr");
-    ["Устройство", "Подустройство", "Компонент", "Част"].forEach(text => {
-        const th = document.createElement("th");
-        th.textContent = text;
-        th.style.border = "1px solid #ccc";
-        th.style.padding = "8px";
-        th.style.background = "#1b6bff";
-        th.style.color = "white";
-        headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
+    table.appendChild(createHeader());
 
     for (const device of devices) {
 
-        if (!device.subDevices || !device.subDevices.length) {
+        const subDevices = device.subDevices || [];
+
+        // ❗ ако няма subDevices -> показваш само ред с device + action
+        if (!subDevices.length) {
             const row = document.createElement("tr");
-            row.appendChild(createCell(device.name));
+
+            row.appendChild(createDeviceCell(device));
+
+            row.appendChild(createEmptySubDeviceCell(device.id));
+
             row.appendChild(createCell("-"));
             row.appendChild(createCell("-"));
-            row.appendChild(createCell("-"));
+
             table.appendChild(row);
             continue;
         }
 
-        for (const sd of device.subDevices) {
+        for (const sd of subDevices) {
 
-            if (!sd.components || !sd.components.length) {
+            const components = sd.components || [];
+
+            // ❗ ако няма components
+            if (!components.length) {
                 const row = document.createElement("tr");
-                row.appendChild(createCell(device.name));
-                row.appendChild(createCell(sd.name));
+
+                row.appendChild(createDeviceCell(device));
+                row.appendChild(createSubDeviceCell(sd, openAddSubDeviceModal));
+
+                row.appendChild(createEmptyComponentCell(sd.id));
+
                 row.appendChild(createCell("-"));
-                row.appendChild(createCell("-"));
+
                 table.appendChild(row);
                 continue;
             }
 
             for (const c of sd.components) {
-                console.log("COMPONENT FULL OBJECT:", c);
-                console.log("COMPONENT ID:", c?.id);
                 const parts = await getPartsByComponentId(c.id);
-                console.log(`Component ${c.id} has parts:`, parts)
+                const partCount = parts.length || 1;
 
-                // 👉 НЯМА ЧАСТИ
-                if (!parts || parts.length === 0) {
+                for (let i = 0; i < partCount; i++) {
+
                     const row = document.createElement("tr");
 
-                    row.appendChild(createCell(device.name));
-                    row.appendChild(createCell(sd.name));
-                    row.appendChild(createComponentCell(c));
-                    row.appendChild(createCell("-"));
+                    // DEVICE (only first row of block)
+                    if (i === 0) {
+                        const d = createDeviceCell(device);
+                        d.rowSpan = partCount;
+
+                        const s = createSubDeviceCell(sd, openAddSubDeviceModal);
+                        s.rowSpan = partCount;
+
+                        row.appendChild(d);
+                        row.appendChild(s);
+                    }
+
+                    // COMPONENT (only first row)
+                    if (i === 0) {
+                        const comp = createComponentCell(
+                            c,
+                            openAddComponentModal,
+                            openAddPartToComponent
+                        );
+                        comp.rowSpan = partCount;
+
+                        row.appendChild(comp);
+                    }
+
+                    // PARTS stacked vertically in SAME column
+                    const part = parts[i];
+
+                    if (part) {
+                        row.appendChild(createPartCell(part, i, (p) =>
+                            openEditPart(p, c.id)
+                        ));
+                    } else {
+                        row.appendChild(createCell("-"));
+                    }
 
                     table.appendChild(row);
-                } else {
-                    // 👉 ИМА ЧАСТИ
-                    parts.forEach((cp, index) => {
-                        const row = document.createElement("tr");
-
-                        if (index === 0) {
-                            const deviceCell = createCell(device.name);
-                            deviceCell.rowSpan = parts.length;
-
-                            const sdCell = createCell(sd.name);
-                            sdCell.rowSpan = parts.length;
-
-                            const compCell = createComponentCell(c);
-                            compCell.rowSpan = parts.length;
-
-                            row.appendChild(deviceCell);
-                            row.appendChild(sdCell);
-                            row.appendChild(compCell);
-
-                            if (parts.length > 0) {
-                                deviceCell.style.borderBottom = "3px solid #1b6bff";
-                                sdCell.style.borderBottom = "3px solid #1b6bff";
-                                compCell.style.borderBottom = "3px solid #1b6bff";
-                            }
-                        }
-
-                        // 👉 част
-                        const partCell = createCell(
-                            `${index + 1}. ${cp.partName} - ${cp.description}`
-                        );
-
-                        const details = document.createElement("div");
-                        details.style.fontSize = "12px";
-                        details.style.color = "gray";
-                        details.textContent = ` ${cp.quantity} бр. | SAP: ${cp.sapNumber}`;
-
-                        partCell.appendChild(document.createElement("br"));
-                        partCell.appendChild(details);
-
-                        row.appendChild(partCell);
-                        table.appendChild(row);
-
-                        if (index === parts.length - 1) {
-                            Array.from(row.children).forEach(td => {
-                                td.style.borderBottom = "3px solid #1b6bff";
-                            });
-                        }
-                    });
                 }
             }
         }
@@ -145,61 +131,80 @@ export async function loadStructure() {
 
     container.appendChild(table);
 }
+function createHeader() {
+    const headerRow = document.createElement("tr");
 
-// 👉 cell за компонент (име + бутон)
-function createComponentCell(component) {
+    const headers = ["Устройство", "Подустройство", "Компонент", "Част"];
+
+    headers.forEach((text, index) => {
+        const th = document.createElement("th");
+
+        const wrapper = document.createElement("div");
+        wrapper.style.display = "flex";
+        wrapper.style.flexDirection = "column";
+        wrapper.style.alignItems = "center";
+
+        const title = document.createElement("span");
+        title.textContent = text;
+
+        wrapper.appendChild(title);
+
+        if (index === 0) {
+            const btn = document.createElement("button");
+            btn.textContent = "Добави устройство";
+            btn.className = "button-click";
+            btn.onclick = openAddDeviceModal;
+
+            wrapper.appendChild(btn);
+        }
+
+        th.appendChild(wrapper);
+
+        th.style.border = "1px solid #ccc";
+        th.style.padding = "8px";
+        th.style.background = "#1b6bff";
+        th.style.color = "white";
+
+        headerRow.appendChild(th);
+    });
+
+    return headerRow;
+}
+function createEmptySubDeviceCell(deviceId) {
     const td = document.createElement("td");
 
-    const nameDiv = document.createElement("div");
-    nameDiv.textContent = component.name;
+    td.innerHTML = `
+        <button class="button-click">Добави ново подустройство</button>
+    `;
 
-    // 👉 BUTTON WRAPPER (so they stay side by side)
-    const btnWrapper = document.createElement("div");
-    btnWrapper.style.marginTop = "5px";
-    btnWrapper.style.display = "flex";
-    btnWrapper.style.justifyContent = "center";
-    btnWrapper.style.gap = "5px";
+    td.querySelector("button").onclick =
+        () => openAddSubDeviceModal(deviceId);
 
-    // 👉 Добави част
-    const addBtn = document.createElement("button");
-    addBtn.textContent = "Добави част";
-    addBtn.className = "button-click";
-    addBtn.style.fontSize = "12px";
-    addBtn.style.padding = "3px 6px";
-
-    addBtn.onclick = () => openAddPartToComponent(component.id);
-
-    // 👉 ПРОМЕНИ
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Промени";
-    editBtn.className = "button-click";
-    editBtn.style.fontSize = "12px";
-    editBtn.style.padding = "3px 6px";
-
-    editBtn.onclick = () => {
-        openEditComponentModal(component);
-    };
-
-    // 👉 append buttons
-    btnWrapper.appendChild(addBtn);
-    btnWrapper.appendChild(editBtn);
-
-    td.appendChild(nameDiv);
-    td.appendChild(btnWrapper);
-
-    td.style.border = "1px solid #ccc";
-    td.style.padding = "8px";
-    td.style.textAlign = "center";
-
+    style(td);
     return td;
 }
-
-// helper
-function createCell(text) {
+function createEmptyComponentCell(subDeviceId) {
     const td = document.createElement("td");
-    td.textContent = text || "-";
+
+    td.innerHTML = `
+        <button class="button-click">Добави нов компонент</button>
+    `;
+
+    td.querySelector("button").onclick =
+        () => openAddComponentModal(subDeviceId);
+
+    style(td);
+    return td;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    initDeviceModal();
+    initSubDeviceModal();
+    initComponentModal();
+    initPartModal();
+    initEditPartModal();
+});
+function style(td) {
     td.style.border = "1px solid #ccc";
     td.style.padding = "8px";
     td.style.textAlign = "center";
-    return td;
 }

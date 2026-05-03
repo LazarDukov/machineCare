@@ -1,5 +1,7 @@
 package ate.technical.api.controllers;
 
+import ate.technical.api.requests.part.ChangePartQuantityIntoComponent;
+import ate.technical.api.requests.part.ChangePartRequest;
 import ate.technical.api.requests.part.CreatePartRequest;
 import ate.technical.api.requests.part.CreatePartToComponentRequest;
 import ate.technical.api.response.part.ViewAllPartsResponse;
@@ -30,15 +32,23 @@ public class PartApiController {
         return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/add-to-component/{componentId}")
-    public ResponseEntity<Void> addPartToComponent(@PathVariable Long id, @RequestBody CreatePartToComponentRequest request) {
-        partService.addPartToComponent(id, request);
+    @PostMapping("/add-to-component")
+    public ResponseEntity<Void> addPartToComponent(@RequestBody CreatePartToComponentRequest request) {
+        partService.addPartToComponent(request);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> editPartName(@PathVariable Long id, String newName) {
-        partService.changePartName(id, newName);
+
+    @PutMapping("/change")
+    public ResponseEntity<Long> changePart(@RequestBody ChangePartRequest request) {
+
+        Long id = partService.changePart(request);
+        return ResponseEntity.ok(id);
+    }
+
+    @PutMapping("/change-quantity")
+    public ResponseEntity<Void> changePartQuantityIntoComponent(@RequestBody ChangePartQuantityIntoComponent request) {
+        partService.changePartQuantityIntoComponent(request);
         return ResponseEntity.ok().build();
     }
 

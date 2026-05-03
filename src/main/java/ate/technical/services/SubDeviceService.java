@@ -27,6 +27,7 @@ public class SubDeviceService {
     }
 
     public void createSubDevice(CreateSubDeviceRequest request) {
+        System.out.println("Creating sub-device with name: " + request.getName() + " for device ID: " + request.getDeviceId());
         Device device = deviceService.findById(request.getDeviceId());
         SubDevice subDevice = new SubDevice();
         subDevice.setName(request.getName());

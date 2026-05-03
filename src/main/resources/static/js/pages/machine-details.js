@@ -1,5 +1,5 @@
 import {getMachineByName} from "../api/machinesApi.js";
-import {submitEntity} from "../ui/entityHandler.js";
+
 
 // 👉 глобално за страницата
 let machineName = null;
@@ -36,7 +36,7 @@ function init() {
     window.goToTasks = goToTasks;
     window.goToAddTask = goToAddTask;
     window.goToFullStructure = goToFullStructure;
-    window.handleSubmit = handleSubmit;
+
 }
 
 
@@ -60,16 +60,6 @@ function goToAddTask() { // this is ready!
 
 
 // 👉 submit wrapper
-async function handleSubmit() {
-    const input = document.getElementById("entity-name-input");
-    const message = document.getElementById("entity-message");
-    const selectDevice = document.getElementById("device-select").value;
-    const selectSubDevice = document.getElementById("subDevice-select").value;
-    const additionalInfo = document.getElementById("extra-info-input")?.value || "";
 
-    const name = input.value.trim();
-
-    await submitEntity(name, selectDevice, selectSubDevice, additionalInfo, message);
-}
 
 document.addEventListener("DOMContentLoaded", init);
