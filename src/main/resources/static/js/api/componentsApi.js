@@ -12,3 +12,12 @@ export function createComponent(body) {
         body: JSON.stringify(body)
     });
 }
+
+export function changeComponent(body) {
+    return fetch("/api/components/change", {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify(body)
+    });
+}

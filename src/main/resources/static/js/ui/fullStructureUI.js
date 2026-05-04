@@ -1,4 +1,3 @@
-
 export function createCell(text) {
     const td = document.createElement("td");
     td.textContent = text || "-";
@@ -45,13 +44,16 @@ export function createSubDeviceCell(sd, onAddSubDevice) {
 // - нов компонент
 // - нова част
 //
-export function createComponentCell(component, onAddComponent, onAddPart) {
+export function createComponentCell(component, onAddComponent, onChangeComponent,onAddPart) {
     const td = document.createElement("td");
 
     td.innerHTML = `
         <div>${component.name}</div>
+        <div>${component.additionalInfo}</div>
 
         <button class="button-click">Добави нов компонент</button>
+        <br>
+        <button class="button-click">Промени компонент</button>
         <br>
         <button class="button-click">Добави нова част към този компонент</button>
     `;
@@ -63,9 +65,12 @@ export function createComponentCell(component, onAddComponent, onAddPart) {
         buttons[0].onclick = () => onAddComponent(component.id);
     }
 
-    // 👉 2. добави част към компонента
     if (buttons[1]) {
-        buttons[1].onclick = () => onAddPart(component.id);
+        buttons[1].onclick = () => onChangeComponent(component);
+    }
+    // 👉 2. добави част към компонента
+    if (buttons[2]) {
+        buttons[2].onclick = () => onAddPart(component.id);
     }
 
     style(td);
@@ -85,9 +90,11 @@ export function createPartCell(cp, index, onEdit) {
             ${cp.quantity} бр | SAP: ${cp.sapNumber}
         </div>
         <button class="button-click">Промени</button>
+        <button class="button-click">Изтрий</button>
     `;
 
     td.querySelector("button").onclick = () => onEdit(cp);
+    // td.querySelector("button").onclick = () => onDelete(cp);
 
     style(td);
     return td;

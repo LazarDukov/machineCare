@@ -153,6 +153,7 @@ public class MachineService {
         ComponentStructureResponse compView = new ComponentStructureResponse();
         compView.setId(component.getId());
         compView.setName(component.getName());
+        compView.setAdditionalInfo(component.getAdditionalInfo());
         return compView;
     }
 

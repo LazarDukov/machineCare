@@ -1,6 +1,7 @@
 package ate.technical.services;
 
 
+import ate.technical.api.requests.component.ChangeComponentRequest;
 import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.model.entities.Component;
@@ -44,11 +45,13 @@ public class ComponentService {
         return componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
     }
 
-    public void changeComponentName(Long id, String newName) {
+    public void changeComponentName(ChangeComponentRequest request) {
 
-        Component component = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
-        component.setName(newName);
+        Component component = componentRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Component not found"));
+        component.setName(request.getName());
+        component.setAdditionalInfo(request.getAdditionalInfo());
         componentRepository.save(component);
+
     }
 
     public void deleteComponent(Long id) {

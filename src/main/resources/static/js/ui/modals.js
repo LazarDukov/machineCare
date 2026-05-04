@@ -1,7 +1,7 @@
 import {loadStructure} from "../pages/fullStructure.js";
 import {createDevice} from "../api/devicesApi.js";
 import {createSubDevice} from "../api/subDevicesApi.js";
-import {createComponent} from "../api/componentsApi.js";
+import {createComponent, changeComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
 
 let selectedDevice = null;
@@ -67,6 +67,39 @@ export function initComponentModal() { // ТУК ДОБАВЯМ КОМПОНЕН
         await createComponent(body);
 
         document.getElementById("component-modal").style.display = "none";
+
+        await loadStructure(); // refresh
+    };
+}
+
+export function openEditComponentModal(component) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
+    console.log("edit component:", component);
+    selectedComponent = component;
+    console.log(component)
+    console.log(selectedComponent.name);
+    console.log(selectedComponent.additionalInfo);
+    console.log(component.additionalInfo);
+    document.getElementById("component-name-input-change").value = selectedComponent.name;
+    document.getElementById("component-additional-info-input-change").value = selectedComponent.additionalInfo;
+
+    toggle("component-modal-change");
+}
+
+export function initChangeComponent() {
+    console.log("IM in edit")// ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА КОМПОНЕНТ
+
+    document.getElementById("save-component-change-btn").onclick = async () => {
+        const name = document.getElementById("component-name-input-change").value.trim();
+       const additionalInfo = document.getElementById("component-additional-info-input-change").value.trim();
+
+        let body = {
+            id: selectedComponent.id,
+            name: name,
+            additionalInfo: selectedComponent.additionalInfo
+        };
+        await changeComponent(body);
+        console.log(body)
+        document.getElementById("component-modal-change").style.display = "none";
 
         await loadStructure(); // refresh
     };
