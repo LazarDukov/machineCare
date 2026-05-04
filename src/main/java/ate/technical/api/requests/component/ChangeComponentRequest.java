@@ -1,21 +1,15 @@
-package ate.technical.api.response.component;
+package ate.technical.api.requests.component;
 
-public class ComponentStructureResponse {
+public class ChangeComponentRequest {
     private Long id;
     private String name;
-
     private String additionalInfo;
-
-    public ComponentStructureResponse() {
-    }
-
-
 
     public Long getId() {
         return id;
     }
 
-    public ComponentStructureResponse setId(Long id) {
+    public ChangeComponentRequest setId(Long id) {
         this.id = id;
         return this;
     }
@@ -24,7 +18,7 @@ public class ComponentStructureResponse {
         return name;
     }
 
-    public ComponentStructureResponse setName(String name) {
+    public ChangeComponentRequest setName(String name) {
         this.name = name;
         return this;
     }
@@ -33,7 +27,7 @@ public class ComponentStructureResponse {
         return additionalInfo;
     }
 
-    public ComponentStructureResponse setAdditionalInfo(String additionalInfo) {
+    public ChangeComponentRequest setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
         return this;
     }

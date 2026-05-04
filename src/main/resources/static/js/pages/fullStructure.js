@@ -13,8 +13,9 @@ import {
     openAddDeviceModal,
     openAddSubDeviceModal,
     openAddComponentModal,
+    openEditComponentModal,
     openAddPartToComponent,
-    openEditPart, initDeviceModal, initSubDeviceModal, initComponentModal, initPartModal, initEditPartModal
+    openEditPart, initDeviceModal, initSubDeviceModal, initComponentModal, initChangeComponent, initPartModal, initEditPartModal
 } from "../ui/modals.js";
 
 const container = document.getElementById("structure-container");
@@ -105,8 +106,10 @@ export async function loadStructure() {
                         const comp = createComponentCell(
                             c,
                             openAddComponentModal,
+                            openEditComponentModal,
                             openAddPartToComponent
                         );
+                        console.log("component:", c)
                         comp.rowSpan = partCount;
 
                         row.appendChild(comp);
@@ -200,6 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initDeviceModal();
     initSubDeviceModal();
     initComponentModal();
+    initEditPartModal();
+    initChangeComponent();
     initPartModal();
     initEditPartModal();
 });

@@ -1,6 +1,7 @@
 package ate.technical.api.controllers;
 
 import ate.technical.api.requests.component.AddPartToComponentRequest;
+import ate.technical.api.requests.component.ChangeComponentRequest;
 import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.services.ComponentService;
@@ -36,9 +37,9 @@ public class ComponentApiController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> editComponentName(@PathVariable Long id, String newName) {
-        componentService.changeComponentName(id, newName);
+    @PutMapping("/change")
+    public ResponseEntity<Void> editComponentName(@RequestBody ChangeComponentRequest request) {
+        componentService.changeComponentName(request);
         return ResponseEntity.ok().build();
     }
 
