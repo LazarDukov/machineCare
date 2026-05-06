@@ -3,6 +3,7 @@ import {createDevice} from "../api/devicesApi.js";
 import {createSubDevice} from "../api/subDevicesApi.js";
 import {createComponent, changeComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
+import {deletePartFromComponent} from "../api/componentsPartsApi.js";
 
 let selectedDevice = null;
 let selectedSubDevice = null;
@@ -90,7 +91,7 @@ export function initChangeComponent() {
 
     document.getElementById("save-component-change-btn").onclick = async () => {
         const name = document.getElementById("component-name-input-change").value.trim();
-       const additionalInfo = document.getElementById("component-additional-info-input-change").value.trim();
+        const additionalInfo = document.getElementById("component-additional-info-input-change").value.trim();
 
         let body = {
             id: selectedComponent.id,
@@ -153,6 +154,7 @@ export function openEditPart(part, componentId) { // ОТВАРЯМ МОДАЛА
     toggle("change-part-modal");
 }
 
+
 export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ КЪМ КОМПОНЕНТ И КОЛИЧЕСТВО
 
     document.getElementById("save-changed-part-btn").onclick = async () => {
@@ -197,6 +199,35 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
     };
 }
 
+export function openDeletePartFromComponent(part, componentId) {
+    return new Promise((resolve) => {
+
+        const modal = document.getElementById("delete-part-modal");
+        const yesBtn = document.getElementById("delete-part-btn");
+        const noBtn = document.getElementById("not-delete-part-btn");
+
+        // показваме модала
+        toggle("delete-part-modal");
+
+        // 👉 махаме стари event-и (важно!)
+        yesBtn.onclick = null;
+        noBtn.onclick = null;
+
+        // 👉 ДА = изтриваме
+        yesBtn.onclick = async () => {
+            closeModal("delete-part-modal"); // затвори
+            await deletePartFromComponent(part, componentId);
+            await loadStructure();// връщаме данните
+        };
+
+        // 👉 НЕ = отказ
+        noBtn.onclick = () => {
+            toggle("delete-part-modal"); // затвори
+            resolve(null);
+            closeModal("delete-part-modal");
+        };
+    });
+}
 
 export function closeModal(id) {
     document.getElementById(id).style.display = "none";

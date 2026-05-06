@@ -1,3 +1,6 @@
+import {loadStructure} from "../pages/fullStructure.js";
+
+
 export function createCell(text) {
     const td = document.createElement("td");
     td.textContent = text || "-";
@@ -44,7 +47,7 @@ export function createSubDeviceCell(sd, onAddSubDevice) {
 // - нов компонент
 // - нова част
 //
-export function createComponentCell(component, onAddComponent, onChangeComponent,onAddPart) {
+export function createComponentCell(component, onAddComponent, onChangeComponent, onAddPart) {
     const td = document.createElement("td");
 
     td.innerHTML = `
@@ -54,9 +57,10 @@ export function createComponentCell(component, onAddComponent, onChangeComponent
         <button class="button-click">Добави нов компонент</button>
         <br>
         <button class="button-click">Промени компонент</button>
-        <br>
+     
+    <br>
         <button class="button-click">Добави нова част към този компонент</button>
-    `;
+   `;
 
     const buttons = td.querySelectorAll("button");
 
@@ -81,7 +85,7 @@ export function createComponentCell(component, onAddComponent, onChangeComponent
 // ================= PART =================
 // 👉 само показ + edit
 //
-export function createPartCell(cp, index, onEdit) {
+export function createPartCell(component, cp, index, onEdit, openDeletePartFromComponent) {
     const td = document.createElement("td");
 
     td.innerHTML = `
@@ -93,14 +97,21 @@ export function createPartCell(cp, index, onEdit) {
         <button class="button-click">Изтрий</button>
     `;
 
-    td.querySelector("button").onclick = () => onEdit(cp);
-    // td.querySelector("button").onclick = () => onDelete(cp);
+    const buttons = td.querySelectorAll("button");
+    console.log(component)
+    console.log(cp)
+    buttons[0].onclick = () => onEdit(cp);
+    buttons[1].onclick = () => openDeletePartFromComponent({
+        componentId: component.componentId,
+        partId: cp.partId
+    });
+
 
     style(td);
     return td;
 }
 
-//
+
 // ================= STYLE =================
 //
 function style(td) {
