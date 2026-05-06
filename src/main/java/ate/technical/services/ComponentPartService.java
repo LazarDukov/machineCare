@@ -39,4 +39,11 @@ public class ComponentPartService {
 
         return response;
     }
+
+    public void deletePartFromComponent(Long componentId, Long partId) {
+        ComponentPart cp = componentsPartsRepository.findByComponentIdAndPartId(componentId, partId)
+                .orElseThrow(() -> new RuntimeException("ComponentPart not found"));
+
+        componentsPartsRepository.delete(cp);
+    }
 }

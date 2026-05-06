@@ -27,6 +27,7 @@ export async function addPartToComponent(body2) {
         throw new Error("Грешка при връзване на част към компонент");
     }
 }
+
 export async function changePart(body) {
     console.log("first change part i vij bodito - ! ", body)
     const res = await fetch("/api/parts/change", {
@@ -59,15 +60,17 @@ export async function changePartQuantityIntoComponent(body2) {
     }
 }
 
-    export async function getAllParts() {
-        const res = await fetch(`/api/parts/all`, {
-            credentials: "include"
-        });
+export async function getAllParts() {
+    const res = await fetch(`/api/parts/all`, {
+        credentials: "include"
+    });
 
-        if (!res.ok) {
-            throw new Error("Грешка при зареждане на частите");
-        }
-
-        return res.json();
+    if (!res.ok) {
+        throw new Error("Грешка при зареждане на частите");
     }
+
+    return res.json();
+}
+
+
 

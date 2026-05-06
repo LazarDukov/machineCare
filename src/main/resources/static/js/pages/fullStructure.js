@@ -1,12 +1,13 @@
 import {getFullStructure} from "../api/machinesApi.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 
+
 import {
     createCell,
     createDeviceCell,
     createSubDeviceCell,
     createComponentCell,
-    createPartCell
+    createPartCell,
 } from "../ui/fullStructureUI.js";
 
 import {
@@ -15,7 +16,14 @@ import {
     openAddComponentModal,
     openEditComponentModal,
     openAddPartToComponent,
-    openEditPart, initDeviceModal, initSubDeviceModal, initComponentModal, initChangeComponent, initPartModal, initEditPartModal
+    openEditPart,
+    openDeletePartFromComponent,
+    initDeviceModal,
+    initSubDeviceModal,
+    initComponentModal,
+    initChangeComponent,
+    initPartModal,
+    initEditPartModal
 } from "../ui/modals.js";
 
 const container = document.getElementById("structure-container");
@@ -119,8 +127,9 @@ export async function loadStructure() {
                     const part = parts[i];
 
                     if (part) {
-                        row.appendChild(createPartCell(part, i, (p) =>
-                            openEditPart(p, c.id)
+
+                        row.appendChild(createPartCell(c, part, i, (p) =>
+                            openEditPart(p, c.id), (p) => openDeletePartFromComponent(p, c.id)
                         ));
                     } else {
                         row.appendChild(createCell("-"));
@@ -134,6 +143,7 @@ export async function loadStructure() {
 
     container.appendChild(table);
 }
+
 function createHeader() {
     const headerRow = document.createElement("tr");
 
@@ -173,6 +183,7 @@ function createHeader() {
 
     return headerRow;
 }
+
 function createEmptySubDeviceCell(deviceId) {
     const td = document.createElement("td");
 
@@ -186,6 +197,7 @@ function createEmptySubDeviceCell(deviceId) {
     style(td);
     return td;
 }
+
 function createEmptyComponentCell(subDeviceId) {
     const td = document.createElement("td");
 
@@ -199,6 +211,7 @@ function createEmptyComponentCell(subDeviceId) {
     style(td);
     return td;
 }
+
 document.addEventListener("DOMContentLoaded", () => {
     initDeviceModal();
     initSubDeviceModal();
@@ -207,7 +220,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initChangeComponent();
     initPartModal();
     initEditPartModal();
+
 });
+
 function style(td) {
     td.style.border = "1px solid #ccc";
     td.style.padding = "8px";

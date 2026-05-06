@@ -1,13 +1,11 @@
 package ate.technical.api.controllers;
 
+import ate.technical.api.requests.componentPart.DeletePartFromComponentRequest;
 import ate.technical.api.response.componentPart.AllPartsOfGivenComponentResponse;
 import ate.technical.services.ComponentPartService;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +25,10 @@ public class ComponentPartApiController {
         return ResponseEntity.ok(componentsPartsService.getAllPartsOfGivenComponent(componentId));
     }
 
-
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deletePartFromComponent(@RequestBody DeletePartFromComponentRequest request) {
+        System.out.println("Deleting part with ID: " + request.getPartId() + " from component with ID: " + request.getComponentId());
+        componentsPartsService.deletePartFromComponent(request.getComponentId(), request.getPartId());
+        return ResponseEntity.noContent().build();
+    }
 }
