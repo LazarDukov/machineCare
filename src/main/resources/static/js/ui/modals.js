@@ -1,6 +1,6 @@
 import {loadStructure} from "../pages/fullStructure.js";
 import {createDevice} from "../api/devicesApi.js";
-import {createSubDevice} from "../api/subDevicesApi.js";
+import {changeSubDevice, createSubDevice} from "../api/subDevicesApi.js";
 import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
@@ -260,6 +260,36 @@ export function openDeleteComponent(component) {
     });
 
 }
+
+
+export function openEditSubDeviceModal(subDevice) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
+    console.log("edit subDevice:", subDevice);
+    selectedSubDevice = subDevice;
+    document.getElementById("sub-device-name-input-change").value = selectedSubDevice.name;
+    console.log(selectedSubDevice.name);
+
+    toggle("sub-device-modal-change");
+}
+export function initChangeSubDevice() {
+
+
+    document.getElementById("save-sub-device-change-btn").onclick = async () => {
+        const name = document.getElementById("sub-device-name-input-change").value.trim();
+
+        let body = {
+            id: selectedSubDevice.id,
+            name: name,
+        };
+        await changeSubDevice(body);
+
+        document.getElementById("sub-device-modal-change").style.display = "none";
+
+        await loadStructure(); // refresh
+    };
+}
+
+
+
 
 export function closeModal(id) {
     document.getElementById(id).style.display = "none";
