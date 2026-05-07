@@ -21,3 +21,18 @@ export function changeComponent(body) {
         body: JSON.stringify(body)
     });
 }
+
+export async function deleteComponent(component) {
+    console.log("принтирам тук: компонент - ", component)
+    const res = await fetch("/api/components/delete", {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify({
+            id: component
+        })
+    });
+    if (!res.ok) {
+        throw new Error("Грешка при изтриване на частта");
+    }
+}

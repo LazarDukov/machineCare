@@ -21,7 +21,7 @@ public class Component {
     @JoinColumn(name = "sub_device_id")
     private SubDevice subDevice;
 
-    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComponentPart> parts;
 
     public Long getId() {
