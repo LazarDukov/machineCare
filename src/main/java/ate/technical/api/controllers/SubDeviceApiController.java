@@ -1,6 +1,7 @@
 package ate.technical.api.controllers;
 
 
+import ate.technical.api.requests.subDevice.ChangeSubDeviceRequest;
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
 import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
 import ate.technical.api.response.subDevice.AddComponentDropDownResponse;
@@ -33,9 +34,9 @@ public class SubDeviceApiController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> editSubDeviceName(@PathVariable Long id, String newName) {
-        subDeviceService.changeDeviceName(id, newName);
+    @PutMapping("/change")
+    public ResponseEntity<ChangeSubDeviceRequest> editSubDeviceName(@RequestBody ChangeSubDeviceRequest request) {
+        subDeviceService.changeSubDevice(request.getId(), request.getName());
         return ResponseEntity.ok().build();
     }
 
