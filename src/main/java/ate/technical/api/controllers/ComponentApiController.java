@@ -3,6 +3,7 @@ package ate.technical.api.controllers;
 import ate.technical.api.requests.component.AddPartToComponentRequest;
 import ate.technical.api.requests.component.ChangeComponentRequest;
 import ate.technical.api.requests.component.CreateComponentRequest;
+import ate.technical.api.requests.component.DeleteComponentRequest;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.services.ComponentService;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +44,11 @@ public class ComponentApiController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComponent(@PathVariable Long id) {
-        componentService.deleteComponent(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<DeleteComponentRequest> deleteComponent(@RequestBody DeleteComponentRequest request) {
+        System.out.println("Deleting component with id: " + request.getId());
+        componentService.deleteComponent(request.getId());
+
         return ResponseEntity.noContent().build();
     }
 }

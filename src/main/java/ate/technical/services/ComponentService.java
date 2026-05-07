@@ -12,6 +12,7 @@ import ate.technical.repositories.ComponentPartRepository;
 import ate.technical.repositories.ComponentRepository;
 import ate.technical.repositories.PartRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class ComponentService {
 
     }
 
+    @Transactional
     public void deleteComponent(Long id) {
         componentRepository.deleteById(id);
     }

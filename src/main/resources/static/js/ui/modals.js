@@ -1,7 +1,7 @@
 import {loadStructure} from "../pages/fullStructure.js";
 import {createDevice} from "../api/devicesApi.js";
 import {createSubDevice} from "../api/subDevicesApi.js";
-import {createComponent, changeComponent} from "../api/componentsApi.js";
+import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
 
@@ -227,6 +227,38 @@ export function openDeletePartFromComponent(part, componentId) {
             closeModal("delete-part-modal");
         };
     });
+}
+
+export function openDeleteComponent(component) {
+
+    return new Promise((resolve) => {
+
+        const modal = document.getElementById("delete-component-modal");
+        const yesBtn = document.getElementById("delete-component-btn");
+        const noBtn = document.getElementById("not-delete-component-btn");
+
+        // показваме модала
+        toggle("delete-component-modal");
+
+        // 👉 махаме стари event-и (важно!)
+        yesBtn.onclick = null;
+        noBtn.onclick = null;
+
+        // 👉 ДА = изтриваме
+        yesBtn.onclick = async () => {
+            closeModal("delete-component-modal"); // затвори
+            await deleteComponent(component);
+            await loadStructure();// връщаме данните
+        };
+
+        // 👉 НЕ = отказ
+        noBtn.onclick = () => {
+            toggle("delete-component-modal"); // затвори
+            resolve(null);
+            closeModal("delete-component-modal");
+        };
+    });
+
 }
 
 export function closeModal(id) {

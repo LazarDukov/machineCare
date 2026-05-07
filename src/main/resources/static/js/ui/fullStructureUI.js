@@ -47,7 +47,7 @@ export function createSubDeviceCell(sd, onAddSubDevice) {
 // - нов компонент
 // - нова част
 //
-export function createComponentCell(component, onAddComponent, onChangeComponent, onAddPart) {
+export function createComponentCell(component, onAddComponent, onChangeComponent, onAddPart, onDeleteComponent) {
     const td = document.createElement("td");
 
     td.innerHTML = `
@@ -60,6 +60,8 @@ export function createComponentCell(component, onAddComponent, onChangeComponent
      
     <br>
         <button class="button-click">Добави нова част към този компонент</button>
+        <br>
+        <button class="button-click">Изтрий компонент</button>
    `;
 
     const buttons = td.querySelectorAll("button");
@@ -76,6 +78,11 @@ export function createComponentCell(component, onAddComponent, onChangeComponent
     if (buttons[2]) {
         buttons[2].onclick = () => onAddPart(component.id);
     }
+    if (buttons[3]) {
+        buttons[3].onclick = () => onDeleteComponent(component.id);
+
+    }
+
 
     style(td);
     return td;

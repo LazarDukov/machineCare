@@ -17,6 +17,7 @@ import {
     openEditComponentModal,
     openAddPartToComponent,
     openEditPart,
+    openDeleteComponent,
     openDeletePartFromComponent,
     initDeviceModal,
     initSubDeviceModal,
@@ -115,7 +116,8 @@ export async function loadStructure() {
                             c,
                             openAddComponentModal,
                             openEditComponentModal,
-                            openAddPartToComponent
+                            openAddPartToComponent,
+                            openDeleteComponent
                         );
                         console.log("component:", c)
                         comp.rowSpan = partCount;
