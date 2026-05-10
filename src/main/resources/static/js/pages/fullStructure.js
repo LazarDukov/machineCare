@@ -1,144 +1,142 @@
 import {getFullStructure} from "../api/machinesApi.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 
-
-import {
-    createCell,
-    createDeviceCell,
-    createSubDeviceCell,
-    createComponentCell,
-    createPartCell,
-} from "../ui/fullStructureUI.js";
-
-import {
-    openAddDeviceModal,
-    openAddSubDeviceModal,
-    openEditSubDeviceModal,
-  //  openDeleteSubDeviceModal,
-    openAddComponentModal,
-    openEditComponentModal,
-    openAddPartToComponent,
-    openEditPart,
-    openDeleteComponent,
-    openDeletePartFromComponent,
-    initDeviceModal,
-    initSubDeviceModal,
-    initComponentModal,
-    initChangeComponent,
-    initPartModal,
-    initEditPartModal,
-    initChangeSubDevice
-} from "../ui/modals.js";
-
 const container = document.getElementById("structure-container");
 
-const params = new URLSearchParams(window.location.search);
-const machineName = params.get("name");
+const machineName =
+    new URLSearchParams(window.location.search).get("name");
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (container) loadStructure();
+
+    if (container) {
+        loadStructure();
+    }
 });
 
+// =========================
+// LOAD STRUCTURE
+// =========================
+
 export async function loadStructure() {
+
     const data = await getFullStructure(machineName);
-    const devices = data.structure;
+
+    const devices = data.structure || [];
 
     container.innerHTML = "";
 
+    // =========================
+    // TITLE
+    // =========================
+
     const title = document.createElement("h1");
+
     title.textContent = machineName;
+
     container.appendChild(title);
 
+    // =========================
+    // TABLE
+    // =========================
+
     const table = document.createElement("table");
+
     table.style.width = "100%";
     table.style.borderCollapse = "collapse";
 
     table.appendChild(createHeader());
 
+    // =========================
+    // DEVICES
+    // =========================
+
     for (const device of devices) {
 
         const subDevices = device.subDevices || [];
 
-        // ❗ ако няма subDevices -> показваш само ред с device + action
+        // =========================
+        // NO SUBDEVICES
+        // =========================
+
         if (!subDevices.length) {
+
             const row = document.createElement("tr");
 
-            row.appendChild(createDeviceCell(device));
-
-            row.appendChild(createEmptySubDeviceCell(device.id));
-
+            row.appendChild(createCell(device.name));
+            row.appendChild(createCell("-"));
             row.appendChild(createCell("-"));
             row.appendChild(createCell("-"));
 
             table.appendChild(row);
+
             continue;
         }
+
+        // =========================
+        // SUBDEVICES
+        // =========================
 
         for (const sd of subDevices) {
 
             const components = sd.components || [];
 
-            // ❗ ако няма components
+            // =========================
+            // NO COMPONENTS
+            // =========================
+
             if (!components.length) {
+
                 const row = document.createElement("tr");
 
-                row.appendChild(createDeviceCell(device));
-                row.appendChild(createSubDeviceCell(sd, openAddSubDeviceModal, openEditSubDeviceModal));
-
-                row.appendChild(createEmptyComponentCell(sd.id));
-
+                row.appendChild(createCell(device.name));
+                row.appendChild(createCell(sd.name));
+                row.appendChild(createCell("-"));
                 row.appendChild(createCell("-"));
 
                 table.appendChild(row);
+
                 continue;
             }
 
-            for (const c of sd.components) {
-                const parts = await getPartsByComponentId(c.id);
-                const partCount = parts.length || 1;
+            // =========================
+            // COMPONENTS
+            // =========================
 
-                for (let i = 0; i < partCount; i++) {
+            for (const component of components) {
+
+                const parts =
+                    await getPartsByComponentId(component.id) || [];
+
+                // =========================
+                // NO PARTS
+                // =========================
+
+                if (!parts.length) {
 
                     const row = document.createElement("tr");
 
-                    // DEVICE (only first row of block)
-                    if (i === 0) {
-                        const d = createDeviceCell(device);
-                        d.rowSpan = partCount;
+                    row.appendChild(createCell(device.name));
+                    row.appendChild(createCell(sd.name));
+                    row.appendChild(createCell(component.name));
+                    row.appendChild(createCell("-"));
 
-                        const s = createSubDeviceCell(sd, openAddSubDeviceModal,openEditSubDeviceModal);
-                        s.rowSpan = partCount;
+                    table.appendChild(row);
 
-                        row.appendChild(d);
-                        row.appendChild(s);
-                    }
+                    continue;
+                }
 
-                    // COMPONENT (only first row)
-                    if (i === 0) {
-                        const comp = createComponentCell(
-                            c,
-                            openAddComponentModal,
-                            openEditComponentModal,
-                            openAddPartToComponent,
-                            openDeleteComponent
-                        );
-                        console.log("component:", c)
-                        comp.rowSpan = partCount;
+                // =========================
+                // PARTS
+                // =========================
 
-                        row.appendChild(comp);
-                    }
+                for (const part of parts) {
 
-                    // PARTS stacked vertically in SAME column
-                    const part = parts[i];
+                    const row = document.createElement("tr");
 
-                    if (part) {
-
-                        row.appendChild(createPartCell(c, part, i, (p) =>
-                            openEditPart(p, c.id), (p) => openDeletePartFromComponent(p, c.id)
-                        ));
-                    } else {
-                        row.appendChild(createCell("-"));
-                    }
+                    row.appendChild(createCell(device.name));
+                    row.appendChild(createCell(sd.name));
+                    row.appendChild(createCell(component.name));
+                    row.appendChild(createCell(part.name));
 
                     table.appendChild(row);
                 }
@@ -149,87 +147,60 @@ export async function loadStructure() {
     container.appendChild(table);
 }
 
+// =========================
+// HEADER
+// =========================
+
 function createHeader() {
-    const headerRow = document.createElement("tr");
 
-    const headers = ["Устройство", "Подустройство", "Компонент", "Част"];
+    const tr = document.createElement("tr");
 
-    headers.forEach((text, index) => {
+    const headers = [
+        "Устройство",
+        "Подустройство",
+        "Компонент",
+        "Част"
+    ];
+
+    headers.forEach(text => {
+
         const th = document.createElement("th");
 
-        const wrapper = document.createElement("div");
-        wrapper.style.display = "flex";
-        wrapper.style.flexDirection = "column";
-        wrapper.style.alignItems = "center";
-
-        const title = document.createElement("span");
-        title.textContent = text;
-
-        wrapper.appendChild(title);
-
-        if (index === 0) {
-            const btn = document.createElement("button");
-            btn.textContent = "Добави устройство";
-            btn.className = "button-click";
-            btn.onclick = openAddDeviceModal;
-
-            wrapper.appendChild(btn);
-        }
-
-        th.appendChild(wrapper);
+        th.textContent = text;
 
         th.style.border = "1px solid #ccc";
-        th.style.padding = "8px";
+        th.style.padding = "10px";
         th.style.background = "#1b6bff";
         th.style.color = "white";
+        th.style.textAlign = "center";
 
-        headerRow.appendChild(th);
+        tr.appendChild(th);
     });
 
-    return headerRow;
+    return tr;
 }
 
-function createEmptySubDeviceCell(deviceId) {
+// =========================
+// CELL
+// =========================
+
+function createCell(text) {
+
     const td = document.createElement("td");
 
-    td.innerHTML = `
-        <button class="button-click">Добави ново подустройство</button>
-    `;
-
-    td.querySelector("button").onclick =
-        () => openAddSubDeviceModal(deviceId);
+    td.textContent = text || "-";
 
     style(td);
+
     return td;
 }
 
-function createEmptyComponentCell(subDeviceId) {
-    const td = document.createElement("td");
-
-    td.innerHTML = `
-        <button class="button-click">Добави нов компонент</button>
-    `;
-
-    td.querySelector("button").onclick =
-        () => openAddComponentModal(subDeviceId);
-
-    style(td);
-    return td;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    initDeviceModal();
-    initSubDeviceModal();
-    initComponentModal();
-    initEditPartModal();
-    initChangeComponent();
-    initPartModal();
-    initEditPartModal();
-    initChangeSubDevice();
-
-});
+// =========================
+// STYLE
+// =========================
 
 function style(td) {
+
     td.style.border = "1px solid #ccc";
     td.style.padding = "8px";
     td.style.textAlign = "center";

@@ -40,11 +40,13 @@ body {
     height: 100vh;
 
 }
+
 .right-group, .left-group {
     display: flex;
     flex-direction: row;
     gap: 30px;
 }
+
 .left-wrapper, .center-wrapper, .right-wrapper {
     display: flex;
     align-items: center;
@@ -142,6 +144,7 @@ button {
     padding: 20px;
     font-size: 18px;
 }
+
 /* 🔹 MODAL BACKGROUND */
 .modal {
     display: none;
@@ -164,7 +167,7 @@ button {
     height: fit-content;
     border-radius: 15px;
     text-align: center;
-    max-height: 80vh;   /* максимум 80% от екрана */
+    max-height: 80vh; /* максимум 80% от екрана */
     overflow-y: auto;
 }
 
@@ -196,4 +199,295 @@ button {
 .button-mini:hover {
     background: #1b6bff;
     color: white;
+}
+
+/*------------------*/
+.structure-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.structure-table th,
+.structure-table td {
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.device-cell {
+    background: #dbeafe;
+    font-weight: bold;
+}
+
+.subdevice-cell {
+    background: #eff6ff;
+}
+
+.component-cell {
+    background: white;
+}
+
+.part-cell {
+    background: #fafafa;
+}
+
+.entity-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.entity-subtitle {
+    font-size: 12px;
+    color: gray;
+}
+
+.action-btn,
+.add-btn {
+    margin-top: 5px;
+    display: block;
+    font-size: 12px;
+    padding: 4px 8px;
+    border: 1px solid #1b6bff;
+    background: white;
+    color: #1b6bff;
+    cursor: pointer;
+}
+
+.add-btn {
+    background: #1b6bff;
+    color: white;
+}
+
+/*//------------------ TOWA E RAZDELITEL NA NOVATA STRANICA */
+
+.structure-layout {
+
+    display: grid;
+
+    grid-template-columns: 350px 1fr;
+
+    gap: 20px;
+
+    height: 80vh;
+}
+
+.tree-panel {
+
+    border: 1px solid #ccc;
+
+    padding: 15px;
+
+    overflow-y: auto;
+}
+
+.details-panel {
+
+    border: 1px solid #ccc;
+
+    padding: 15px;
+}
+.part-item {
+    display: grid;
+    grid-template-columns: 40px 1fr 120px 200px 80px;
+    gap: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.part-index {
+    font-weight: bold;
+    color: #1b6bff;
+}
+.part-field-item{
+    color: #444;
+}
+
+.part-meta {
+    font-size: 12px;
+    color: #666;
+}
+
+/* style for structure into change structure file*/
+.tree-level {
+    list-style: none;
+    margin: 0;
+    padding-left: 18px;
+}
+
+.tree-level li {
+    margin-bottom: 8px;
+}
+
+.tree-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    font-weight: 500;
+}
+
+.tree-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* LEVEL COLORS */
+
+.level-0 {
+    background: #dbeafe;
+    border-left: 5px solid #2563eb;
+}
+
+.level-1 {
+    background: #dcfce7;
+    border-left: 5px solid #16a34a;
+}
+
+.level-2 {
+    background: #fef3c7;
+    border-left: 5px solid #d97706;
+}
+
+.level-3 {
+    background: #fce7f3;
+    border-left: 5px solid #db2777;
+}
+
+.level-4 {
+    background: #ede9fe;
+    border-left: 5px solid #7c3aed;
+}
+
+.tree-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tree-number {
+    background: rgba(0,0,0,0.12);
+
+    min-width: 26px;
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.tree-name {
+    font-size: 15px;
+}
+
+.tree-arrow {
+    font-size: 14px;
+    font-weight: bold;
+}
+/*style for details with parts*/
+.parts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.part-card {
+    background: #bad4fa;
+    border-left: 5px solid #4a90e2;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.part-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.part-number {
+    background: #4a90e2;
+    color: white;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.part-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+}
+
+.part-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.part-row {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.label {
+    font-weight: 700;
+    color: #555;
+    min-width: 100px;
+}
+
+.details-title {
+    margin-bottom: 8px;
+}
+
+.details-subtitle {
+    margin-bottom: 16px;
+    color: #666;
+}
+
+.part-inline-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    flex-wrap: wrap;
+
+    margin-top: 8px;
+}
+
+.part-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    background: rgb(93, 190, 255);
+
+    padding: 6px 10px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+.part-field .label {
+    font-weight: 700;
+    color: #444;
 }

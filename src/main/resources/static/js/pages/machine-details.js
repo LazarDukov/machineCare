@@ -36,6 +36,7 @@ function init() {
     window.goToTasks = goToTasks;
     window.goToAddTask = goToAddTask;
     window.goToFullStructure = goToFullStructure;
+    window.goToChangeStructure = goToChangeStructure;
 
 }
 
@@ -43,6 +44,11 @@ function init() {
 function goToFullStructure() {
     console.log("machineName:", machineName);
     window.location.href = `/full-structure?name=${encodeURIComponent(machineName)}`;
+}
+
+function goToChangeStructure() {
+    console.log("machineName:", machineName);
+    window.location.href = `/change-structure?name=${encodeURIComponent(machineName)}`;
 }
 
 function goToRepairs() {
