@@ -1,3 +1,5 @@
+
+
 const container = document.getElementById("structure-container");
 
 export function renderTree(structure, expandedNodes) {
@@ -127,6 +129,7 @@ export function renderLayout() {
         </div>
     `;
 }
+
 export function renderDetailsWithParts(component, parts) {
 
     const root =
@@ -157,36 +160,55 @@ export function renderDetailsWithParts(component, parts) {
 
                                 <div class="part-header">
 
-                                    <span class="part-number">
-                                        #${index + 1}
-                                    </span>
+    <div class="part-header-left">
 
-                                    <span class="part-name">
-                                        ${p.partName}
-                                    </span>
+        <span class="part-number">
+            #${index + 1}
+        </span>
 
-                                </div>
+        <span class="part-name">
+            ${p.partName}
+        </span>
+
+    </div>
+
+    <button
+        class="part-edit-btn"
+        onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
+    >
+        Промени
+    </button>
+
+</div>
 
                                 <div class="part-body">
 
-   <div class="part-inline-row">
-<div class="part-field">
-        <span class="label">Описание:</span>
-        <span class="part-field-item">${p.description || "-"}</span>
-    </div>
-    <div class="part-field">
-        <span class="label">SAP:</span>
-        <span class="part-field-item">${p.sapNumber || "-"}</span>
-    </div>
+                                    <div class="part-inline-row">
 
-    
+                                        <div class="part-field">
+                                            <span class="label">Описание:</span>
+                                            <span class="part-field-item">
+                                                ${p.description || "-"}
+                                            </span>
+                                        </div>
 
-    <div class="part-field">
-        <span class="label">Qty:</span>
-        <span class="part-field-item">${p.quantity || 0}</span>
-    </div>
+                                        <div class="part-field">
+                                            <span class="label">SAP:</span>
+                                            <span class="part-field-item">
+                                                ${p.sapNumber || "-"}
+                                            </span>
+                                        </div>
 
-</div>
+                                        <div class="part-field">
+                                            <span class="label">Qty:</span>
+                                            <span class="part-field-item">
+                                                ${p.quantity || 0}
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -196,5 +218,16 @@ export function renderDetailsWithParts(component, parts) {
                 `
             : "<p>Няма части</p>"
     }
+
+        <div class="add-part-wrapper">
+
+    <button
+        class="register add-part-btn"
+        onclick="openAddPartToComponent(${component.id})"
+    >
+        + Добави нова част
+    </button>
+
+</div>
     `;
 }

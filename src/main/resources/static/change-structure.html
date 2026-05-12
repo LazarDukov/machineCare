@@ -30,11 +30,31 @@
     </div>
 
 </div>
-
-<script
-        type="module"
-        src="/js/pages/changeStructure.js"
-></script>
+<div id="part-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('part-modal')">&times;</span>
+        <h3>Добави част</h3>
+        <input id="part-name-input" placeholder="Име">
+        <input id="part-description-input" placeholder="Описание">
+        <input id="part-sap-number-input" placeholder="SAP">
+        <input id="part-quantity-input" type="number" placeholder="Брой">
+        <button id="save-part-btn">Запази</button>
+    </div>
+</div>
+<div id="change-part-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('change-part-modal')">&times;</span>
+        <h3>Добави част</h3>
+        <input id="part-name-input-change" placeholder="Име">
+        <input id="part-description-input-change" placeholder="Описание">
+        <input id="part-sap-number-input-change" placeholder="SAP">
+        <input id="part-quantity-input-change" type="number" placeholder="Брой">
+        <button id="save-changed-part-btn">Запази</button>
+    </div>
+</div>
+<script type="module"
+        src="/js/pages/changeStructure.js"></script>
+<script type="module" src="/js/ui/modals.js"></script>
 
 </body>
 

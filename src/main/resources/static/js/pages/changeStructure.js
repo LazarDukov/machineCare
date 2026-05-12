@@ -1,9 +1,9 @@
-import {getFullStructure} from "../api/machinesApi.js";
+import {getStructure} from "../service/structureService.js";
 import {mapStructure} from "../map/changeStructureMap.js";
 import {renderDetails, renderLayout, renderTree} from "../render/changeStructureRender.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {renderDetailsWithParts} from "../render/changeStructureRender.js";
-
+import {initPartModal, initEditPartModal} from "../ui/modals.js";
 
 
 const params = new URLSearchParams(window.location.search);
@@ -28,6 +28,11 @@ let selectedComponent = null;    // 👈 само за дясната част
 document.addEventListener("DOMContentLoaded", () => {
 
     loadStructure();
+
+    initPartModal();
+
+    initEditPartModal();
+
 });
 
 
@@ -35,15 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
 // LOAD STRUCTURE
 // ========================================
 
-async function loadStructure() {
+export async function loadStructure() {
 
     try {
 
-        const data =
-            await getFullStructure(machineName);
+        const rawStructure =
+            await getStructure(machineName);
 
         structure =
-            mapStructure(data.structure || []);
+            mapStructure(rawStructure);
 
         renderLayout();
 
@@ -58,6 +63,9 @@ async function loadStructure() {
         console.error("Грешка при зареждане", e);
     }
 }
+
+window.reloadPageStructure = loadStructure;
+
 function findNode(nodes, type, id) {
 
     for (const node of nodes) {
@@ -77,7 +85,7 @@ function findNode(nodes, type, id) {
     return null;
 }
 
-window.selectNode = function(type, id) {
+window.selectNode = function (type, id) {
 
     const key = `${type}-${id}`;
 
@@ -106,6 +114,7 @@ window.selectNode = function(type, id) {
 
     renderTree(structure, expandedNodes);
 };
+
 async function loadPartsAndRender(component) {
 
     try {
@@ -122,3 +131,13 @@ async function loadPartsAndRender(component) {
         console.error("Error loading parts", e);
     }
 }
+
+// window.addNewPart = function(componentId) {
+//
+//     console.log("Добавяне на нова част:", componentId);
+//
+//     // TODO:
+//     // open modal
+//     // render form
+//     // save part
+// };
