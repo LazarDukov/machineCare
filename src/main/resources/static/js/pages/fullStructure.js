@@ -1,4 +1,4 @@
-import {getFullStructure} from "../api/machinesApi.js";
+import {getStructure} from "../service/structureService.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 
 const container = document.getElementById("structure-container");
@@ -19,9 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 export async function loadStructure() {
 
-    const data = await getFullStructure(machineName);
-
-    const devices = data.structure || [];
+    const devices =
+        await getStructure(machineName);
 
     container.innerHTML = "";
 
@@ -205,3 +204,5 @@ function style(td) {
     td.style.padding = "8px";
     td.style.textAlign = "center";
 }
+
+window.reloadPageStructure = loadStructure;

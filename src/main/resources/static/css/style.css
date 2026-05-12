@@ -491,3 +491,85 @@ button {
     font-weight: 700;
     color: #444;
 }
+.add-part-wrapper {
+
+    margin-top: 24px;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+.add-part-btn {
+
+    padding: 14px 24px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    border-radius: 12px;
+
+    min-width: 240px;
+
+    transition: all 0.25s ease;
+}
+
+.add-part-btn:hover {
+
+    transform: scale(1.05);
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/*СТАЙЛ ЗА БУТОН ЗА ПРОМЯНА НА ЧАСТ*/
+
+.part-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.part-header-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.part-edit-btn {
+
+    background: transparent;
+
+    border: 2px solid white;
+
+    color: white;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.part-edit-btn:hover {
+
+    background: white;
+
+    color: #1b6bff;
+
+    transform: scale(1.05);
+}

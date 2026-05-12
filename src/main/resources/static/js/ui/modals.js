@@ -1,4 +1,3 @@
-import {loadStructure} from "../pages/fullStructure.js";
 import {createDevice} from "../api/devicesApi.js";
 import {changeSubDevice, createSubDevice} from "../api/subDevicesApi.js";
 import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
@@ -25,7 +24,7 @@ export function initDeviceModal() { // ТУК ДОБАВЯМ УСТРОЙСТВ�
 
         document.getElementById("device-modal").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage(); // refresh
     };
 }
 
@@ -47,7 +46,7 @@ export function initSubDeviceModal() { // ТУК ДОБАВЯМ ПОДУСТРО
 
         document.getElementById("subDevice-modal").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage();// refresh
     };
 }
 
@@ -69,7 +68,7 @@ export function initComponentModal() { // ТУК ДОБАВЯМ КОМПОНЕН
 
         document.getElementById("component-modal").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage(); // refresh
     };
 }
 
@@ -102,7 +101,7 @@ export function initChangeComponent() {
         console.log(body)
         document.getElementById("component-modal-change").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage(); // refresh
     };
 }
 
@@ -110,6 +109,7 @@ export function openAddPartToComponent(componentId) { // ОТВАРЯМ МОДА
     selectedComponent = componentId;
     console.log("componentId:", componentId);
     toggle("part-modal");
+
 }
 
 export function initPartModal() { // ТУК ДОБАВЯМ ЧАСТ КЪМ КОМПОНЕНТ
@@ -137,7 +137,7 @@ export function initPartModal() { // ТУК ДОБАВЯМ ЧАСТ КЪМ КО�
 
         document.getElementById("part-modal").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage(); // refresh
     };
 }
 
@@ -195,7 +195,7 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
 
         document.getElementById("change-part-modal").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage(); // refresh
     };
 }
 
@@ -217,7 +217,7 @@ export function openDeletePartFromComponent(part, componentId) {
         yesBtn.onclick = async () => {
             closeModal("delete-part-modal"); // затвори
             await deletePartFromComponent(part, componentId);
-            await loadStructure();// връщаме данните
+            await refreshPage();// връщаме данните
         };
 
         // 👉 НЕ = отказ
@@ -248,7 +248,7 @@ export function openDeleteComponent(component) {
         yesBtn.onclick = async () => {
             closeModal("delete-component-modal"); // затвори
             await deleteComponent(component);
-            await loadStructure();// връщаме данните
+            await refreshPage();// връщаме данните
         };
 
         // 👉 НЕ = отказ
@@ -270,6 +270,7 @@ export function openEditSubDeviceModal(subDevice) { // ОТВАРЯМ МОДАЛ
 
     toggle("sub-device-modal-change");
 }
+
 export function initChangeSubDevice() {
 
 
@@ -284,11 +285,9 @@ export function initChangeSubDevice() {
 
         document.getElementById("sub-device-modal-change").style.display = "none";
 
-        await loadStructure(); // refresh
+        await refreshPage();// refresh
     };
 }
-
-
 
 
 export function closeModal(id) {
@@ -298,5 +297,12 @@ export function closeModal(id) {
 function toggle(id) {
     document.getElementById(id).style.display = "flex";
 }
+async function refreshPage() {
 
+    if (window.reloadPageStructure) {
+        await window.reloadPageStructure();
+    }
+}
 window.closeModal = closeModal; // 👉 expose към HTML
+window.openAddPartToComponent = openAddPartToComponent;
+window.openEditPart = openEditPart;
