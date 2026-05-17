@@ -6,7 +6,7 @@ import {deletePartFromComponent} from "../api/componentsPartsApi.js";
 
 let selectedDevice = null;
 let selectedSubDevice = null;
-let selectedComponent = null;
+let selectedComponentInModal = null;
 
 export function openAddDeviceModal() { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА УСТРОЙСТВО
     toggle("device-modal");
@@ -28,14 +28,14 @@ export function initDeviceModal() { // ТУК ДОБАВЯМ УСТРОЙСТВ�
     };
 }
 
-export function openAddSubDeviceModal(deviceId) { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА ПОДУСТРОЙСТВО
+export function openAddSubDevice(deviceId) { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА ПОДУСТРОЙСТВО
     selectedDevice = deviceId;
     console.log("deviceIdЛИ?:", deviceId);
     console.log("deviceIdЛИ?:", selectedDevice);
     toggle("subDevice-modal");
 }
 
-export function initSubDeviceModal() { // ТУК ДОБАВЯМ ПОДУСТРОЙСТВО
+export function initSubDevice() { // ТУК ДОБАВЯМ ПОДУСТРОЙСТВО
 
     document.getElementById("save-subDevice-btn").onclick = async () => {
         const name = document.getElementById("subDevice-name-input").value.trim();
@@ -50,13 +50,13 @@ export function initSubDeviceModal() { // ТУК ДОБАВЯМ ПОДУСТРО
     };
 }
 
-export function openAddComponentModal(subDeviceId) { //ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА КОМПОНЕНТ
+export function openAddComponent(subDeviceId) { //ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА КОМПОНЕНТ
     selectedSubDevice = subDeviceId;
     console.log("subDeviceId:", subDeviceId);
     toggle("component-modal");
 }
 
-export function initComponentModal() { // ТУК ДОБАВЯМ КОМПОНЕНТ
+export function initComponent() { // ТУК ДОБАВЯМ КОМПОНЕНТ
 
     document.getElementById("save-component-btn").onclick = async () => {
         const name = document.getElementById("component-name-input").value.trim();
@@ -72,15 +72,15 @@ export function initComponentModal() { // ТУК ДОБАВЯМ КОМПОНЕН
     };
 }
 
-export function openEditComponentModal(component) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
+export function openEditComponent(component) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
     console.log("edit component:", component);
-    selectedComponent = component;
+    selectedComponentInModal = component;
     console.log(component)
-    console.log(selectedComponent.name);
-    console.log(selectedComponent.additionalInfo);
+    console.log(selectedComponentInModal.name);
+    console.log(selectedComponentInModal.additionalInfo);
     console.log(component.additionalInfo);
-    document.getElementById("component-name-input-change").value = selectedComponent.name;
-    document.getElementById("component-additional-info-input-change").value = selectedComponent.additionalInfo;
+    document.getElementById("component-name-input-change").value = selectedComponentInModal.name;
+    document.getElementById("component-additional-info-input-change").value = selectedComponentInModal.additionalInfo;
 
     toggle("component-modal-change");
 }
@@ -93,9 +93,9 @@ export function initChangeComponent() {
         const additionalInfo = document.getElementById("component-additional-info-input-change").value.trim();
 
         let body = {
-            id: selectedComponent.id,
+            id: selectedComponentInModal.id,
             name: name,
-            additionalInfo: selectedComponent.additionalInfo
+            additionalInfo: selectedComponentInModal.additionalInfo
         };
         await changeComponent(body);
         console.log(body)
@@ -106,7 +106,7 @@ export function initChangeComponent() {
 }
 
 export function openAddPartToComponent(componentId) { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА ЧАСТ КЪМ КОМПОНЕНТ
-    selectedComponent = componentId;
+    selectedComponentInModal = componentId;
     console.log("componentId:", componentId);
     toggle("part-modal");
 
@@ -129,7 +129,7 @@ export function initPartModal() { // ТУК ДОБАВЯМ ЧАСТ КЪМ КО�
         };
         let createdPart = await createPart(body);
         let body2 = {
-            componentId: selectedComponent,
+            componentId: selectedComponentInModal,
             partId: createdPart,
             quantity: quantity
         };
@@ -146,7 +146,7 @@ let selectedPart = null;
 export function openEditPart(part, componentId) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
     console.log("edit part:", part);
     selectedPart = part;
-    selectedComponent = componentId;
+    selectedComponentInModal = componentId;
     document.getElementById("part-name-input-change").value = selectedPart.partName;
     document.getElementById("part-description-input-change").value = selectedPart.description;
     document.getElementById("part-sap-number-input-change").value = selectedPart.sapNumber;
@@ -171,7 +171,7 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
 
 
         let body2 = {
-            componentId: selectedComponent,
+            componentId: selectedComponentInModal,
             partId: selectedPart.partId,
             quantity: quantity
         };
@@ -199,7 +199,7 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
     };
 }
 
-export function openDeletePartFromComponent(part, componentId) {
+export function openDeletePart(part, componentId) {
     return new Promise((resolve) => {
 
         const modal = document.getElementById("delete-part-modal");
@@ -297,12 +297,19 @@ export function closeModal(id) {
 function toggle(id) {
     document.getElementById(id).style.display = "flex";
 }
+
 async function refreshPage() {
 
     if (window.reloadPageStructure) {
         await window.reloadPageStructure();
     }
 }
+
 window.closeModal = closeModal; // 👉 expose към HTML
 window.openAddPartToComponent = openAddPartToComponent;
 window.openEditPart = openEditPart;
+window.openDeletePart = openDeletePart;
+window.openEditComponent = openEditComponent;
+window.openDeleteComponent = openDeleteComponent;
+window.openAddComponent = openAddComponent;
+window.openAddSubDevice = openAddSubDevice;
