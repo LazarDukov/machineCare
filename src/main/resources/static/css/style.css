@@ -221,7 +221,7 @@ button {
     font-weight: bold;
 }
 
-.subdevice-cell {
+.subDevice-cell {
     background: #eff6ff;
 }
 
@@ -266,7 +266,7 @@ button {
 
     display: grid;
 
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 450px 1fr;
 
     gap: 20px;
 
@@ -335,6 +335,8 @@ button {
     transition: 0.2s;
 
     font-weight: 500;
+    min-width: 0;
+    flex: 1;
 }
 
 .tree-item:hover {
@@ -392,13 +394,56 @@ button {
 }
 
 .tree-name {
+
     font-size: 15px;
+    word-break: break-word;
 }
 
 .tree-arrow {
     font-size: 14px;
     font-weight: bold;
 }
+
+.tree-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.tree-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tree-edit-btn,
+.tree-delete-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.tree-edit-btn {
+    background: #f3f4f6;
+}
+
+.tree-edit-btn:hover {
+    background: #e5e7eb;
+}
+
+.tree-delete-btn {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.tree-delete-btn:hover {
+    background: #fecaca;
+}
+
 /*style for details with parts*/
 .parts-list {
     display: flex;
@@ -525,51 +570,84 @@ button {
 /*СТАЙЛ ЗА БУТОН ЗА ПРОМЯНА НА ЧАСТ*/
 
 .part-header {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     gap: 12px;
 }
 
 .part-header-left {
-
     display: flex;
-
     align-items: center;
-
     gap: 10px;
 }
 
-.part-edit-btn {
+.part-actions {
+    display: flex;
+    gap: 10px;
+}
 
+.part-edit-btn,
+.part-delete-btn {
     background: transparent;
-
     border: 2px solid white;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
 
+.part-edit-btn:hover,
+.part-delete-btn:hover {
+    background: white;
+    color: #1b6bff;
+    transform: scale(1.05);
+}
+.add-component-wrapper {
+
+    margin-top: 10px;
+
+    margin-left: 20px;
+
+    display: flex;
+}
+
+
+.add-component-wrapper {
+    margin-left: 30px;
+    margin-top: 8px;
+}
+.add-subDevice-wrapper {
+    margin-left: 20px;
+    margin-top: 8px;
+    display: flex;
+}
+
+.add-subDevice-btn,
+.add-component-btn {
+
+    background: rgba(255,255,255,0.15);
+    border: 2px dashed white;
     color: white;
 
-    padding: 8px 14px;
-
+    padding: 10px 16px;
     border-radius: 10px;
 
-    font-size: 13px;
-
-    font-weight: 600;
-
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
 
     transition: all 0.25s ease;
 }
 
-.part-edit-btn:hover {
+.add-subDevice-btn:hover,
+.add-component-btn:hover {
 
     background: white;
-
     color: #1b6bff;
 
-    transform: scale(1.05);
+    transform: translateX(4px);
 }

@@ -1,47 +1,49 @@
-
-
 const container = document.getElementById("structure-container");
 
-export function renderTree(structure, expandedNodes) {
+let selectedComponent = null;
 
-    const root =
-        document.getElementById("tree-root");
+export function renderTree(structure, expandedNodes, selectedComponent) {
 
-    root.innerHTML =
-        createTree(structure, expandedNodes);
+    const root = document.getElementById("tree-root");
+
+    root.innerHTML = createTree(structure, expandedNodes, selectedComponent);
 }
 
-function createTree(nodes, expandedNodes, level = 0) {
+function createTree(nodes, expandedNodes, componentOpened, level = 0) {
 
     let html = `<ul class="tree-level tree-level-${level}">`;
 
     nodes.forEach((node, index) => {
 
         const key = `${node.type}-${node.id}`;
-
         const isOpen = expandedNodes.has(key);
-
+        const showAddSubDevice =
+            node.type === "device"
+            && isOpen
+            && !selectedComponent;
         html += `
             <li>
 
-                <div 
-                    class="tree-item level-${level}"
-                    onclick="selectNode('${node.type}', ${node.id})"
-                >
+                <div class="tree-item-wrapper">
 
-                    <div class="tree-left">
+                    <div 
+                        class="tree-item level-${level}"
+                        onclick="selectNode('${node.type}', ${node.id})"
+                    >
 
-                        <span class="tree-number">
-                            ${index + 1}
-                        </span>
+                        <div class="tree-left">
 
-                        <span class="tree-name">
-                            ${node.name}
-                        </span>
+                            <span class="tree-number">
+                                ${index + 1}
+                            </span>
 
-                    </div>
+                            <span class="tree-name">
+                                ${node.name}
+                            </span>
 
-                    ${
+                        </div>
+
+                        ${
             node.children?.length
                 ? `
                                 <span class="tree-arrow">
@@ -51,11 +53,73 @@ function createTree(nodes, expandedNodes, level = 0) {
                 : ""
         }
 
+                    </div>
+
+                    ${
+            node.type === "component"
+                ? `
+                    <div class="tree-actions">
+                    
+                        <button
+                            class="tree-edit-btn"
+                            onclick='event.stopPropagation(); openEditComponent(${JSON.stringify(node.original)})'
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            class="tree-delete-btn"
+                            onclick='event.stopPropagation(); openDeleteComponent(${node.id})'
+                        >
+                            ❌
+                        </button>
+
+                    </div>
+                `
+                : ""
+        }
+
                 </div>
 
                 ${
             node.children?.length && isOpen
-                ? createTree(node.children, expandedNodes, level + 1)
+                ? `
+                    ${createTree(node.children, expandedNodes, level + 1)}
+                `
+                : ""
+        }
+
+              ${
+            showAddSubDevice
+                ? `
+            <div class="add-subDevice-wrapper">
+
+                <button
+                    class="add-subDevice-btn"
+                    onclick="event.stopPropagation(); openAddSubDevice(${node.id})"
+                >
+                    + Добави подустройство
+                </button>
+
+            </div>
+        `
+                : ""
+        }
+
+                ${
+            node.type === "subDevice" && isOpen
+                ? `
+                    <div class="add-component-wrapper">
+
+                        <button
+                            class="add-component-btn"
+                            onclick="event.stopPropagation(); openAddComponent(${node.id})"
+                        >
+                            + Добави компонент
+                        </button>
+
+                    </div>
+                `
                 : ""
         }
 
@@ -158,10 +222,9 @@ export function renderDetailsWithParts(component, parts) {
 
                             <div class="part-card">
 
-                                <div class="part-header">
+                              <div class="part-header">
 
     <div class="part-header-left">
-
         <span class="part-number">
             #${index + 1}
         </span>
@@ -169,15 +232,23 @@ export function renderDetailsWithParts(component, parts) {
         <span class="part-name">
             ${p.partName}
         </span>
-
     </div>
 
-    <button
-        class="part-edit-btn"
-        onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
-    >
-        Промени
-    </button>
+    <div class="part-actions">
+        <button
+            class="part-edit-btn"
+            onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
+        >
+            Промени
+        </button>
+
+        <button
+            class="part-delete-btn"
+            onclick='openDeletePart(${JSON.stringify(p)}, ${component.id})'
+        >
+            Изтрий
+        </button>
+    </div>
 
 </div>
 
@@ -230,4 +301,23 @@ export function renderDetailsWithParts(component, parts) {
 
 </div>
     `;
+}
+function hasOpenChild(node, expandedNodes) {
+
+    if (!node.children) return false;
+
+    for (const child of node.children) {
+
+        const key = `${child.type}-${child.id}`;
+
+        if (expandedNodes.has(key)) {
+            return true;
+        }
+
+        if (hasOpenChild(child, expandedNodes)) {
+            return true;
+        }
+    }
+
+    return false;
 }

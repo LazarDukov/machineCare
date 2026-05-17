@@ -22,7 +22,7 @@ export function mapSubDevices(subDevices) {
 
         name: sd.name,
 
-        type: "subdevice",
+        type: "subDevice",
 
         original: sd,
 

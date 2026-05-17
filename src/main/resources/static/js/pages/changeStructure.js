@@ -3,7 +3,7 @@ import {mapStructure} from "../map/changeStructureMap.js";
 import {renderDetails, renderLayout, renderTree} from "../render/changeStructureRender.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {renderDetailsWithParts} from "../render/changeStructureRender.js";
-import {initPartModal, initEditPartModal} from "../ui/modals.js";
+import {initPartModal, initEditPartModal, initComponent, initSubDevice} from "../ui/modals.js";
 
 
 const params = new URLSearchParams(window.location.search);
@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initPartModal();
 
     initEditPartModal();
+
+    initComponent();
+    initSubDevice();
 
 });
 
@@ -89,22 +92,17 @@ window.selectNode = function (type, id) {
 
     const key = `${type}-${id}`;
 
-    // expand/collapse само за tree
     if (expandedNodes.has(key)) {
         expandedNodes.delete(key);
     } else {
         expandedNodes.add(key);
     }
 
-    // =========================
-    // ONLY COMPONENT = DETAILS
-    // =========================
     if (type === "component") {
 
-        selectedComponent =
-            findNode(structure, type, id);
+        selectedComponent = findNode(structure, type, id);
 
-        loadPartsAndRender(selectedComponent).then(r => console.log("Заредих части и рендерирах детайли"));//renderDetails
+        loadPartsAndRender(selectedComponent).then(r => console.log("Parts loaded and rendered"));
 
     } else {
 
@@ -112,9 +110,8 @@ window.selectNode = function (type, id) {
         renderDetails(null);
     }
 
-    renderTree(structure, expandedNodes);
+    renderTree(structure, expandedNodes, selectedComponent);
 };
-
 async function loadPartsAndRender(component) {
 
     try {
@@ -132,12 +129,3 @@ async function loadPartsAndRender(component) {
     }
 }
 
-// window.addNewPart = function(componentId) {
-//
-//     console.log("Добавяне на нова част:", componentId);
-//
-//     // TODO:
-//     // open modal
-//     // render form
-//     // save part
-// };

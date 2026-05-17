@@ -41,6 +41,45 @@
         <button id="save-part-btn">Запази</button>
     </div>
 </div>
+<div id="component-modal-change" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('component-modal-change')">&times;</span>
+        <h3>Промени компонент</h3>
+        <input id="component-name-input-change" placeholder="Име">
+        <input id="component-additional-info-input-change" placeholder="Допълнителна информация">
+        <button id="save-component-change-btn">Запази</button>
+    </div>
+</div>
+
+
+
+<div id="subDevice-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('subDevice-modal')">&times;</span>
+        <h3>Добави подустройство</h3>
+        <input id="subDevice-name-input" placeholder="Име">
+        <button id="save-subDevice-btn">Запази</button>
+    </div>
+</div>
+
+<div id="component-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('component-modal')">&times;</span>
+        <h3>Добави компонент</h3>
+        <input id="component-name-input" placeholder="Име">
+        <input id="component-additional-info-input" placeholder="Допълнителна информация">
+        <button id="save-component-btn">Запази</button>
+    </div>
+</div>
+
+<div id="delete-component-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('delete-component-modal')">&times;</span>
+        <h3>Сигурни ли сте, че искате да изтриете този компонент и частите към него?</h3>
+        <button id="delete-component-btn">Да</button>
+        <button id="not-delete-component-btn">Не</button>
+    </div>
+</div>
 <div id="change-part-modal" class="modal">
     <div class="modal-content">
         <span onclick="closeModal('change-part-modal')">&times;</span>
@@ -50,6 +89,15 @@
         <input id="part-sap-number-input-change" placeholder="SAP">
         <input id="part-quantity-input-change" type="number" placeholder="Брой">
         <button id="save-changed-part-btn">Запази</button>
+    </div>
+</div>
+<div id="delete-part-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal('delete-part-modal')">&times;</span>
+        <h3>Сигурни ли сте, че искате да изтриете тази част?</h3>
+
+        <button id="delete-part-btn">Да</button>
+        <button id="not-delete-part-btn">Не</button>
     </div>
 </div>
 <script type="module"
