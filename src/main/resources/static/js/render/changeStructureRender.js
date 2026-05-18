@@ -17,10 +17,17 @@ function createTree(nodes, expandedNodes, componentOpened, level = 0) {
 
         const key = `${node.type}-${node.id}`;
         const isOpen = expandedNodes.has(key);
+
         const showAddSubDevice =
             node.type === "device"
             && isOpen
             && !selectedComponent;
+
+        const showAddDevice =
+            node.type === "device"
+            && index === nodes.length - 1
+            && !selectedComponent;
+
         html += `
             <li>
 
@@ -84,42 +91,59 @@ function createTree(nodes, expandedNodes, componentOpened, level = 0) {
                 ${
             node.children?.length && isOpen
                 ? `
-                    ${createTree(node.children, expandedNodes, level + 1)}
+                    ${createTree(node.children, expandedNodes, selectedComponent, level + 1)}
                 `
                 : ""
         }
 
-              ${
+                ${
             showAddSubDevice
                 ? `
-            <div class="add-subDevice-wrapper">
+    <div class="add-subDevice-wrapper level-1-action">
 
-                <button
-                    class="add-subDevice-btn"
-                    onclick="event.stopPropagation(); openAddSubDevice(${node.id})"
-                >
-                    + Добави подустройство
-                </button>
+        <button
+            class="add-subDevice-btn"
+            onclick="event.stopPropagation(); openAddSubDevice(${node.id})"
+        >
+            + Добави подустройство
+        </button>
 
-            </div>
-        `
+    </div>
+`
+                : ""
+        }
+
+                ${
+            showAddDevice
+                ? `
+    <div class="add-device-wrapper level-0-action">
+
+        <button
+            class="add-device-btn"
+            onclick="event.stopPropagation(); openAddDevice(${node.id})"
+        >
+            + Добави устройство
+        </button>
+
+    </div>
+`
                 : ""
         }
 
                 ${
             node.type === "subDevice" && isOpen
                 ? `
-                    <div class="add-component-wrapper">
+    <div class="add-component-wrapper level-2-action">
 
-                        <button
-                            class="add-component-btn"
-                            onclick="event.stopPropagation(); openAddComponent(${node.id})"
-                        >
-                            + Добави компонент
-                        </button>
+        <button
+            class="add-component-btn"
+            onclick="event.stopPropagation(); openAddComponent(${node.id})"
+        >
+            + Добави компонент
+        </button>
 
-                    </div>
-                `
+    </div>
+`
                 : ""
         }
 
@@ -292,16 +316,17 @@ export function renderDetailsWithParts(component, parts) {
 
         <div class="add-part-wrapper">
 
-    <button
-        class="register add-part-btn"
-        onclick="openAddPartToComponent(${component.id})"
-    >
-        + Добави нова част
-    </button>
+            <button
+                class="register add-part-btn"
+                onclick="openAddPartToComponent(${component.id})"
+            >
+                + Добави нова част
+            </button>
 
-</div>
+        </div>
     `;
 }
+
 function hasOpenChild(node, expandedNodes) {
 
     if (!node.children) return false;

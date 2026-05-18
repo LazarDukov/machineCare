@@ -8,12 +8,12 @@ let selectedDevice = null;
 let selectedSubDevice = null;
 let selectedComponentInModal = null;
 
-export function openAddDeviceModal() { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА УСТРОЙСТВО
+export function openAddDevice() { // ОТВАРЯМ МОДАЛА ЗА ДОБАВЯНЕ НА УСТРОЙСТВО
     toggle("device-modal");
     document.getElementById("device-modal").style.display = "flex";
 }
 
-export function initDeviceModal() { // ТУК ДОБАВЯМ УСТРОЙСТВО
+export function initDevice() { // ТУК ДОБАВЯМ УСТРОЙСТВО
     const machineName = new URLSearchParams(window.location.search).get("name");
     document.getElementById("save-device-btn").onclick = async () => {
         const name = document.getElementById("device-name-input").value.trim();
@@ -313,3 +313,4 @@ window.openEditComponent = openEditComponent;
 window.openDeleteComponent = openDeleteComponent;
 window.openAddComponent = openAddComponent;
 window.openAddSubDevice = openAddSubDevice;
+window.openAddDevice = openAddDevice;
