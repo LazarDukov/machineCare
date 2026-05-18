@@ -3,7 +3,7 @@ import {mapStructure} from "../map/changeStructureMap.js";
 import {renderDetails, renderLayout, renderTree} from "../render/changeStructureRender.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {renderDetailsWithParts} from "../render/changeStructureRender.js";
-import {initPartModal, initEditPartModal, initComponent, initSubDevice} from "../ui/modals.js";
+import {initPartModal, initEditPartModal, initComponent, initSubDevice, initDevice} from "../ui/modals.js";
 
 
 const params = new URLSearchParams(window.location.search);
@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initComponent();
     initSubDevice();
+    initDevice();
 
 });
 
@@ -112,6 +113,7 @@ window.selectNode = function (type, id) {
 
     renderTree(structure, expandedNodes, selectedComponent);
 };
+
 async function loadPartsAndRender(component) {
 
     try {

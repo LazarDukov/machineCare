@@ -288,6 +288,7 @@ button {
 
     padding: 15px;
 }
+
 .part-item {
     display: grid;
     grid-template-columns: 40px 1fr 120px 200px 80px;
@@ -301,7 +302,8 @@ button {
     font-weight: bold;
     color: #1b6bff;
 }
-.part-field-item{
+
+.part-field-item {
     color: #444;
 }
 
@@ -341,7 +343,7 @@ button {
 
 .tree-item:hover {
     transform: translateX(4px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* LEVEL COLORS */
@@ -378,7 +380,7 @@ button {
 }
 
 .tree-number {
-    background: rgba(0,0,0,0.12);
+    background: rgba(0, 0, 0, 0.12);
 
     min-width: 26px;
     height: 26px;
@@ -456,7 +458,7 @@ button {
     border-left: 5px solid #4a90e2;
     border-radius: 10px;
     padding: 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .part-header {
@@ -536,6 +538,7 @@ button {
     font-weight: 700;
     color: #444;
 }
+
 .add-part-wrapper {
 
     margin-top: 24px;
@@ -564,7 +567,7 @@ button {
 
     transform: scale(1.05);
 
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 /*СТАЙЛ ЗА БУТОН ЗА ПРОМЯНА НА ЧАСТ*/
@@ -606,6 +609,7 @@ button {
     color: #1b6bff;
     transform: scale(1.05);
 }
+
 .add-component-wrapper {
 
     margin-top: 10px;
@@ -620,16 +624,23 @@ button {
     margin-left: 30px;
     margin-top: 8px;
 }
+
 .add-subDevice-wrapper {
     margin-left: 20px;
     margin-top: 8px;
     display: flex;
 }
+.add-device-wrapper {
+    margin-left: 10px;
+    margin-top: 8px;
+    display: flex;
+}
 
 .add-subDevice-btn,
-.add-component-btn {
+.add-component-btn,
+.add-device-btn {
 
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border: 2px dashed white;
     color: white;
 
@@ -644,10 +655,45 @@ button {
 }
 
 .add-subDevice-btn:hover,
-.add-component-btn:hover {
+.add-component-btn:hover,
+.add-device-btn:hover {
 
     background: white;
     color: #1b6bff;
 
+    transform: translateX(4px);
+}
+.level-0-action .add-device-btn {
+    background: #e5e7eb;   /* сиво */
+    border: 2px dashed #9ca3af;
+    color: #111827;
+}
+
+.level-0-action .add-device-btn:hover {
+    background: #d1d5db;
+    transform: translateX(4px);
+}
+
+/* 🟢 SUBDEVICE ACTION */
+.level-1-action .add-subDevice-btn {
+    background: #dcfce7;   /* зелено */
+    border: 2px dashed #16a34a;
+    color: #14532d;
+}
+
+.level-1-action .add-subDevice-btn:hover {
+    background: #bbf7d0;
+    transform: translateX(4px);
+}
+
+/* 🟡 COMPONENT ACTION */
+.level-2-action .add-component-btn {
+    background: #fef9c3;   /* жълто */
+    border: 2px dashed #ca8a04;
+    color: #713f12;
+}
+
+.level-2-action .add-component-btn:hover {
+    background: #fde68a;
     transform: translateX(4px);
 }
