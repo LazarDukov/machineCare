@@ -18,18 +18,3 @@ export function changeSubDevice(subDevice) {
         })
     });
 }
-
-export async function deleteSubDevice(subDevice) {
-    console.log("принтирам тук: podustrojstwo - ", subDevice)
-    const res = await fetch("/api/sub-devices/delete", {
-        method: "DELETE",
-        headers: {"Content-Type": "application/json"},
-        credentials: "include",
-        body: JSON.stringify({
-            id: subDevice
-        })
-    });
-    if (!res.ok) {
-        throw new Error("Грешка при изтриване на podustrojstwo");
-    }
-}

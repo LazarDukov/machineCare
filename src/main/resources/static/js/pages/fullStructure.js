@@ -1,149 +1,163 @@
-import {getStructure} from "../service/structureService.js";
-import {getPartsByComponentId} from "../api/componentsPartsApi.js";
+import { getStructure } from "../service/structureService.js";
+import { getPartsByComponentId } from "../api/componentsPartsApi.js";
 
-const container = document.getElementById("structure-container");
+const container =
+    document.getElementById("structure-container");
+
+const pageTitle =
+    document.getElementById("page-title");
 
 const machineName =
-    new URLSearchParams(window.location.search).get("name");
+    new URLSearchParams(window.location.search)
+        .get("name");
+
+// =========================
+// INIT
+// =========================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (container) {
-        loadStructure();
+    if (machineName) {
+
+        pageTitle.textContent =
+            `Структура на ${machineName}`;
     }
+
+    loadStructure();
 });
 
 // =========================
 // LOAD STRUCTURE
 // =========================
 
-export async function loadStructure() {
+async function loadStructure() {
 
-    const devices =
-        await getStructure(machineName);
+    try {
 
-    container.innerHTML = "";
+        const devices =
+            await getStructure(machineName);
 
-    // =========================
-    // TITLE
-    // =========================
+        container.innerHTML = "";
 
-    const title = document.createElement("h1");
+        const table =
+            document.createElement("table");
 
-    title.textContent = machineName;
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+        table.style.marginTop = "20px";
 
-    container.appendChild(title);
-
-    // =========================
-    // TABLE
-    // =========================
-
-    const table = document.createElement("table");
-
-    table.style.width = "100%";
-    table.style.borderCollapse = "collapse";
-
-    table.appendChild(createHeader());
-
-    // =========================
-    // DEVICES
-    // =========================
-
-    for (const device of devices) {
-
-        const subDevices = device.subDevices || [];
+        table.appendChild(createHeader());
 
         // =========================
-        // NO SUBDEVICES
+        // DEVICES
         // =========================
 
-        if (!subDevices.length) {
+        for (const device of devices) {
 
-            const row = document.createElement("tr");
-
-            row.appendChild(createCell(device.name));
-            row.appendChild(createCell("-"));
-            row.appendChild(createCell("-"));
-            row.appendChild(createCell("-"));
-
-            table.appendChild(row);
-
-            continue;
-        }
-
-        // =========================
-        // SUBDEVICES
-        // =========================
-
-        for (const sd of subDevices) {
-
-            const components = sd.components || [];
+            const subDevices =
+                device.subDevices || [];
 
             // =========================
-            // NO COMPONENTS
+            // NO SUBDEVICES
             // =========================
 
-            if (!components.length) {
+            if (!subDevices.length) {
 
-                const row = document.createElement("tr");
-
-                row.appendChild(createCell(device.name));
-                row.appendChild(createCell(sd.name));
-                row.appendChild(createCell("-"));
-                row.appendChild(createCell("-"));
-
-                table.appendChild(row);
+                appendRow(
+                    table,
+                    device.name,
+                    "-",
+                    "-",
+                    "-"
+                );
 
                 continue;
             }
 
             // =========================
-            // COMPONENTS
+            // SUBDEVICES
             // =========================
 
-            for (const component of components) {
+            for (const subDevice of subDevices) {
 
-                const parts =
-                    await getPartsByComponentId(component.id) || [];
+                const components =
+                    subDevice.components || [];
 
                 // =========================
-                // NO PARTS
+                // NO COMPONENTS
                 // =========================
 
-                if (!parts.length) {
+                if (!components.length) {
 
-                    const row = document.createElement("tr");
-
-                    row.appendChild(createCell(device.name));
-                    row.appendChild(createCell(sd.name));
-                    row.appendChild(createCell(component.name));
-                    row.appendChild(createCell("-"));
-
-                    table.appendChild(row);
+                    appendRow(
+                        table,
+                        device.name,
+                        subDevice.name,
+                        "-",
+                        "-"
+                    );
 
                     continue;
                 }
 
                 // =========================
-                // PARTS
+                // COMPONENTS
                 // =========================
 
-                for (const part of parts) {
+                for (const component of components) {
 
-                    const row = document.createElement("tr");
+                    const parts =
+                        await getPartsByComponentId(component.id) || [];
 
-                    row.appendChild(createCell(device.name));
-                    row.appendChild(createCell(sd.name));
-                    row.appendChild(createCell(component.name));
-                    row.appendChild(createCell(part.name));
+                    console.log("PARTS:", parts);
 
-                    table.appendChild(row);
+                    // =========================
+                    // NO PARTS
+                    // =========================
+
+                    if (!parts.length) {
+
+                        appendRow(
+                            table,
+                            device.name,
+                            subDevice.name,
+                            component.name,
+                            "-"
+                        );
+
+                        continue;
+                    }
+
+                    // =========================
+                    // PARTS
+                    // =========================
+
+                    for (const part of parts) {
+
+                        appendRow(
+                            table,
+                            device.name,
+                            subDevice.name,
+                            component.name,
+                            createPartCell(part)
+                        );
+                    }
                 }
             }
         }
-    }
 
-    container.appendChild(table);
+        container.appendChild(table);
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <p style="color:red;">
+                Грешка при зареждане на структурата.
+            </p>
+        `;
+    }
 }
 
 // =========================
@@ -152,7 +166,8 @@ export async function loadStructure() {
 
 function createHeader() {
 
-    const tr = document.createElement("tr");
+    const tr =
+        document.createElement("tr");
 
     const headers = [
         "Устройство",
@@ -163,13 +178,14 @@ function createHeader() {
 
     headers.forEach(text => {
 
-        const th = document.createElement("th");
+        const th =
+            document.createElement("th");
 
         th.textContent = text;
 
         th.style.border = "1px solid #ccc";
-        th.style.padding = "10px";
-        th.style.background = "#1b6bff";
+        th.style.padding = "12px";
+        th.style.backgroundColor = "#1b6bff";
         th.style.color = "white";
         th.style.textAlign = "center";
 
@@ -180,29 +196,113 @@ function createHeader() {
 }
 
 // =========================
-// CELL
+// APPEND ROW
+// =========================
+
+function appendRow(
+    table,
+    device,
+    subDevice,
+    component,
+    partCell
+) {
+
+    const tr =
+        document.createElement("tr");
+
+    tr.appendChild(createCell(device));
+    tr.appendChild(createCell(subDevice));
+    tr.appendChild(createCell(component));
+
+    // =========================
+    // PART CELL
+    // =========================
+
+    if (partCell instanceof HTMLElement) {
+
+        tr.appendChild(partCell);
+
+    } else {
+
+        tr.appendChild(createCell(partCell));
+    }
+
+    table.appendChild(tr);
+}
+
+// =========================
+// DEFAULT CELL
 // =========================
 
 function createCell(text) {
 
-    const td = document.createElement("td");
+    const td =
+        document.createElement("td");
 
     td.textContent = text || "-";
 
-    style(td);
+    td.style.border = "1px solid #ccc";
+    td.style.padding = "10px";
+    td.style.textAlign = "center";
+    td.style.verticalAlign = "top";
 
     return td;
 }
 
 // =========================
-// STYLE
+// PART CELL
 // =========================
 
-function style(td) {
+function createPartCell(part) {
+
+    const td =
+        document.createElement("td");
 
     td.style.border = "1px solid #ccc";
-    td.style.padding = "8px";
-    td.style.textAlign = "center";
+    td.style.padding = "10px";
+    td.style.verticalAlign = "top";
+    td.style.minWidth = "260px";
+
+    td.innerHTML = `
+        <div style="
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #1b1b1b;
+        ">
+            ${part.partName || "-"}
+        </div>
+
+        <div style="
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+        ">
+
+            <div>
+                <strong>Описание:</strong>
+                ${part.description || "-"}
+            </div>
+
+            <div>
+                <strong>САП номер:</strong>
+                ${part.sapNumber || "-"}
+            </div>
+
+            <div>
+                <strong>Брой:</strong>
+                ${part.quantity || "-"}
+            </div>
+
+        </div>
+    `;
+
+    return td;
 }
 
-window.reloadPageStructure = loadStructure;
+// =========================
+// GLOBAL RELOAD
+// =========================
+
+window.reloadPageStructure =
+    loadStructure;

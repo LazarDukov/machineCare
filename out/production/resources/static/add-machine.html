@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Добави екструдер</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <div class="auth-container">
+        <h1>Добави нов екструдер</h1>
+
+        <form id="machine-form" class="form">
+
+            <input type="text" name="name" placeholder="Име на машина" required>
+            <br>
+
+            <input type="text" name="identificationNumber" placeholder="Инвентарен номер" required>
+            <br>
+            <input type="text" name="manufacturer" placeholder="Производител" required>
+            <br>
+            <input type="text" name="model" placeholder="Модел" required>
+
+            <!-- type го фиксираме -->
+            <input type="hidden" name="type" value="EXTRUDER">
+            <br>
+            <br>
+
+            <button type="submit" class="button-click">Добави</button>
+
+        </form>
+    </div>
+</div>
+<script src="/js/pages/add-machine.js"></script>
+</body>
+</html>

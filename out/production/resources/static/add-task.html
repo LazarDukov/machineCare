@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Добави задача</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="main-layout">
+    <div class="auth-container">
+        <h1>Добави нова задача</h1>
+
+        <form id="task-form" class="form">
+
+            <input type="text" name="title" placeholder="Задача" required>
+            <br>
+
+            <input type="text" name="description" placeholder="Описание">
+            <br>
+
+            <input type="text" name="additionalInfo" placeholder="Допълнителна информация">
+            <br>
+
+            <!-- DEVICE -->
+            <select id="device-select" required></select>
+            <br>
+
+            <!-- SUB DEVICE -->
+            <select id="sub-device-select" disabled required></select>
+            <br>
+
+            <!-- COMPONENT -->
+            <select id="component-select" disabled required></select>
+            <br>
+
+            <input type="number" name="repeatedAfter" placeholder="Период" required>
+            <br>
+
+            <select name="periodEnum" required>
+                <option value="DAY">Дни</option>
+                <option value="WEEK">Седмица</option>
+                <option value="MONTH">Месец</option>
+                <option value="YEAR">Година</option>
+            </select>
+
+            <br><br>
+
+            <button type="submit">Добави</button>
+
+        </form>
+    </div>
+</div>
+
+<script type="module" src="/js/pages/add-task.js"></script>
+<script type="module" src="/js/api/devicesApi.js"></script>
+
+</body>
+</html>

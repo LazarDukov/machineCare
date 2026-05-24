@@ -13,3 +13,17 @@ export function createDevice(body) {
     });
 }
 
+export async function deleteDevice(device) {
+    console.log("принтирам тук: podustrojstwo - ", device)
+    const res = await fetch("/api/devices/delete", {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify({
+            id: device
+        })
+    });
+    if (!res.ok) {
+        throw new Error("Грешка при изтриване на ustr");
+    }
+}

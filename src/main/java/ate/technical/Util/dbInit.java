@@ -123,7 +123,7 @@ public class dbInit implements CommandLineRunner {
 
         SubDevice subDevice = new SubDevice();
         Device device = deviceRepository.findById(1L).get();
-        subDevice.setName("маса 'А'");
+        subDevice.setName("маса `А`");
         subDevice.setComponents(new ArrayList<>());
         subDevice.setDevice(device);
         subDeviceRepository.save(subDevice);

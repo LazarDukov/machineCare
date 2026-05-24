@@ -1,6 +1,7 @@
 package ate.technical.api.controllers;
 
 import ate.technical.api.requests.device.CreateDeviceRequest;
+import ate.technical.api.requests.device.DeleteDeviceRequest;
 import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
 import ate.technical.services.DeviceService;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,9 @@ public class DeviceApiController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
-        deviceService.deleteDevice(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteDevice(@RequestBody DeleteDeviceRequest request) {
+        deviceService.deleteDevice(request.getId());
         return ResponseEntity.noContent().build();
     }
 }

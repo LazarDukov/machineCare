@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Лого като линк -->
+<a href="/">
+    <img src="/images/logo.png" class="logo">
+</a>
+<div class="main-layout">
+    <div class="auth-container">
+        <h1>Добре дошъл</h1>
+        <p>Влез или си направи акаунт</p>
+
+        <div class="auth-buttons">
+            <button class="button-click" onclick="goToLogin()">Login</button>
+            <button class="button-click" onclick="goToRegister()">Register</button>
+        </div>
+    </div>
+</div>
+<script>
+    function goToLogin() {
+        window.location.href = "/login";
+    }
+
+    function goToRegister() {
+        window.location.href = "/register";
+    }
+
+    window.onload = function () {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            window.location.href = "/dashboard.html";
+        }
+    }
+</script>
+
+</body>
+</html>
