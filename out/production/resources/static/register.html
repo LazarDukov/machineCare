@@ -1,0 +1,44 @@
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<a href="/">
+    <img src="/images/logo.png" class="logo">
+</a>
+<div class="center-wrapper">
+<div class="auth-container">
+    <h1>Регистрация</h1>
+
+    <form class="register-form">
+
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="firstName" placeholder="First name" required>
+        <input type="text" name="lastName" placeholder="Last name" required>
+        <input type="text" name="email" placeholder="Email" required>
+
+        <select name="department" required>
+            <option value="" hidden>Department</option>
+            <option value="HR_DEPARTMENT">Human resources</option>
+            <option value="FINANCE_DEPARTMENT">Finance</option>
+            <option value="SALES_DEPARTMENT">Sales</option>
+            <option value="TECHNICAL_DEPARTMENT">Technical</option>
+            <option value="LOGISTIC_DEPARTMENT">Logistic</option>
+            <option value="QUALITY_DEPARTMENT">Quality</option>
+        </select>
+
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirmPassword" placeholder="Confirm password" required>
+
+        <button type="submit" class="button-click">Register</button>
+
+    </form>
+</div>
+</div>
+<script type="module" src="/js/pages/register.js"></script>
+</body>
+</html>

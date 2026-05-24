@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Детайли за машина</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Лого -->
+<img src="/images/logo.png" class="logo">
+
+<div class="main-layout">
+    <div class="left-group">
+        <div class="left-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="goToImages()">Добави снимки</button>
+                    <button class="button-click" onclick="addSparePartsByPosition()">Промени резервни части по позиция
+                    </button>
+                    <button class="button-click" onclick="addRepairs()">Промени извършени ремонти</button>
+                    <button class="button-click" onclick="addMaintenanceTask()">Промени задача за превантивна поддръжка
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 🔹 ЛЯВО МЕНЮ -->
+        <div class="left-wrapper">
+            <div class="auth-container">
+                <div class="auth-buttons">
+                    <button class="button-click" onclick="goToImages()">Снимки</button>
+                    <button class="button-click" onclick="addSparePartsByPosition()">Добави резервни части по позиция
+                    </button>
+                    <button class="button-click" onclick="addRepairs()">Добави извършени ремонти</button>
+                    <button class="button-click" onclick="goToAddTask()">Добави задача за превантивна поддръжка
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 🔹 ЦЕНТЪР -->
+    <div class="center-wrapper">
+        <div class="auth-container">
+
+            <h1 id="machine-name">Машина</h1>
+
+            <!-- 🔹 Информация от API -->
+            <div id="machine-info">
+                <p>Зареждане...</p>
+            </div>
+
+            <!-- 🔹 Бутони -->
+            <div class="auth-buttons">
+                <button class="button-click" onclick="goToFullStructure()">Виж структура</button>
+                <button class="button-click" onclick="goToChangeStructure()">Промени структура</button>
+                <button class="button-click" onclick="goToRepairs()">Ремонти</button>
+                <button class="button-click" onclick="goToTasks()">Превантивна поддръжка</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 🔹 ДЯСНО МЕНЮ -->
+
+</div>
+<!-- 🔹 MODAL ЗА УСТРОЙСТВА -->
+
+
+<script type="module" src="/js/pages/machine-details.js"></script>
+<script type="module" src="/js/ui/modals.js"></script>
+<script type="module" src="/js/api/devicesApi.js"></script>
+<script type="module" src="/js/pages/fullStructure.js"></script>
+
+</body>

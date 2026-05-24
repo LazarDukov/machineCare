@@ -50,97 +50,49 @@ function createTree(nodes, expandedNodes, componentOpened, level = 0) {
 
                         </div>
 
-                       ${
-            node.type === "device" || node.type === "subDevice"
+                        ${
+            node.children?.length
                 ? `
-            <span class="tree-arrow">
-                ${isOpen ? "▼" : "▶"}
-            </span>
-          `
+                                <span class="tree-arrow">
+                                    ${isOpen ? "▼" : "▶"}
+                                </span>
+                            `
                 : ""
         }
 
                     </div>
 
-                   ${
+                    ${
             node.type === "component"
                 ? `
-            <div class="tree-actions">
+                    <div class="tree-actions">
+                    
+                        <button
+                            class="tree-edit-btn"
+                            onclick='event.stopPropagation(); openEditComponent(${JSON.stringify(node.original)})'
+                        >
+                            ✏️
+                        </button>
 
-                <button
-                    class="tree-edit-btn"
-                    onclick='event.stopPropagation(); openEditComponent(${JSON.stringify(node.original)})'
-                >
-                    ✏️
-                </button>
+                        <button
+                            class="tree-delete-btn"
+                            onclick='event.stopPropagation(); openDeleteComponent(${node.id})'
+                        >
+                            ❌
+                        </button>
 
-                <button
-                    class="tree-delete-btn"
-                    onclick='event.stopPropagation(); openDeleteComponent(${node.id})'
-                >
-                    ❌
-                </button>
-
-            </div>
-        `
-                : ""
-        }
-
-${
-            node.type === "subDevice"
-                ? `
-            <div class="tree-actions">
-
-                <button
-                    class="tree-edit-btn"
-                    onclick='event.stopPropagation(); openEditSubDevice(${JSON.stringify(node.original)})'
-                >
-                    ✏️
-                </button>
-
-                <button
-                    class="tree-delete-btn"
-                    onclick='event.stopPropagation(); openDeleteSubDevice(${node.id})'
-                >
-                    ❌
-                </button>
-
-            </div>
-        `
-                : ""
-        }
-
-${
-            node.type === "device"
-                ? `
-            <div class="tree-actions">
-
-                <button
-                    class="tree-edit-btn"
-                    onclick='event.stopPropagation(); openEditDevice(${JSON.stringify(node.original)})'
-                >
-                    ✏️
-                </button>
-
-                <button
-                    class="tree-delete-btn"
-                    onclick='event.stopPropagation(); openDeleteDevice(${node.id})'
-                >
-                    ❌
-                </button>
-
-            </div>
-        `
+                    </div>
+                `
                 : ""
         }
 
                 </div>
 
                 ${
-            isOpen
+            node.children?.length && isOpen
                 ? `
-            ${createTree(node.children || [], expandedNodes, selectedComponent, level + 1)}
-          `
+                    ${createTree(node.children, expandedNodes, selectedComponent, level + 1)}
+                `
                 : ""
         }
 

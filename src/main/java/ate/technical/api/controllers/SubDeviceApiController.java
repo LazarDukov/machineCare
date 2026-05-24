@@ -3,6 +3,7 @@ package ate.technical.api.controllers;
 
 import ate.technical.api.requests.subDevice.ChangeSubDeviceRequest;
 import ate.technical.api.requests.subDevice.CreateSubDeviceRequest;
+import ate.technical.api.requests.subDevice.DeleteSubDeviceRequest;
 import ate.technical.api.response.device.AddSubDeviceDropDownResponse;
 import ate.technical.api.response.subDevice.AddComponentDropDownResponse;
 import ate.technical.services.SubDeviceService;
@@ -40,9 +41,9 @@ public class SubDeviceApiController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSubDevice(@PathVariable Long id) {
-        subDeviceService.deleteSubDevice(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteSubDevice(@RequestBody DeleteSubDeviceRequest request) {
+        subDeviceService.deleteSubDevice(request.getId());
         return ResponseEntity.noContent().build();
     }
 }

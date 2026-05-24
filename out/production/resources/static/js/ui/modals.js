@@ -1,5 +1,5 @@
-import {createDevice, deleteDevice} from "../api/devicesApi.js";
-import {changeSubDevice, createSubDevice, deleteSubDevice} from "../api/subDevicesApi.js";
+import {createDevice} from "../api/devicesApi.js";
+import {changeSubDevice, createSubDevice} from "../api/subDevicesApi.js";
 import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
@@ -260,65 +260,9 @@ export function openDeleteComponent(component) {
     });
 
 }
-export function openDeleteSubDevice(subDeviceId) {
 
-    return new Promise((resolve) => {
 
-        const yesBtn = document.getElementById("delete-sub-device-btn");
-        const noBtn = document.getElementById("not-delete-sub-device-btn");
-
-        toggle("delete-sub-device-modal");
-
-        yesBtn.onclick = null;
-        noBtn.onclick = null;
-
-        yesBtn.onclick = async () => {
-
-            closeModal("delete-sub-device-modal");
-
-            await deleteSubDevice(subDeviceId);
-
-            await refreshPage();
-        };
-
-        noBtn.onclick = () => {
-
-            closeModal("delete-sub-device-modal");
-
-            resolve(null);
-        };
-    });
-}
-export function openDeleteDevice(deviceId) {
-
-    return new Promise((resolve) => {
-
-        const yesBtn = document.getElementById("delete-device-btn");
-        const noBtn = document.getElementById("not-delete-device-btn");
-
-        toggle("delete-device-modal");
-
-        yesBtn.onclick = null;
-        noBtn.onclick = null;
-
-        yesBtn.onclick = async () => {
-
-            closeModal("delete-device-modal");
-
-            await deleteDevice(deviceId);
-
-            await refreshPage();
-        };
-
-        noBtn.onclick = () => {
-
-            closeModal("delete-device-modal");
-
-            resolve(null);
-        };
-    });
-}
-export function openEditSubDevice(subDevice) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
+export function openEditSubDeviceModal(subDevice) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
     console.log("edit subDevice:", subDevice);
     selectedSubDevice = subDevice;
     document.getElementById("sub-device-name-input-change").value = selectedSubDevice.name;
@@ -326,14 +270,7 @@ export function openEditSubDevice(subDevice) { // ОТВАРЯМ МОДАЛА З
 
     toggle("sub-device-modal-change");
 }
-export function openEditDevice(device) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
-    console.log("edit device:", device.id);
-    selectedDevice = device.id;
-    document.getElementById("device-name-input-change").value = device.name;
-    console.log(device.name);
 
-    toggle("device-modal-change");
-}
 export function initChangeSubDevice() {
 
 
@@ -377,8 +314,3 @@ window.openDeleteComponent = openDeleteComponent;
 window.openAddComponent = openAddComponent;
 window.openAddSubDevice = openAddSubDevice;
 window.openAddDevice = openAddDevice;
-window.openEditSubDevice = openEditSubDevice;
-window.openDeleteSubDevice = openDeleteSubDevice;
-
-window.openEditDevice = openEditDevice;
-window.openDeleteDevice = openDeleteDevice;

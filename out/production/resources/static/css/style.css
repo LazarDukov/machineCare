@@ -1,18 +1,27 @@
 body {
     margin: 0;
-
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-    background: #3b82f6;
-    /* alternatively:
-       background: #2563eb;
-       background: #1d4ed8;
-    */
+    background: linear-gradient(135deg, #dfe8f6, #83e6f8, #02abf3, #3b68fc);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
 
-    min-height: 100vh;
-
+    height: 100vh;
     color: white;
 }
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .logo {
     position: absolute;
     top: 20px;
@@ -334,47 +343,36 @@ button {
 
 .tree-item:hover {
     transform: translateX(4px);
-
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-
-    filter: brightness(1.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
+
 /* LEVEL COLORS */
 
 .level-0 {
-    background: #2563eb;
-    border-left: 5px solid #93c5fd;
-    color: white;
+    background: #dbeafe;
+    border-left: 5px solid #2563eb;
 }
 
 .level-1 {
-    background: #059669;
-    border-left: 5px solid #6ee7b7;
-    color: white;
+    background: #dcfce7;
+    border-left: 5px solid #16a34a;
 }
 
 .level-2 {
-    background: #d97706;
-    border-left: 5px solid #fcd34d;
-    color: white;
+    background: #fef3c7;
+    border-left: 5px solid #d97706;
 }
 
 .level-3 {
-    background: #db2777;
-    border-left: 5px solid #f9a8d4;
-    color: white;
+    background: #fce7f3;
+    border-left: 5px solid #db2777;
 }
 
 .level-4 {
-    background: #7c3aed;
-    border-left: 5px solid #c4b5fd;
-    color: white;
+    background: #ede9fe;
+    border-left: 5px solid #7c3aed;
 }
-.tree-name,
-.tree-number,
-.tree-arrow {
-    color: white;
-}
+
 .tree-left {
     display: flex;
     align-items: center;
@@ -423,27 +421,11 @@ button {
 
 .tree-edit-btn,
 .tree-delete-btn {
-
     border: none;
-
     cursor: pointer;
-
-    border-radius: 5px;
-
-    padding: 2px 5px;
-    font-size: 10px;
-    height: 22px;
-
-    min-width: 28px;
-
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
     transition: 0.2s;
 }
 
