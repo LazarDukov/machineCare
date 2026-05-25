@@ -14,13 +14,13 @@ export async function createPart(body) {
     return await res.json(); // ✅ THIS IS THE ID
 }
 
-export async function addPartToComponent(body2) {
-    console.log("addPartToComponent body:", body2);
+export async function addPartToComponent(body) {
+    console.log("addPartToComponent body:", body);
     const res = await fetch(`/api/parts/add-to-component`, {
         method: "POST",
         credentials: "include",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(body2)
+        body: JSON.stringify(body)
     });
 
     if (!res.ok) {

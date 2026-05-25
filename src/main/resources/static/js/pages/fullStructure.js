@@ -1,11 +1,7 @@
 import { getStructure } from "../service/structureService.js";
 import { getPartsByComponentId } from "../api/componentsPartsApi.js";
 
-const container =
-    document.getElementById("structure-container");
 
-const pageTitle =
-    document.getElementById("page-title");
 
 const machineName =
     new URLSearchParams(window.location.search)
@@ -17,7 +13,10 @@ const machineName =
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (machineName) {
+    const pageTitle =
+        document.getElementById("page-title");
+
+    if (machineName && pageTitle) {
 
         pageTitle.textContent =
             `Структура на ${machineName}`;
@@ -37,7 +36,13 @@ async function loadStructure() {
         const devices =
             await getStructure(machineName);
 
-        container.innerHTML = "";
+        const container =
+            document.getElementById("structure-container");
+
+        if (!container) {
+            console.error("Missing #structure-container");
+            return;
+        }
 
         const table =
             document.createElement("table");
