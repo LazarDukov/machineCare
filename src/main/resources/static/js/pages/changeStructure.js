@@ -3,7 +3,14 @@ import {mapStructure} from "../map/changeStructureMap.js";
 import {renderDetails, renderLayout, renderTree} from "../render/changeStructureRender.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {renderDetailsWithParts} from "../render/changeStructureRender.js";
-import {initPartModal, initEditPartModal, initComponent, initSubDevice, initDevice} from "../ui/modals.js";
+import {
+    initPartModal,
+    initEditPartModal,
+    initComponent,
+    initSubDevice,
+    initDevice,
+    initChangeComponent, initChangeSubDevice, initChangeDevice
+} from "../ui/modals.js";
 
 
 const params = new URLSearchParams(window.location.search);
@@ -34,8 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initEditPartModal();
 
     initComponent();
+    initChangeComponent()
     initSubDevice();
+    initChangeSubDevice();
     initDevice();
+    initChangeDevice();
 
 });
 

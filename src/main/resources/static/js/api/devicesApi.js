@@ -13,6 +13,18 @@ export function createDevice(body) {
     });
 }
 
+export function changeDevice(device) {
+    return fetch("/api/devices/change", {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify({
+            id: device.id,
+            name: device.name
+        })
+    });
+}
+
 export async function deleteDevice(device) {
     console.log("принтирам тук: podustrojstwo - ", device)
     const res = await fetch("/api/devices/delete", {
