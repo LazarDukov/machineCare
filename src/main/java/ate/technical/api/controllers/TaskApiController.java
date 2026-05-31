@@ -1,7 +1,7 @@
 package ate.technical.api.controllers;
 
 import ate.technical.api.requests.task.CreateTaskRequest;
-import ate.technical.api.response.user.ViewAllTasksResponse;
+import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.services.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +32,7 @@ public class TaskApiController {
         return ResponseEntity.ok(taskService.getAllTasks(machineName));
     }
 
-    @PostMapping("/complete-task/{taskId}/{userId}")
-    public ResponseEntity<Void> completeTask(@PathVariable Long taskId, @PathVariable Long userId) {
-        taskService.completeTask(taskId, userId);
-        return ResponseEntity.ok().build();
-    }
+
 
 
 }

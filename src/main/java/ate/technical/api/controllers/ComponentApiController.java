@@ -32,7 +32,7 @@ public class ComponentApiController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/sub-devices/{subDeviceId}")
+    @GetMapping("/sub-device/{subDeviceId}")
     public List<ComponentStructureResponse> getComponentsBySubDeviceId(@PathVariable Long subDeviceId) {
         return componentService.getComponentsBySubDeviceId(subDeviceId);
     }

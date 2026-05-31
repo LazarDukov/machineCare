@@ -57,10 +57,10 @@ export function initComponent() { // ТУК ДОБАВЯМ КОМПОНЕНТ
 
     document.getElementById("save-component-btn").onclick = async () => {
         const name = document.getElementById("component-name-input").value.trim();
-        const additionalInfo = document.getElementById("component-additional-info-input").value.trim();
+
 
         if (!name) return;
-        let body = {name, additionalInfo: additionalInfo, subDeviceId: selectedSubDevice};
+        let body = {name, subDeviceId: selectedSubDevice};
         await createComponent(body);
 
         document.getElementById("component-modal").style.display = "none";
@@ -74,22 +74,19 @@ export function openEditComponent(component) { // ОТВАРЯМ МОДАЛА З
     selectedComponentInModal = component;
 
     document.getElementById("component-name-input-change").value = selectedComponentInModal.name;
-    document.getElementById("component-additional-info-input-change").value = selectedComponentInModal.additionalInfo;
 
     toggle("component-modal-change");
 }
 
 export function initChangeComponent() {
-   // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА КОМПОНЕНТ
+    // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА КОМПОНЕНТ
 
     document.getElementById("save-component-change-btn").onclick = async () => {
         const name = document.getElementById("component-name-input-change").value.trim();
-        const additionalInfo = document.getElementById("component-additional-info-input-change").value.trim();
 
         let body = {
             id: selectedComponentInModal.id,
-            name: name,
-            additionalInfo: selectedComponentInModal.additionalInfo
+            name: name
         };
         await changeComponent(body);
 
@@ -254,6 +251,7 @@ export function openDeleteComponent(component) {
     });
 
 }
+
 export function openDeleteSubDevice(subDeviceId) {
 
     return new Promise((resolve) => {
@@ -283,6 +281,7 @@ export function openDeleteSubDevice(subDeviceId) {
         };
     });
 }
+
 export function openDeleteDevice(deviceId) {
 
     return new Promise((resolve) => {
@@ -312,6 +311,7 @@ export function openDeleteDevice(deviceId) {
         };
     });
 }
+
 export function openEditSubDevice(subDevice) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
 
     selectedSubDevice = subDevice;
@@ -320,6 +320,7 @@ export function openEditSubDevice(subDevice) { // ОТВАРЯМ МОДАЛА З
 
     toggle("sub-device-modal-change");
 }
+
 export function openEditDevice(device) { // ОТВАРЯМ МОДАЛА ЗА РЕДАКТИРАНЕ НА ЧАСТ
 
     selectedDevice = device;
@@ -328,6 +329,7 @@ export function openEditDevice(device) { // ОТВАРЯМ МОДАЛА ЗА Р�
 
     toggle("device-modal-change");
 }
+
 export function initChangeSubDevice() {
 
 
@@ -345,6 +347,7 @@ export function initChangeSubDevice() {
         await refreshPage();// refresh
     };
 }
+
 export function initChangeDevice() {
 
 
@@ -379,6 +382,81 @@ async function refreshPage() {
     }
 }
 
+export function openEmployeeModal(users) {
+
+    return new Promise(resolve => {
+
+        const modal = document.getElementById("employeeModal");
+
+        const allEmployees =
+            document.getElementById("allEmployees");
+
+        const selectedEmployees =
+            document.getElementById("selectedEmployees");
+
+        const note = document.getElementById("taskNote");
+
+        allEmployees.innerHTML = "";
+        selectedEmployees.innerHTML = "";
+
+        users.forEach(user => {
+
+            const option = document.createElement("option");
+
+            option.value = user.id;
+            option.textContent =
+                `${user.firstName} ${user.lastName}`;
+
+            allEmployees.appendChild(option);
+        });
+
+        modal.classList.remove("hidden");
+
+        document.getElementById("moveRight").onclick = () => {
+
+            const selected =
+                allEmployees.selectedOptions[0];
+
+            if (!selected) return;
+
+            selectedEmployees.appendChild(
+                selected.cloneNode(true)
+            );
+        };
+
+        document.getElementById("moveLeft").onclick = () => {
+
+            const selected =
+                selectedEmployees.selectedOptions[0];
+
+            if (selected) {
+                selected.remove();
+            }
+        };
+
+        document.getElementById("confirmEmployees").onclick = () => {
+
+            const ids =
+                [...selectedEmployees.options]
+                    .map(o => Number(o.value));
+            const noteValue = note.value.trim();
+            modal.classList.add("hidden");
+
+            resolve({
+                ids,
+                note: noteValue
+            });
+        };
+
+        document.getElementById("cancelEmployees").onclick = () => {
+
+            modal.classList.add("hidden");
+
+            resolve(null);
+        };
+    });
+}
+
 window.closeModal = closeModal; // 👉 expose към HTML
 window.openAddPartToComponent = openAddPartToComponent;
 window.openEditPart = openEditPart;
@@ -390,6 +468,6 @@ window.openAddSubDevice = openAddSubDevice;
 window.openAddDevice = openAddDevice;
 window.openEditSubDevice = openEditSubDevice;
 window.openDeleteSubDevice = openDeleteSubDevice;
-
+window.openEmployeeModal = openEmployeeModal;
 window.openEditDevice = openEditDevice;
 window.openDeleteDevice = openDeleteDevice;

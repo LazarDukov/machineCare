@@ -1,4 +1,6 @@
-package ate.technical.api.response.user;
+package ate.technical.api.response.task;
+
+import java.time.LocalDateTime;
 
 public class ViewAllTasksResponse {
     private Long id;
@@ -12,6 +14,17 @@ public class ViewAllTasksResponse {
     private Long componentId;
     private String componentName;
     private String description;
+
+    private boolean completed;
+    private int repeatedAfter;
+    private String periodEnum;
+    private LocalDateTime createdAt;
+
+
+    public ViewAllTasksResponse setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -112,4 +125,34 @@ public class ViewAllTasksResponse {
         return this;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public ViewAllTasksResponse setCompleted(boolean completed) {
+        this.completed = completed;
+        return this;
+    }
+
+    public int getRepeatedAfter() {
+        return repeatedAfter;
+    }
+
+    public ViewAllTasksResponse setRepeatedAfter(int repeatedAfter) {
+        this.repeatedAfter = repeatedAfter;
+        return this;
+    }
+
+    public String getPeriodEnum() {
+        return periodEnum;
+    }
+
+    public ViewAllTasksResponse setPeriodEnum(String periodEnum) {
+        this.periodEnum = periodEnum;
+        return this;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

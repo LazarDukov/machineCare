@@ -1,7 +1,7 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.task.CreateTaskRequest;
-import ate.technical.api.response.user.ViewAllTasksResponse;
+import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.model.entities.*;
 import ate.technical.repositories.TaskRepository;
 import ate.technical.repositories.UserRepository;
@@ -76,21 +76,15 @@ public class TaskService {
             response.setComponentId(task.getComponent().getId());
             response.setComponentName(task.getComponent().getName());
             response.setDescription(task.getDescription());
+            response.setRepeatedAfter(task.getRepeatedAfter());
+            response.setPeriodEnum(task.getPeriodEnum().toString());
+            response.setCompleted(!task.isActive());
+            response.setCreatedAt(task.getCreatedAt());
             responseList.add(response);
         }
 
         return responseList;
     }
 
-    public void completeTask(Long taskId, Long userId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
-        User user = userService.getUserById(userId);
-        task.setActive(false);
-        task.setUser(user);
 
-        taskRepository.save(task);
-        user.getTasks().add(task);
-        userRepository.save(user);
-
-    }
 }

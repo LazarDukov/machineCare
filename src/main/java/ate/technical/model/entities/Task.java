@@ -3,6 +3,7 @@ package ate.technical.model.entities;
 import ate.technical.model.enums.PeriodEnum;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -44,9 +45,6 @@ public class Task {
     )
     private List<Material> materials;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
     @Column
     private boolean active;
 
@@ -59,6 +57,24 @@ public class Task {
 
     public boolean isActive() {
         return active;
+    }
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public Task setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
     }
 
     public Task setActive(boolean active) {
@@ -148,14 +164,7 @@ public class Task {
         return this;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public Task setUser(User user) {
-        this.user = user;
-        return this;
-    }
 
     public SubDevice getSubDevice() {
         return subDevice;

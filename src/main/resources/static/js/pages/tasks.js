@@ -1,11 +1,14 @@
-import { getAllTasks, completeTask } from "../api/tasksApi.js";
-import { getOperatorsTechnicians } from "../api/usersApi.js";
+import {getAllTasks} from "../api/tasksApi.js";
+import {completeTask} from "../api/taskHistoryApi.js";
+import {getOperatorsTechnicians} from "../api/usersApi.js";
+import {openEmployeeModal} from "../ui/modals.js";
 
 const container = document.getElementById("tasks-container");
 
 // 👉 взимаме machineName от URL
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
+let selectedUsersForTask = [];
 
 loadTasks();
 
@@ -13,7 +16,6 @@ async function loadTasks() {
     try {
         console.log("Machine:", machineName);
 
-        // ✅ Load data
         const [tasks, rawUsers] = await Promise.all([
             getAllTasks(machineName),
             getOperatorsTechnicians()
@@ -22,10 +24,7 @@ async function loadTasks() {
         console.log("Tasks:", tasks);
         console.log("Raw users:", rawUsers);
 
-        // ✅ Extract employees from your structure
         const users = rawUsers;
-
-        console.log("Parsed users:", users);
 
         if (!tasks.length) {
             container.innerHTML = "<p>Няма задачи</p>";
@@ -42,7 +41,6 @@ async function loadTasks() {
             );
         });
 
-        // ✅ Table setup
         const table = document.createElement("table");
         table.style.width = "100%";
         table.style.borderCollapse = "collapse";
@@ -50,20 +48,28 @@ async function loadTasks() {
 
         const headerRow = document.createElement("tr");
 
-        ["Машина", "Устройство", "Подустройство", "Компонент", "Задача", "Описание", "Служител", "Действие"]
-            .forEach(text => {
-                const th = document.createElement("th");
-                th.textContent = text;
-                th.style.border = "1px solid #ccc";
-                th.style.padding = "8px";
-                th.style.background = "#1b6bff";
-                th.style.color = "white";
-                headerRow.appendChild(th);
-            });
+        [
+            "Машина",
+            "Устройство",
+            "Подустройство",
+            "Компонент",
+            "Задача",
+            "Описание",
+            "Период",
+            "Таймер",
+            "Действие"
+        ].forEach(text => {
+            const th = document.createElement("th");
+            th.textContent = text;
+            th.style.border = "1px solid #ccc";
+            th.style.padding = "8px";
+            th.style.background = "#1b6bff";
+            th.style.color = "white";
+            headerRow.appendChild(th);
+        });
 
         table.appendChild(headerRow);
 
-        // ✅ Rows
         tasks.forEach(task => {
 
             const row = document.createElement("tr");
@@ -75,54 +81,72 @@ async function loadTasks() {
             row.appendChild(createCell(task.title));
             row.appendChild(createCell(task.description || "-"));
 
-            // ✅ Dropdown per row
-            const userSelect = document.createElement("select");
+            const periodLabelMap = {
+                DAY: "Ден",
+                WEEK: "Седмица",
+                MONTH: "Месец"
+            };
 
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.textContent = "-- Избери служител --";
-            userSelect.appendChild(defaultOption);
+            const periodText = task.periodEnum
+                ? `${task.repeatedAfter || ""} ${periodLabelMap[task.periodEnum] || task.periodEnum}`
+                : "-";
 
-            users.forEach(u => {
-                const option = document.createElement("option");
-                option.value = u.id;
-                option.textContent = `${u.firstName} ${u.lastName}`;
-                userSelect.appendChild(option);
-            });
+            row.appendChild(createCell(periodText.trim()));
 
-            const userCell = document.createElement("td");
-            userCell.appendChild(userSelect);
+            // ✅ Timer cell
+            const timerCell = document.createElement("td");
+            timerCell.style.textAlign = "center";
+            timerCell.style.padding = "8px";
 
-            // ✅ Button
+            row.appendChild(timerCell);
+
+            // START TIMER
+            const timer = startElapsedTimer(task, timerCell);
+            console.log("createdAt:", task.createdAt);
+            console.log("parsed:", new Date(task.createdAt));
+            console.log("now:", new Date());
+            // ✅ Employee dropdown
+
+
+            // ✅ Complete button
             const btn = document.createElement("button");
             btn.textContent = "Приключи";
             btn.className = "button-click";
 
             btn.onclick = async () => {
-                const userId = userSelect.value;
 
-                if (!userId) {
-                    alert("Избери служител!");
-                    return;
-                }
+                const result = await openEmployeeModal(users);
 
-                const response = await completeTask(task.id, userId);
+                let body = {
+                    taskId: task.id,
+                    employees: result.ids,
+                    note: result.note
+                };
+                console.log(body)
+                const response =
+                    await completeTask(
+                        body
+                    );
 
                 if (response.ok) {
-                    btn.disabled = true;
+
+                    timer.restart();
+
                     btn.textContent = "✔";
-                    row.style.opacity = "0.5";
+
+                    setTimeout(() => {
+                        btn.textContent = "Приключи";
+                    }, 1000);
+
                 } else {
+
                     alert("Грешка при приключване");
                 }
             };
 
             const actionCell = document.createElement("td");
             actionCell.appendChild(btn);
-
-            row.appendChild(userCell);
             row.appendChild(actionCell);
-
             table.appendChild(row);
         });
 
@@ -133,9 +157,13 @@ async function loadTasks() {
         console.error("Error loading tasks:", err);
         container.innerHTML = "<p>Грешка при зареждане на задачите.</p>";
     }
+
 }
 
-// ✅ Helper
+// ==================================================
+// Helpers
+// ==================================================
+
 function createCell(text) {
     const td = document.createElement("td");
     td.textContent = text || "-";
@@ -143,4 +171,72 @@ function createCell(text) {
     td.style.padding = "8px";
     td.style.textAlign = "center";
     return td;
+}
+
+// ==================================================
+// Task Timer
+// ==================================================
+function startElapsedTimer(task, element) {
+
+    let startDate = new Date(task.createdAt);
+
+    function getDueDate() {
+        const dueDate = new Date(startDate);
+
+        switch (task.periodEnum) {
+            case "DAY":
+                dueDate.setDate(dueDate.getDate() + task.repeatedAfter);
+                break;
+
+            case "WEEK":
+                dueDate.setDate(dueDate.getDate() + task.repeatedAfter * 7);
+                break;
+
+            case "MONTH":
+                dueDate.setMonth(dueDate.getMonth() + task.repeatedAfter);
+                break;
+        }
+
+        return dueDate;
+    }
+
+    function update() {
+
+        const now = new Date();
+        const dueDate = getDueDate();
+
+        let diff = dueDate - now;
+        const overdue = diff < 0;
+
+        diff = Math.abs(diff);
+
+        const totalSeconds = Math.floor(diff / 1000);
+
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        element.textContent =
+            `${overdue ? "-" : ""}${days}д ` +
+            `${String(hours).padStart(2, "0")}:` +
+            `${String(minutes).padStart(2, "0")}:` +
+            `${String(seconds).padStart(2, "0")}`;
+
+        element.style.color = overdue ? "red" : "green";
+    }
+
+    update();
+
+    const intervalId = setInterval(update, 1000);
+
+    return {
+        restart() {
+            startDate = new Date();
+            update();
+        },
+        destroy() {
+            clearInterval(intervalId);
+        }
+    };
 }
