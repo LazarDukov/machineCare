@@ -4,7 +4,7 @@ import ate.technical.model.entities.Device;
 
 public class CreateComponentRequest {
     private String name;
-    private String additionalInfo;
+
     private Long subDeviceId;
 
     public String getName() {
@@ -16,14 +16,6 @@ public class CreateComponentRequest {
         return this;
     }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public CreateComponentRequest setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
-        return this;
-    }
 
     public Long getSubDeviceId() {
         return subDeviceId;

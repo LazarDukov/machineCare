@@ -1,5 +1,5 @@
 export function getComponentsBySubDeviceId(subDeviceId) {
-    return fetch(`/api/components/sub-devices/${encodeURIComponent(subDeviceId)}`, {
+    return fetch(`/api/components/sub-device/${encodeURIComponent(subDeviceId)}`, {
         credentials: "include"
     }).then(r => r.json());
 }

@@ -135,7 +135,6 @@ public class dbInit implements CommandLineRunner {
         Component component = new Component();
         SubDevice subDevice = subDeviceRepository.findById(1L).get();
         component.setName("Дозатор 1 - въздушен филтър");
-        component.setAdditionalInfo("Почиства се на всеки 3 дни! При нужда - подмяна с нов!");
         component.setSubDevice(subDevice);
         componentRepository.save(component);
 

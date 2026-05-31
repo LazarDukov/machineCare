@@ -715,3 +715,42 @@ button {
     background: #fde68a;
     transform: translateX(4px);
 }
+/*MODAL za slujitelite*/
+
+.modal-end-task {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 600px;
+}
+
+.transfer-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.transfer-container select {
+    width: 220px;
+    height: 250px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

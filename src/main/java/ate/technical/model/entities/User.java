@@ -35,9 +35,6 @@ public class User {
     private DepartmentEnum departmentEnum;
 
 
-    @OneToMany
-    private List<Task> tasks;
-
     @Column
     private String password;
 
@@ -51,7 +48,7 @@ public class User {
                 String email,
                 RoleEnum roleEnum,
                 DepartmentEnum departmentEnum,
-                List<Task> tasks,
+
                 String password) {
         this.id = id;
         this.username = username;
@@ -60,7 +57,6 @@ public class User {
         this.email = email;
         this.roleEnum = roleEnum;
         this.departmentEnum = departmentEnum;
-        this.tasks = tasks;
         this.password = password;
     }
 
@@ -127,15 +123,7 @@ public class User {
         return this;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
 
-
-    public User setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-        return this;
-    }
 
     public String getPassword() {
         return password;

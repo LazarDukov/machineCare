@@ -14,8 +14,6 @@ public class Component {
     @Column
     private String name;
 
-    @Column
-    private String additionalInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_device_id")
@@ -39,15 +37,6 @@ public class Component {
 
     public Component setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public Component setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
         return this;
     }
 

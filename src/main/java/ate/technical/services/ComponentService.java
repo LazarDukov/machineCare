@@ -37,7 +37,6 @@ public class ComponentService {
         SubDevice subDevice = subDeviceService.findById(request.getSubDeviceId());
         Component component = new Component();
         component.setName(request.getName());
-        component.setAdditionalInfo(request.getAdditionalInfo());
         component.setSubDevice(subDevice);
         componentRepository.save(component);
     }
@@ -50,7 +49,6 @@ public class ComponentService {
 
         Component component = componentRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Component not found"));
         component.setName(request.getName());
-        component.setAdditionalInfo(request.getAdditionalInfo());
         componentRepository.save(component);
 
     }
