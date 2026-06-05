@@ -28,6 +28,7 @@ public class MaterialApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMaterial(@PathVariable Long id) {
+        System.out.println("Deleting material with id: " + id);
         materialService.deleteMaterial(id);
         return ResponseEntity.noContent().build();
     }

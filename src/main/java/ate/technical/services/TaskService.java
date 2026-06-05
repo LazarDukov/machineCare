@@ -1,8 +1,11 @@
 package ate.technical.services;
 
+import ate.technical.api.requests.task.ChangeTaskRequest;
 import ate.technical.api.requests.task.CreateTaskRequest;
 import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.model.entities.*;
+import ate.technical.model.enums.PeriodEnum;
+import ate.technical.repositories.TaskHistoryRepository;
 import ate.technical.repositories.TaskRepository;
 import ate.technical.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ public class TaskService {
     private final DeviceService deviceService;
     private final SubDeviceService subDeviceService;
     private final ComponentService componentService;
+    private final TaskHistoryRepository taskHistoryRepository;
 
     private final MaterialService materialService;
 
@@ -26,12 +30,13 @@ public class TaskService {
 
     private final UserRepository userRepository;
 
-    public TaskService(TaskRepository taskRepository, MachineService machineService, DeviceService deviceService, SubDeviceService subDeviceService, ComponentService componentService, MaterialService materialService, UserService userService, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, MachineService machineService, DeviceService deviceService, SubDeviceService subDeviceService, ComponentService componentService, TaskHistoryRepository taskHistoryRepository, MaterialService materialService, UserService userService, UserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.machineService = machineService;
         this.deviceService = deviceService;
         this.subDeviceService = subDeviceService;
         this.componentService = componentService;
+        this.taskHistoryRepository = taskHistoryRepository;
         this.materialService = materialService;
         this.userService = userService;
         this.userRepository = userRepository;
@@ -87,4 +92,23 @@ public class TaskService {
     }
 
 
+    public void updateTask(ChangeTaskRequest request) {
+        Task task = taskRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Task not found with id: " + request.getId()));
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setAdditionalInfo(request.getAdditionalInfo());
+        task.setDevice(deviceService.findById(request.getDeviceId()));
+        task.setSubDevice(subDeviceService.findById(request.getSubDeviceId()));
+        task.setComponent(componentService.findById(request.getComponentId()));
+        task.setPeriodEnum(PeriodEnum.valueOf(request.getPeriodEnum()));
+        task.setRepeatedAfter(request.getRepeatedAfter());
+        taskRepository.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+        TaskHistory taskHistory = taskHistoryRepository.getReferenceById(id);
+        taskHistoryRepository.delete(taskHistory);
+        taskRepository.delete(task);
+    }
 }

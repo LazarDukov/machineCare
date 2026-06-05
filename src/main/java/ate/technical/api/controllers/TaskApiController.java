@@ -1,6 +1,8 @@
 package ate.technical.api.controllers;
 
+import ate.technical.api.requests.task.ChangeTaskRequest;
 import ate.technical.api.requests.task.CreateTaskRequest;
+import ate.technical.api.requests.task.DeleteTaskRequest;
 import ate.technical.api.response.task.ViewAllTasksResponse;
 import ate.technical.services.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,18 @@ public class TaskApiController {
         return ResponseEntity.ok(taskService.getAllTasks(machineName));
     }
 
+    @PutMapping("/update")
+    @ResponseBody
+    public ResponseEntity<Void> updateTask(@RequestBody ChangeTaskRequest request) {
+taskService.updateTask(request);
+        return ResponseEntity.ok().build();
+    }
 
-
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteTask(@RequestBody DeleteTaskRequest request) {
+        System.out.println("Deleting task with id: " + request.getId());
+        taskService.deleteTask(request.getId());
+        return ResponseEntity.ok().build();
+    }
 
 }

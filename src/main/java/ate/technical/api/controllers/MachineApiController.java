@@ -64,7 +64,9 @@ public class MachineApiController {
     }
 
     @DeleteMapping("/{id}")
+
     public ResponseEntity<Void> deleteMachine(@PathVariable Long id) {
+        System.out.println("Deleting machine with id: " + id);
         machineService.deleteMachine(id);
         return ResponseEntity.noContent().build();
     }
