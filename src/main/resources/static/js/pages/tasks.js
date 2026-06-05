@@ -1,4 +1,4 @@
-import {getAllTasks} from "../api/tasksApi.js";
+import {deleteTask, getAllTasks, updateTask} from "../api/tasksApi.js";
 import {completeTask} from "../api/taskHistoryApi.js";
 import {getOperatorsTechnicians} from "../api/usersApi.js";
 import {openEmployeeModal} from "../ui/modals.js";
@@ -109,11 +109,11 @@ async function loadTasks() {
 
 
             // ✅ Complete button
-            const btn = document.createElement("button");
-            btn.textContent = "Приключи";
-            btn.className = "button-click";
+            const completeBtn = document.createElement("button");
+            completeBtn.textContent = "Приключи";
+            completeBtn.className = "button-click";
 
-            btn.onclick = async () => {
+            completeBtn.onclick = async () => {
 
                 const result = await openEmployeeModal(users);
 
@@ -122,30 +122,73 @@ async function loadTasks() {
                     employees: result.ids,
                     note: result.note
                 };
-                console.log(body)
-                const response =
-                    await completeTask(
-                        body
-                    );
+
+                const response = await completeTask(body);
 
                 if (response.ok) {
 
                     timer.restart();
 
-                    btn.textContent = "✔";
+                    completeBtn.textContent = "✔";
 
                     setTimeout(() => {
-                        btn.textContent = "Приключи";
+                        completeBtn.textContent = "Приключи";
                     }, 1000);
 
                 } else {
-
                     alert("Грешка при приключване");
                 }
             };
 
+// ✅ Edit button
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "Промени";
+            editBtn.className = "button-click";
+
+            editBtn.onclick = async () => {
+
+                const updatedTask = await openEditTaskModal(task);
+
+                if (!updatedTask) {
+                    console.log("Редакцията е отказана");
+                    return;
+                }
+
+                await updateTask(updatedTask);
+                await loadTasks();
+            };
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Изтрий";
+            deleteBtn.className = "button-click";
+
+            deleteBtn.onclick = async () => {
+
+                const confirmed = confirm(
+                    `Сигурни ли сте, че искате да изтриете задачата "${task.title}"?`
+                );
+
+                if (!confirmed) return;
+                console.log("Deleting task:", task)
+                await deleteTask(task); // твоя API функция
+
+
+                await loadTasks();
+            };
+
+
             const actionCell = document.createElement("td");
-            actionCell.appendChild(btn);
+
+            const buttonsWrapper = document.createElement("div");
+            buttonsWrapper.style.display = "flex";
+            buttonsWrapper.style.gap = "8px";
+            buttonsWrapper.style.justifyContent = "center";
+
+            buttonsWrapper.appendChild(completeBtn);
+            buttonsWrapper.appendChild(editBtn);
+            buttonsWrapper.appendChild(deleteBtn);
+
+            actionCell.appendChild(buttonsWrapper);
+
             row.appendChild(actionCell);
             table.appendChild(row);
         });

@@ -3,6 +3,7 @@ import {changeSubDevice, createSubDevice, deleteSubDevice} from "../api/subDevic
 import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
 import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
+import {initTaskDropdowns} from "../ui/dropDownMenu.js";
 
 let selectedDevice = null;
 let selectedSubDevice = null;
@@ -457,6 +458,141 @@ export function openEmployeeModal(users) {
     });
 }
 
+export async function openEditTaskModal(task) {
+    return new Promise((resolve, reject) => {
+
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+
+        const modal = document.createElement("div");
+        modal.className = "modal-content";
+
+        modal.innerHTML = `
+            <h2>Редакция на задача</h2>
+
+            <form id="edit-task-form" class="form">
+
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Задача"
+                    value="${task.title || ""}"
+                    required>
+<br>
+                <input
+                    type="text"
+                    name="description"
+                    placeholder="Описание"
+                    value="${task.description || ""}">
+<br>
+                <input
+                    type="text"
+                    name="additionalInfo"
+                    placeholder="Допълнителна информация"
+                    value="${task.additionalInfo || ""}">
+<br>
+                <select id="device-select" required></select>
+<br>
+                <select id="sub-device-select" required></select>
+<br>
+                <select id="component-select" required></select>
+<br>
+                <input
+                    type="number"
+                    name="repeatedAfter"
+                    placeholder="Период"
+                    value="${task.repeatedAfter || ""}"
+                    required>
+<br>
+                <select name="periodEnum">
+                    <option value="DAY">Дни</option>
+                    <option value="WEEK">Седмица</option>
+                    <option value="MONTH">Месец</option>
+                    <option value="YEAR">Година</option>
+                </select>
+<br>
+                <div style="display:flex; gap:10px; margin-top:15px; justify-content: center;">
+                    <button type="submit">Запази</button>
+                    <button type="button" id="cancel-btn">Отказ</button>
+                </div>
+<br>
+            </form>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const form = modal.querySelector("#edit-task-form");
+
+        // Попълваме периода
+        form.periodEnum.value = task.periodEnum;
+        const deviceSelect =
+            modal.querySelector("#device-select");
+
+        const subDeviceSelect =
+            modal.querySelector("#sub-device-select");
+
+        const componentSelect =
+            modal.querySelector("#component-select");
+        console.log(deviceSelect, subDeviceSelect, componentSelect);
+        // ==================================================
+        // Зареждане на Device / SubDevice / Component
+        // ==================================================
+
+        initTaskDropdowns({
+            machineName: task.machineName,
+            deviceSelect,
+            subDeviceSelect,
+            componentSelect,
+            selectedDeviceId: task.deviceId,
+            selectedSubDeviceId: task.subDeviceId,
+            selectedComponentId: task.componentId
+        });
+
+        // ==================================================
+        // Submit
+        // ==================================================
+
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+
+            resolve({
+                id: task.id,
+                title: form.title.value,
+                description: form.description.value,
+                additionalInfo: form.additionalInfo.value,
+                repeatedAfter: Number(form.repeatedAfter.value),
+                periodEnum: form.periodEnum.value,
+                deviceId: Number(
+                    modal.querySelector("#device-select").value
+                ),
+                subDeviceId: Number(
+                    modal.querySelector("#sub-device-select").value
+                ),
+                componentId: Number(
+                    modal.querySelector("#component-select").value
+                )
+            });
+
+            overlay.remove();
+        });
+
+        modal
+            .querySelector("#cancel-btn")
+            .addEventListener("click", () => {
+                overlay.remove();
+                reject();
+            });
+
+        overlay.addEventListener("click", e => {
+            if (e.target === overlay) {
+                overlay.remove();
+                reject();
+            }
+        });
+    });
+}
+
 window.closeModal = closeModal; // 👉 expose към HTML
 window.openAddPartToComponent = openAddPartToComponent;
 window.openEditPart = openEditPart;
@@ -471,3 +607,4 @@ window.openDeleteSubDevice = openDeleteSubDevice;
 window.openEmployeeModal = openEmployeeModal;
 window.openEditDevice = openEditDevice;
 window.openDeleteDevice = openDeleteDevice;
+window.openEditTaskModal = openEditTaskModal;

@@ -54,6 +54,7 @@ public class PartApiController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePart(@PathVariable Long id) {
+        System.out.println("Deleting part with id: " + id);
         partService.deletePart(id);
         return ResponseEntity.noContent().build();
     }

@@ -754,3 +754,22 @@ button {
     flex-direction: column;
     gap: 10px;
 }
+
+/*Modal za promeni task*/
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 400px;
+    max-width: 600px;
+}
