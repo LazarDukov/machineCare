@@ -1,13 +1,13 @@
 package ate.technical.api.controllers;
 
-import ate.technical.api.requests.part.ChangePartQuantityIntoComponent;
-import ate.technical.api.requests.part.ChangePartRequest;
-import ate.technical.api.requests.part.CreatePartRequest;
-import ate.technical.api.requests.part.CreatePartToComponentRequest;
+import ate.technical.api.requests.part.*;
+import ate.technical.api.response.part.ViewPicturesForGivenPartResponse;
 import ate.technical.api.response.part.ViewAllPartsResponse;
+import ate.technical.services.PartImageService;
 import ate.technical.services.PartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,8 +16,11 @@ import java.util.List;
 public class PartApiController {
     private PartService partService;
 
-    public PartApiController(PartService partService) {
+    private PartImageService partImageService;
+
+    public PartApiController(PartService partService, PartImageService partImageService) {
         this.partService = partService;
+        this.partImageService = partImageService;
     }
 
     @GetMapping("/all")
@@ -57,5 +60,21 @@ public class PartApiController {
         System.out.println("Deleting part with id: " + id);
         partService.deletePart(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/add-image")
+    public ResponseEntity<Void> uploadImage(
+            @RequestParam("partId") String partId,
+            @RequestParam("file") MultipartFile file) {
+        System.out.println(partId);
+        System.out.println(file);
+        partImageService.uploadImage(partId, file);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{partId}/view-images")
+    public ResponseEntity<List<ViewPicturesForGivenPartResponse>> viewPictures(@PathVariable Long partId) {
+        return ResponseEntity.ok(partService.getAllImagesOfGivenPart(partId));
+
     }
 }

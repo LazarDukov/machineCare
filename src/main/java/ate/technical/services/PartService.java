@@ -4,17 +4,20 @@ import ate.technical.api.requests.part.ChangePartQuantityIntoComponent;
 import ate.technical.api.requests.part.ChangePartRequest;
 import ate.technical.api.requests.part.CreatePartRequest;
 import ate.technical.api.requests.part.CreatePartToComponentRequest;
+import ate.technical.api.response.part.ViewPicturesForGivenPartResponse;
 import ate.technical.api.response.part.ViewAllPartsResponse;
 
 import ate.technical.model.entities.Component;
 import ate.technical.model.entities.ComponentPart;
 import ate.technical.model.entities.Part;
+import ate.technical.model.entities.PartImage;
 import ate.technical.repositories.ComponentPartRepository;
 import ate.technical.repositories.ComponentRepository;
+import ate.technical.repositories.PartImagesRepository;
 import ate.technical.repositories.PartRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,12 +27,14 @@ public class PartService {
     private ComponentRepository componentRepository;
 
     private ComponentPartRepository componentPartRepository;
+    private PartImagesRepository partImagesRepository;
 
-    public PartService(SubDeviceService subDeviceService, PartRepository partRepository, ComponentRepository componentRepository, ComponentPartRepository componentPartRepository) {
+    public PartService(SubDeviceService subDeviceService, PartRepository partRepository, ComponentRepository componentRepository, ComponentPartRepository componentPartRepository, PartImagesRepository partImagesRepository) {
         this.subDeviceService = subDeviceService;
         this.partRepository = partRepository;
         this.componentRepository = componentRepository;
         this.componentPartRepository = componentPartRepository;
+        this.partImagesRepository = partImagesRepository;
     }
 
     public Long createPart(CreatePartRequest request) {
@@ -79,5 +84,18 @@ public class PartService {
                 .orElseThrow(() -> new RuntimeException("ComponentPart not found"));
         componentPart.setQuantity(request.getQuantity());
         componentPartRepository.save(componentPart);
+    }
+
+    public List<ViewPicturesForGivenPartResponse> getAllImagesOfGivenPart(Long partId) {
+        List<PartImage> images = partImagesRepository.findAllByPartId(partId);
+        System.out.println(images.size());
+        if (images.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<ViewPicturesForGivenPartResponse> response = images.stream()
+                .map(image -> new ViewPicturesForGivenPartResponse(image.getId(), image.getImageUrl()))
+                .toList();
+
+        return response;
     }
 }

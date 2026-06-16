@@ -71,6 +71,17 @@ export async function getAllParts() {
 
     return res.json();
 }
+export async function getImagesByPartId(partId) {
+    const res = await fetch(`/api/parts/${encodeURIComponent(partId)}/view-images`, {
+        credentials: "include"
+    });
+
+    if (!res.ok) {
+        throw new Error("Грешка при зареждане на изображенията за частта");
+    }
+
+    return res.json();
+}
 
 
 

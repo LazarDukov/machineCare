@@ -25,8 +25,17 @@
     </div>
 
 </div>
-
+<div id="images-modal" class="modal">
+    <div class="modal-content images">
+        <span onclick="closeModal('images-modal')">&times;</span>
+        <div id="images-container"></div>
+    </div>
+</div>
+<div id="image-viewer" class="image-viewer">
+    <span onclick="closeViewer()" class="image-close">&times;</span>
+    <img id="full-image" />
+</div>
 <script type="module" src="/js/pages/fullStructure.js"></script>
-
+<script type="module" src="/js/ui/modals.js"></script>
 </body>
 </html>

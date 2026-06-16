@@ -1,7 +1,13 @@
 import {changeDevice, createDevice, deleteDevice} from "../api/devicesApi.js";
 import {changeSubDevice, createSubDevice, deleteSubDevice} from "../api/subDevicesApi.js";
 import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
-import {addPartToComponent, changePart, changePartQuantityIntoComponent, createPart} from "../api/partsApi.js";
+import {
+    addPartToComponent,
+    changePart,
+    changePartQuantityIntoComponent,
+    createPart,
+    getImagesByPartId
+} from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
 import {initTaskDropdowns} from "../ui/dropDownMenu.js";
 
@@ -190,6 +196,35 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
         await refreshPage(); // refresh
     };
 }
+export async function openPartImages(part) {
+
+    const modal = document.getElementById("images-modal");
+    const container = document.getElementById("images-container");
+
+    // 🔥 ТОВА ТИ ЛИПСВА
+    modal.classList.remove("hidden");
+    modal.style.display = "flex";
+
+    container.innerHTML = "<p>Зареждане...</p>";
+
+    try {
+
+        const images = await getImagesByPartId(part);
+        if (!images.length) {
+            container.innerHTML = "<p>Няма добавени снимки.</p>";
+            return;
+        }
+        container.innerHTML = images
+            .filter(Boolean)
+            .map(img => `
+                <img src="/uploadedImages/${img.pictureUrl}"  class="part-image-preview"  onclick="openFullImage(this.src)"/>
+            `).join("");
+
+    } catch (e) {
+        container.innerHTML = "<p>Грешка</p>";
+    }
+}
+
 
 export function openDeletePart(part, componentId) {
     return new Promise((resolve) => {
@@ -592,6 +627,21 @@ export async function openEditTaskModal(task) {
         });
     });
 }
+window.openFullImage = function (src) {
+    const viewer = document.getElementById("image-viewer");
+    const img = document.getElementById("full-image");
+
+    img.src = src;
+    viewer.style.display = "flex";
+};
+
+window.closeViewer = function () {
+    const viewer = document.getElementById("image-viewer");
+    const img = document.getElementById("full-image");
+
+    viewer.style.display = "none";
+    img.src = "";
+};
 
 window.closeModal = closeModal; // 👉 expose към HTML
 window.openAddPartToComponent = openAddPartToComponent;
@@ -608,3 +658,4 @@ window.openEmployeeModal = openEmployeeModal;
 window.openEditDevice = openEditDevice;
 window.openDeleteDevice = openDeleteDevice;
 window.openEditTaskModal = openEditTaskModal;
+window.openPartImages = openPartImages;
