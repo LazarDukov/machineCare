@@ -235,7 +235,12 @@ export function renderDetails(component) {
 export function renderLayout() {
 
     container.innerHTML = `
-
+ <input
+            type="file"
+            id="part-image-input"
+            accept="image/*"
+            style="display:none"
+        >
         <div class="structure-layout">
 
             <div class="tree-panel">
@@ -307,6 +312,13 @@ export function renderDetailsWithParts(component, parts) {
     </div>
 
     <div class="part-actions">
+     <button
+        class="part-image-btn"
+        onclick="openImagePicker(${p.partId})"
+    >
+        Добави снимка
+    </button>
+    
         <button
             class="part-edit-btn"
             onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
@@ -328,6 +340,12 @@ export function renderDetailsWithParts(component, parts) {
 
                                     <div class="part-inline-row">
 
+ <button
+    class="part-images-btn"
+    onclick="openPartImages(${p.partId})"
+>
+    📷 Снимки
+</button>
                                         <div class="part-field">
                                             <span class="label">Описание:</span>
                                             <span class="part-field-item">
@@ -394,3 +412,57 @@ function hasOpenChild(node, expandedNodes) {
 
     return false;
 }
+
+let currentPartId = null;
+window.openImagePicker = function (partId) {
+
+    currentPartId = partId;
+
+    document
+        .getElementById("part-image-input")
+        .click();
+};
+document.addEventListener("change", async (e) => {
+
+    if (e.target.id !== "part-image-input") {
+        return;
+    }
+
+    const file = e.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    // ✅ FIX ТУК
+    const partId = currentPartId;
+    console.log(partId)
+    console.log(currentPartId)
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("partId", partId);
+
+    console.log(formData.get("file"));
+    console.log(formData.get("partId"));
+
+    try {
+
+        await fetch(`/api/parts/add-image`, {
+            method: "POST",
+            body: formData
+        });
+
+        alert("Снимката е качена успешно");
+
+    } catch (err) {
+
+        console.error(err);
+        alert("Грешка при качване");
+
+    } finally {
+
+        e.target.value = "";
+        currentPartId = null; // (по-добра практика)
+    }
+});

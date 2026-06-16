@@ -1,6 +1,6 @@
-import { getStructure } from "../service/structureService.js";
-import { getPartsByComponentId } from "../api/componentsPartsApi.js";
-
+import {getStructure} from "../service/structureService.js";
+import {getPartsByComponentId} from "../api/componentsPartsApi.js";
+import {openPartImages} from "../ui/modals.js";
 
 
 const machineName =
@@ -298,7 +298,13 @@ function createPartCell(part) {
                 <strong>Брой:</strong>
                 ${part.quantity || "-"}
             </div>
-
+            
+ <button
+    class="part-images-btn"
+    onclick="openPartImages(${part.partId})"
+>
+    📷 Снимки
+</button>
         </div>
     `;
 

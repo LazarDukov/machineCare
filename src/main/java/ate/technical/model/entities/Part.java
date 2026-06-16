@@ -2,6 +2,8 @@ package ate.technical.model.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "parts")
 public class Part {
@@ -18,6 +20,9 @@ public class Part {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartImage> partImages;
 
 
 
@@ -58,6 +63,15 @@ public class Part {
 
     public Part setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public List<PartImage> getPartImages() {
+        return partImages;
+    }
+
+    public Part setPartImages(List<PartImage> partImages) {
+        this.partImages = partImages;
         return this;
     }
 }

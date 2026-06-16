@@ -13,6 +13,7 @@ import {
 } from "../ui/modals.js";
 
 
+
 const params = new URLSearchParams(window.location.search);
 let machineName = params.get("name");
 
@@ -132,12 +133,13 @@ async function loadPartsAndRender(component) {
             await getPartsByComponentId(component.id);
 
         renderDetailsWithParts(component, parts);
-        console.log("PARTS RAW:", parts);
-        console.log("IS ARRAY:", Array.isArray(parts));
+
 
     } catch (e) {
 
         console.error("Error loading parts", e);
     }
 }
+
+
 
