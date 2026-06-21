@@ -5,9 +5,13 @@ import ate.technical.api.requests.component.ChangeComponentRequest;
 import ate.technical.api.requests.component.CreateComponentRequest;
 import ate.technical.api.requests.component.DeleteComponentRequest;
 import ate.technical.api.response.component.ComponentStructureResponse;
+import ate.technical.api.response.component.ViewPicturesForGivenComponentResponse;
+import ate.technical.model.entities.ComponentImage;
+import ate.technical.services.ComponentImageService;
 import ate.technical.services.ComponentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,9 +19,11 @@ import java.util.List;
 @RequestMapping("/api/components")
 public class ComponentApiController {
     private ComponentService componentService;
+    private ComponentImageService componentImageService;
 
-    public ComponentApiController(ComponentService componentService) {
+    public ComponentApiController(ComponentService componentService, ComponentImageService componentImageService) {
         this.componentService = componentService;
+        this.componentImageService = componentImageService;
     }
 
     @PostMapping("/add")
@@ -32,6 +38,16 @@ public class ComponentApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/add-image")
+    public ResponseEntity<Void> uploadImage(
+            @RequestParam("componentId") String componentId,
+            @RequestParam("file") MultipartFile file) {
+        System.out.println(componentId);
+        System.out.println(file);
+        componentImageService.uploadImage(componentId, file);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/sub-device/{subDeviceId}")
     public List<ComponentStructureResponse> getComponentsBySubDeviceId(@PathVariable Long subDeviceId) {
         return componentService.getComponentsBySubDeviceId(subDeviceId);
@@ -40,7 +56,7 @@ public class ComponentApiController {
 
     @PutMapping("/change")
     public ResponseEntity<Void> editComponentName(@RequestBody ChangeComponentRequest request) {
-        componentService.changeComponentName(request);
+        componentService.changeComponent(request);
         return ResponseEntity.ok().build();
     }
 
@@ -51,4 +67,10 @@ public class ComponentApiController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{componentId}/view-images")
+    public ResponseEntity<List<ViewPicturesForGivenComponentResponse>> viewComponentImages(@PathVariable Long componentId) {
+        return ResponseEntity.ok(componentImageService.getComponentImages(componentId));
+    }
+
 }

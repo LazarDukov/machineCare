@@ -38,6 +38,9 @@ public class ComponentService {
         Component component = new Component();
         component.setName(request.getName());
         component.setSubDevice(subDevice);
+        component.setBrand(request.getBrand());
+        component.setModel(request.getModel());
+        component.setAdditionalInfo(request.getAdditionalInfo());
         componentRepository.save(component);
     }
 
@@ -45,10 +48,13 @@ public class ComponentService {
         return componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found"));
     }
 
-    public void changeComponentName(ChangeComponentRequest request) {
+    public void changeComponent(ChangeComponentRequest request) {
 
         Component component = componentRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Component not found"));
         component.setName(request.getName());
+        component.setBrand(request.getBrand());
+        component.setModel(request.getModel());
+        component.setAdditionalInfo(request.getAdditionalInfo());
         componentRepository.save(component);
 
     }
@@ -64,7 +70,10 @@ public class ComponentService {
         for (Component component : components) {
             response.add(new ComponentStructureResponse()
                     .setId(component.getId())
-                    .setName(component.getName()));
+                    .setName(component.getName())
+                    .setBrand(component.getBrand())
+                    .setModel(component.getModel())
+                    .setAdditionalInfo(component.getAdditionalInfo()));
         }
         System.out.println("Found " + response.size() + " sub-devices for device ID: " + subDeviceId);
         return response;

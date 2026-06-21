@@ -241,6 +241,12 @@ export function renderLayout() {
             accept="image/*"
             style="display:none"
         >
+<input
+        type="file"
+        id="component-image-input"
+        accept="image/*"
+        style="display:none"
+    >
         <div class="structure-layout">
 
             <div class="tree-panel">
@@ -285,6 +291,19 @@ export function renderDetailsWithParts(component, parts) {
         <h3 class="details-title">
             ${component.name}
         </h3>
+         
+        <button
+        class="component-image-btn-add"
+        onclick="openImagePickerForComponent(${component.id})"
+    >
+        Добави снимка за компонента
+    </button>
+    <button
+        class="component-image-btn-view"
+        onclick="openComponentImages(${component.id})"
+    >
+        Виж снимки за компонента
+    </button>
 
         <h4 class="details-subtitle">
             Части (${parts.length})
@@ -314,7 +333,7 @@ export function renderDetailsWithParts(component, parts) {
     <div class="part-actions">
      <button
         class="part-image-btn"
-        onclick="openImagePicker(${p.partId})"
+        onclick="openImagePickerForPart(${p.partId})"
     >
         Добави снимка
     </button>
@@ -344,7 +363,7 @@ export function renderDetailsWithParts(component, parts) {
     class="part-images-btn"
     onclick="openPartImages(${p.partId})"
 >
-    📷 Снимки
+    Снимки на частта
 </button>
                                         <div class="part-field">
                                             <span class="label">Описание:</span>
@@ -414,7 +433,7 @@ function hasOpenChild(node, expandedNodes) {
 }
 
 let currentPartId = null;
-window.openImagePicker = function (partId) {
+window.openImagePickerForPart = function (partId) {
 
     currentPartId = partId;
 
@@ -422,11 +441,23 @@ window.openImagePicker = function (partId) {
         .getElementById("part-image-input")
         .click();
 };
+let currentComponentId = null;
+window.openImagePickerForComponent = function (componentId) {
+    console.log(componentId)
+    currentComponentId = componentId;
+
+    document
+        .getElementById("component-image-input")
+        .click();
+}
+
+
 document.addEventListener("change", async (e) => {
 
     if (e.target.id !== "part-image-input") {
         return;
     }
+
 
     const file = e.target.files[0];
 
@@ -464,5 +495,50 @@ document.addEventListener("change", async (e) => {
 
         e.target.value = "";
         currentPartId = null; // (по-добра практика)
+    }
+});
+document.addEventListener("change", async (e) => {
+
+    if (e.target.id !== "component-image-input") {
+        return;
+    }
+
+
+    const file = e.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    // ✅ FIX ТУК
+    const componentId = currentComponentId;
+    console.log(componentId)
+    console.log(currentComponentId)
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("componentId", componentId);
+
+    console.log(formData.get("file"));
+    console.log(formData.get("componentId"));
+
+    try {
+
+        await fetch(`/api/components/add-image`, {
+            method: "POST",
+            body: formData
+        });
+
+        alert("Снимката е качена успешно");
+
+    } catch (err) {
+
+        console.error(err);
+        alert("Грешка при качване");
+
+    } finally {
+
+        e.target.value = "";
+        currentComponentId = null; // (по-добра практика)
     }
 });

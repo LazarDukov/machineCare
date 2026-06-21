@@ -19,7 +19,10 @@ public class Part {
     private String sapNumber;
 
     @Column
-    private String description;
+    private String brand;
+
+    @Column
+    private String model;
 
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PartImage> partImages;
@@ -57,12 +60,12 @@ public class Part {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getBrand() {
+        return brand;
     }
 
-    public Part setDescription(String description) {
-        this.description = description;
+    public Part setBrand(String brand) {
+        this.brand = brand;
         return this;
     }
 
@@ -72,6 +75,15 @@ public class Part {
 
     public Part setPartImages(List<PartImage> partImages) {
         this.partImages = partImages;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public Part setModel(String model) {
+        this.model = model;
         return this;
     }
 }

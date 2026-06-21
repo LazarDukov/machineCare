@@ -32,7 +32,8 @@ public class ComponentPartService {
                     part.getId(),
                     part.getPartName(),
                     part.getSapNumber(),
-                    part.getDescription(),
+                    part.getBrand(),
+                    part.getModel(),
                     cp.getQuantity() // ✅ директно от entity
             ));
         }

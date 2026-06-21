@@ -6,6 +6,9 @@ public class CreateComponentRequest {
     private String name;
 
     private Long subDeviceId;
+    private String brand;
+    private String model;
+    private String additionalInfo;
 
     public String getName() {
         return name;
@@ -23,6 +26,33 @@ public class CreateComponentRequest {
 
     public CreateComponentRequest setSubDeviceId(Long subDeviceId) {
         this.subDeviceId = subDeviceId;
+        return this;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public CreateComponentRequest setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public CreateComponentRequest setModel(String model) {
+        this.model = model;
+        return this;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public CreateComponentRequest setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
         return this;
     }
 }

@@ -14,6 +14,17 @@ public class Component {
     @Column
     private String name;
 
+    @Column
+    private String brand;
+
+    @Column
+    private String model;
+
+    @Column
+    private String additionalInfo;
+
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_device_id")
@@ -21,6 +32,9 @@ public class Component {
 
     @OneToMany(mappedBy = "component", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComponentPart> parts;
+    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComponentImage> componentImages;
+
 
     public Long getId() {
         return id;
@@ -55,6 +69,42 @@ public class Component {
 
     public Component setParts(List<ComponentPart> parts) {
         this.parts = parts;
+        return this;
+    }
+
+    public List<ComponentImage> getComponentImages() {
+        return componentImages;
+    }
+
+    public Component setComponentImages(List<ComponentImage> componentImages) {
+        this.componentImages = componentImages;
+        return this;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public Component setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public Component setModel(String model) {
+        this.model = model;
+        return this;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public Component setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
         return this;
     }
 }
