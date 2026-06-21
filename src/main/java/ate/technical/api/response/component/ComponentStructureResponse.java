@@ -3,12 +3,13 @@ package ate.technical.api.response.component;
 public class ComponentStructureResponse {
     private Long id;
     private String name;
+    private String brand;
+    private String model;
 
     private String additionalInfo;
 
     public ComponentStructureResponse() {
     }
-
 
 
     public Long getId() {
@@ -35,6 +36,24 @@ public class ComponentStructureResponse {
 
     public ComponentStructureResponse setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
+        return this;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public ComponentStructureResponse setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public ComponentStructureResponse setModel(String model) {
+        this.model = model;
         return this;
     }
 }

@@ -2,6 +2,7 @@ export function getComponentsBySubDeviceId(subDeviceId) {
     return fetch(`/api/components/sub-device/${encodeURIComponent(subDeviceId)}`, {
         credentials: "include"
     }).then(r => r.json());
+
 }
 
 export function createComponent(body) {
@@ -35,4 +36,16 @@ export async function deleteComponent(component) {
     if (!res.ok) {
         throw new Error("Грешка при изтриване на частта");
     }
+}
+
+export async function getImagesByComponentId(componentId) {
+    const res = await fetch(`/api/components/${encodeURIComponent(componentId)}/view-images`, {
+        credentials: "include"
+    });
+
+    if (!res.ok) {
+        throw new Error("Грешка при зареждане на изображенията за частта");
+    }
+
+    return res.json();
 }

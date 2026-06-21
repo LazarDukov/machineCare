@@ -1,6 +1,7 @@
 import {getStructure} from "../service/structureService.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {openPartImages} from "../ui/modals.js";
+import {openComponentImages} from "../ui/modals.js";
 
 
 const machineName =
@@ -46,10 +47,8 @@ async function loadStructure() {
 
         const table =
             document.createElement("table");
+        table.className = "structure-table";
 
-        table.style.width = "100%";
-        table.style.borderCollapse = "collapse";
-        table.style.marginTop = "20px";
 
         table.appendChild(createHeader());
 
@@ -110,7 +109,7 @@ async function loadStructure() {
                 // =========================
 
                 for (const component of components) {
-
+                    console.log("VIJ SQ: " + component.id, component.name, component.brand, component.model);
                     const parts =
                         await getPartsByComponentId(component.id) || [];
 
@@ -126,7 +125,7 @@ async function loadStructure() {
                             table,
                             device.name,
                             subDevice.name,
-                            component.name,
+                            createComponentCell(component),
                             "-"
                         );
 
@@ -143,7 +142,7 @@ async function loadStructure() {
                             table,
                             device.name,
                             subDevice.name,
-                            component.name,
+                            createComponentCell(component),
                             createPartCell(part)
                         );
                     }
@@ -188,11 +187,6 @@ function createHeader() {
 
         th.textContent = text;
 
-        th.style.border = "1px solid #ccc";
-        th.style.padding = "12px";
-        th.style.backgroundColor = "#1b6bff";
-        th.style.color = "white";
-        th.style.textAlign = "center";
 
         tr.appendChild(th);
     });
@@ -204,31 +198,21 @@ function createHeader() {
 // APPEND ROW
 // =========================
 
-function appendRow(
-    table,
-    device,
-    subDevice,
-    component,
-    partCell
-) {
-
-    const tr =
-        document.createElement("tr");
+function appendRow(table, device, subDevice, componentCell, partCell) {
+    const tr = document.createElement("tr");
 
     tr.appendChild(createCell(device));
     tr.appendChild(createCell(subDevice));
-    tr.appendChild(createCell(component));
 
-    // =========================
-    // PART CELL
-    // =========================
+    if (componentCell instanceof HTMLElement) {
+        tr.appendChild(componentCell);
+    } else {
+        tr.appendChild(createCell(componentCell));
+    }
 
     if (partCell instanceof HTMLElement) {
-
         tr.appendChild(partCell);
-
     } else {
-
         tr.appendChild(createCell(partCell));
     }
 
@@ -246,10 +230,6 @@ function createCell(text) {
 
     td.textContent = text || "-";
 
-    td.style.border = "1px solid #ccc";
-    td.style.padding = "10px";
-    td.style.textAlign = "center";
-    td.style.verticalAlign = "top";
 
     return td;
 }
@@ -258,15 +238,47 @@ function createCell(text) {
 // PART CELL
 // =========================
 
+function createComponentCell(component) {
+    const td = document.createElement("td");
+    console.log("Creating component cell for:", component)
+
+    td.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 8px;">
+            ${component.name || "-"}
+        </div>
+    
+            <div>
+                <strong>Марка:</strong>
+                ${component.brand || "-"}
+
+            </div>
+
+            <div>
+                <strong>Модел:</strong>
+                ${component.model || "-"}
+            </div>
+            <div>
+                <strong>Описание:</strong>
+                ${component.additionalInfo || "-"}
+            </div>
+        <button class="component-image-btn-view">
+          📷 Снимки на този компонент
+        </button>
+    `;
+
+    td.querySelector(".component-image-btn-view")
+        .addEventListener("click", () => {
+            openComponentImages(component.id);
+        });
+
+    return td;
+}
+
 function createPartCell(part) {
 
     const td =
         document.createElement("td");
 
-    td.style.border = "1px solid #ccc";
-    td.style.padding = "10px";
-    td.style.verticalAlign = "top";
-    td.style.minWidth = "260px";
 
     td.innerHTML = `
         <div style="
@@ -275,7 +287,7 @@ function createPartCell(part) {
             margin-bottom: 10px;
             color: #1b1b1b;
         ">
-            ${part.partName || "-"}
+            ${part.partId || "-"}. ${part.partName || "-"}
         </div>
 
         <div style="
@@ -285,10 +297,13 @@ function createPartCell(part) {
         ">
 
             <div>
-                <strong>Описание:</strong>
-                ${part.description || "-"}
+                <strong>Марка:</strong>
+                ${part.brand || "-"}
             </div>
-
+<div>
+                <strong>Модел:</strong>
+                ${part.model || "-"}
+            </div>
             <div>
                 <strong>САП номер:</strong>
                 ${part.sapNumber || "-"}
@@ -303,7 +318,7 @@ function createPartCell(part) {
     class="part-images-btn"
     onclick="openPartImages(${part.partId})"
 >
-    📷 Снимки
+    📷 Снимки на тази част
 </button>
         </div>
     `;

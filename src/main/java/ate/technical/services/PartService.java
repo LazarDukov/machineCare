@@ -41,7 +41,8 @@ public class PartService {
         Part part = new Part();
         part.setPartName(request.getName());
         part.setSapNumber(request.getSapNumber());
-        part.setDescription(request.getDescription());
+        part.setBrand(request.getBrand());
+        part.setModel(request.getModel());
         partRepository.save(part);
         return part.getId();
     }
@@ -50,8 +51,9 @@ public class PartService {
         System.out.println("Changing part with id: " + request.getId());
         Part part = partRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Part not found"));
         part.setPartName(request.getPartName());
-        part.setDescription(request.getDescription());
+        part.setBrand(request.getBrand());
         part.setSapNumber(request.getSapNumber());
+        part.setModel(request.getModel());
         partRepository.save(part);
         return part.getId();
     }
@@ -64,7 +66,7 @@ public class PartService {
 
 
         return partRepository.findAll().stream()
-                .map(part -> new ViewAllPartsResponse(part.getId(), part.getPartName(), part.getDescription(), part.getSapNumber()))
+                .map(part -> new ViewAllPartsResponse(part.getId(), part.getPartName(), part.getBrand(),part.getModel(), part.getSapNumber()))
                 .toList();
     }
 

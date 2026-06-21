@@ -3,7 +3,9 @@ package ate.technical.api.requests.part;
 public class ChangePartRequest {
     private Long id;
     private String partName;
-    private String description;
+    private String brand;
+
+    private String model;
     private String sapNumber;
 
     public Long getId() {
@@ -24,12 +26,12 @@ public class ChangePartRequest {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getBrand() {
+        return brand;
     }
 
-    public ChangePartRequest setDescription(String description) {
-        this.description = description;
+    public ChangePartRequest setBrand(String brand) {
+        this.brand = brand;
         return this;
     }
 
@@ -39,6 +41,15 @@ public class ChangePartRequest {
 
     public ChangePartRequest setSapNumber(String sapNumber) {
         this.sapNumber = sapNumber;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public ChangePartRequest setModel(String model) {
+        this.model = model;
         return this;
     }
 }

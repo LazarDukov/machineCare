@@ -3,6 +3,9 @@ package ate.technical.api.requests.component;
 public class ChangeComponentRequest {
     private Long id;
     private String name;
+    private String brand;
+    private String model;
+    private String additionalInfo;
 
 
     public Long getId() {
@@ -23,5 +26,30 @@ public class ChangeComponentRequest {
         return this;
     }
 
+    public String getBrand() {
+        return brand;
+    }
 
+    public ChangeComponentRequest setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public ChangeComponentRequest setModel(String model) {
+        this.model = model;
+        return this;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public ChangeComponentRequest setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+        return this;
+    }
 }

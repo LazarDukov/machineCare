@@ -2,7 +2,11 @@ package ate.technical.api.requests.part;
 
 public class CreatePartRequest {
     private String name;
-    private String description;
+    private String brand;
+
+
+
+    private String model;
     private String sapNumber;
 
     //TODO: Should create request body for add part to given component!
@@ -26,12 +30,21 @@ public class CreatePartRequest {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getBrand() {
+        return brand;
     }
 
-    public CreatePartRequest setDescription(String description) {
-        this.description = description;
+    public CreatePartRequest setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public CreatePartRequest setModel(String model) {
+        this.model = model;
         return this;
     }
 }

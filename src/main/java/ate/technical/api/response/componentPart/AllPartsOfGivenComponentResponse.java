@@ -4,15 +4,17 @@ public class AllPartsOfGivenComponentResponse {
     private Long partId;
     private String partName;
     private String sapNumber;
-    private String description;
+    private String brand;
+    private String model;
 
     private int quantity;
 
-    public AllPartsOfGivenComponentResponse(Long id, String partName, String sapNumber, String description, int quantity) {
+    public AllPartsOfGivenComponentResponse(Long id, String partName, String sapNumber, String description, String model, int quantity) {
         this.partId = id;
         this.partName = partName;
         this.sapNumber = sapNumber;
-        this.description = description;
+        this.brand = description;
+        this.model = model;
         this.quantity = quantity;
     }
 
@@ -43,12 +45,12 @@ public class AllPartsOfGivenComponentResponse {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getBrand() {
+        return brand;
     }
 
-    public AllPartsOfGivenComponentResponse setDescription(String description) {
-        this.description = description;
+    public AllPartsOfGivenComponentResponse setBrand(String brand) {
+        this.brand = brand;
         return this;
     }
 
@@ -58,6 +60,15 @@ public class AllPartsOfGivenComponentResponse {
 
     public AllPartsOfGivenComponentResponse setQuantity(int quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public AllPartsOfGivenComponentResponse setModel(String model) {
+        this.model = model;
         return this;
     }
 }

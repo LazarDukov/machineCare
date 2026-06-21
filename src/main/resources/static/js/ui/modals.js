@@ -1,6 +1,6 @@
 import {changeDevice, createDevice, deleteDevice} from "../api/devicesApi.js";
 import {changeSubDevice, createSubDevice, deleteSubDevice} from "../api/subDevicesApi.js";
-import {createComponent, changeComponent, deleteComponent} from "../api/componentsApi.js";
+import {createComponent, changeComponent, deleteComponent, getImagesByComponentId} from "../api/componentsApi.js";
 import {
     addPartToComponent,
     changePart,
@@ -64,10 +64,17 @@ export function initComponent() { // ТУК ДОБАВЯМ КОМПОНЕНТ
 
     document.getElementById("save-component-btn").onclick = async () => {
         const name = document.getElementById("component-name-input").value.trim();
+        const brand = document.getElementById("component-brand-input").value.trim();
+        const model = document.getElementById("component-model-input").value.trim();
+        const additionalInfo = document.getElementById("component-additionalInfo-input").value.trim();
 
 
         if (!name) return;
-        let body = {name, subDeviceId: selectedSubDevice};
+        let body = {name,
+            subDeviceId: selectedSubDevice,
+            brand: brand,
+            model: model,
+            additionalInfo: additionalInfo};
         await createComponent(body);
 
         document.getElementById("component-modal").style.display = "none";
@@ -81,6 +88,9 @@ export function openEditComponent(component) { // ОТВАРЯМ МОДАЛА З
     selectedComponentInModal = component;
 
     document.getElementById("component-name-input-change").value = selectedComponentInModal.name;
+    document.getElementById("component-brand-input-change").value = selectedComponentInModal.brand;
+    document.getElementById("component-model-input-change").value = selectedComponentInModal.model;
+    document.getElementById("component-additionalInfo-input-change").value = selectedComponentInModal.additionalInfo;
 
     toggle("component-modal-change");
 }
@@ -90,10 +100,16 @@ export function initChangeComponent() {
 
     document.getElementById("save-component-change-btn").onclick = async () => {
         const name = document.getElementById("component-name-input-change").value.trim();
+        const brand = document.getElementById("component-brand-input-change").value.trim();
+        const model = document.getElementById("component-model-input-change").value.trim();
+        const additionalInfo = document.getElementById("component-additinalInfo-input-change").value.trim();
 
         let body = {
             id: selectedComponentInModal.id,
-            name: name
+            name: name,
+            brand: brand,
+            model: model,
+            additionalInfo: additionalInfo
         };
         await changeComponent(body);
 
@@ -114,7 +130,8 @@ export function initPartModal() { // ТУК ДОБАВЯМ ЧАСТ КЪМ КО�
 
     document.getElementById("save-part-btn").onclick = async () => {
         const name = document.getElementById("part-name-input").value.trim();
-        const description = document.getElementById("part-description-input").value.trim();
+        const brand = document.getElementById("part-brand-input").value.trim();
+        const model = document.getElementById("part-model-input").value.trim();
         const sapNumber = document.getElementById("part-sap-number-input").value.trim();
         const quantity = document.getElementById("part-quantity-input").value.trim();
 
@@ -122,7 +139,8 @@ export function initPartModal() { // ТУК ДОБАВЯМ ЧАСТ КЪМ КО�
         if (!name) return;
         let body = {
             name,
-            description: description,
+            brand: brand,
+            model: model,
             sapNumber: sapNumber
         };
         let createdPart = await createPart(body);
@@ -146,7 +164,8 @@ export function openEditPart(part, componentId) { // ОТВАРЯМ МОДАЛА
     selectedPart = part;
     selectedComponentInModal = componentId;
     document.getElementById("part-name-input-change").value = selectedPart.partName;
-    document.getElementById("part-description-input-change").value = selectedPart.description;
+    document.getElementById("part-brand-input-change").value = selectedPart.brand;
+    document.getElementById("part-model-input-change").value = selectedPart.model;
     document.getElementById("part-sap-number-input-change").value = selectedPart.sapNumber;
     document.getElementById("part-quantity-input-change").value = selectedPart.quantity;
     toggle("change-part-modal");
@@ -157,13 +176,15 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
 
     document.getElementById("save-changed-part-btn").onclick = async () => {
         const name = document.getElementById("part-name-input-change").value.trim();
-        const description = document.getElementById("part-description-input-change").value.trim();
+        const brand = document.getElementById("part-brand-input-change").value.trim();
+        const model = document.getElementById("part-model-input-change").value.trim();
         const sapNumber = document.getElementById("part-sap-number-input-change").value.trim();
         const quantity = document.getElementById("part-quantity-input-change").value.trim();
         let body = {
             id: selectedPart.partId,
             partName: name,
-            description: description,
+            brand: brand,
+            model: model,
             sapNumber: sapNumber
         };
 
@@ -177,7 +198,8 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
 
         const partChanged =
             selectedPart.partName !== name ||
-            selectedPart.description !== description ||
+            selectedPart.brand !== brand ||
+            selectedPart.model !== model ||
             selectedPart.sapNumber !== sapNumber;
 
         const quantityChanged =
@@ -225,6 +247,34 @@ export async function openPartImages(part) {
     }
 }
 
+export async function openComponentImages(component) {
+
+    const modal = document.getElementById("images-modal");
+    const container = document.getElementById("images-container");
+
+    // 🔥 ТОВА ТИ ЛИПСВА
+    modal.classList.remove("hidden");
+    modal.style.display = "flex";
+
+    container.innerHTML = "<p>Зареждане...</p>";
+
+    try {
+
+        const images = await getImagesByComponentId(component);
+        if (!images.length) {
+            container.innerHTML = "<p>Няма добавени снимки.</p>";
+            return;
+        }
+        container.innerHTML = images
+            .filter(Boolean)
+            .map(img => `
+                <img src="/uploadedImages/${img.pictureUrl}"  class="component-image-preview"  onclick="openFullImage(this.src)"/>
+            `).join("");
+
+    } catch (e) {
+        container.innerHTML = "<p>Грешка</p>";
+    }
+}
 
 export function openDeletePart(part, componentId) {
     return new Promise((resolve) => {
@@ -659,3 +709,4 @@ window.openEditDevice = openEditDevice;
 window.openDeleteDevice = openDeleteDevice;
 window.openEditTaskModal = openEditTaskModal;
 window.openPartImages = openPartImages;
+window.openComponentImages = openComponentImages;
