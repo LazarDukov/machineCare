@@ -251,7 +251,7 @@ export function renderLayout() {
 
             <div class="tree-panel">
 
-                <h2>
+                <h2 class="details-subtitle">
                     Структура
                 </h2>
 
@@ -261,14 +261,12 @@ export function renderLayout() {
 
             <div class="details-panel">
 
-                <h2>
-                    Детайли
+                <h2 class="details-subtitle">
+                    Компонент:
                 </h2>
 
                 <div id="details-root">
-
                     Избери елемент
-
                 </div>
 
             </div>
@@ -288,11 +286,11 @@ export function renderDetailsWithParts(component, parts) {
     }
 
     root.innerHTML = `
-        <h3 class="details-title">
+        <h3 class="details-subtitle">
             ${component.name}
         </h3>
          
-        <button
+        <button 
         class="component-image-btn-add"
         onclick="openImagePickerForComponent(${component.id})"
     >
@@ -316,81 +314,96 @@ export function renderDetailsWithParts(component, parts) {
 
                         ${parts.map((p, index) => `
 
-                            <div class="part-card">
+   <div class="part-card">
 
-                              <div class="part-header">
+    <div class="part-header">
+        <div class="part-header-left">
+            <span class="part-number">
+                #${index + 1}
+            </span>
 
-    <div class="part-header-left">
-        <span class="part-number">
-            #${index + 1}
-        </span>
-
-        <span class="part-name">
-            ${p.partName}
-        </span>
+            <span class="part-name">
+                ${p.partName}
+            </span>
+        </div>
     </div>
 
-    <div class="part-actions">
-     <button
-        class="part-image-btn"
-        onclick="openImagePickerForPart(${p.partId})"
-    >
-        Добави снимка
-    </button>
-    
-        <button
-            class="part-edit-btn"
-            onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
-        >
-            Промени
-        </button>
+    <div class="part-body">
 
-        <button
-            class="part-delete-btn"
-            onclick='openDeletePart(${JSON.stringify(p)}, ${component.id})'
-        >
-            Изтрий
-        </button>
+        <div class="part-inline-row">
+
+            <div class="part-field">
+                <span class="label">Марка:</span>
+                <span class="part-field-item">
+                    ${p.brand || "-"}
+                </span>
+            </div>
+
+            <div class="part-field">
+                <span class="label">Модел/тип:</span>
+                <span class="part-field-item">
+                    ${p.model || "-"}
+                </span>
+            </div>
+
+            <div class="part-field">
+                <span class="label">SAP:</span>
+                <span class="part-field-item">
+                    ${p.sapNumber || "-"}
+                </span>
+            </div>
+
+            <div class="part-field">
+                <span class="label">Qty:</span>
+                <span class="part-field-item">
+                    ${p.quantity || 0}
+                </span>
+            </div>
+
+            <div class="part-field">
+                <span class="label">Допълнителна информация:</span>
+                <span class="part-field-item">
+                    ${p.additionalInfo || "-"}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="part-actions">
+            <button
+                class="part-image-btn"
+                onclick="openImagePickerForPart(${p.partId})"
+            >
+                Добави снимка
+            </button>
+
+            <button
+                class="part-images-btn"
+                onclick="openPartImages(${p.partId})"
+            >
+                Снимки на частта
+            </button>
+
+            <button
+                class="part-edit-btn"
+                onclick='openEditPart(${JSON.stringify(p)}, ${component.id})'
+            >
+                Промени частта
+            </button>
+
+            <button
+                class="part-delete-btn"
+                onclick='openDeletePart(${JSON.stringify(p)}, ${component.id})'
+            >
+                Изтрий частта
+            </button>
+        </div>
+
     </div>
 
 </div>
 
-                                <div class="part-body">
-
-                                    <div class="part-inline-row">
-
- <button
-    class="part-images-btn"
-    onclick="openPartImages(${p.partId})"
->
-    Снимки на частта
-</button>
-                                        <div class="part-field">
-                                            <span class="label">Описание:</span>
-                                            <span class="part-field-item">
-                                                ${p.description || "-"}
-                                            </span>
-                                        </div>
-
-                                        <div class="part-field">
-                                            <span class="label">SAP:</span>
-                                            <span class="part-field-item">
-                                                ${p.sapNumber || "-"}
-                                            </span>
-                                        </div>
-
-                                        <div class="part-field">
-                                            <span class="label">Qty:</span>
-                                            <span class="part-field-item">
-                                                ${p.quantity || 0}
-                                            </span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                            
 
                         `).join("")}
 
