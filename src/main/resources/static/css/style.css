@@ -25,6 +25,7 @@ body {
 }
 
 .main-layout {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,13 +34,8 @@ body {
 
 }
 
-.right-group, .left-group {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-}
 
-.left-wrapper, .center-wrapper, .right-wrapper {
+.center-wrapper {
     display: flex;
     align-items: center;
     width: 300px;
@@ -49,7 +45,7 @@ body {
 .auth-container {
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
+    padding: 20px;
     border-radius: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -258,11 +254,12 @@ button {
 
     display: grid;
 
-    grid-template-columns: 450px 1fr;
+    grid-template-columns: minmax(560px, 0.70fr) minmax(360px, 1.30fr);
 
     gap: 20px;
 
     height: 80vh;
+
 }
 
 .tree-panel {
@@ -275,12 +272,19 @@ button {
 }
 
 .details-panel {
-
     border: 1px solid #ccc;
-
-    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
+#details-root {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+}
 .part-item {
     display: grid;
     grid-template-columns: 40px 1fr 120px 200px 80px;
@@ -475,44 +479,44 @@ button {
 }
 
 .part-card {
-    background: #bad4fa;
-    border-left: 5px solid #4a90e2;
+    background: #d7e9ff;
+    border: 1px solid rgba(30, 64, 175, 0.25);
+    border-left: 5px solid #2563eb;
     border-radius: 10px;
-    padding: 14px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+    padding: 12px;
 }
 
 .part-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    justify-content: flex-start;
+    margin-bottom: 4px;
 }
 
-.part-number {
-    background: #4a90e2;
-    color: white;
-    font-weight: bold;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 14px;
+.part-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .part-name {
-    font-size: 18px;
-    font-weight: 700;
-    color: #222;
+    font-size: 17px;
+    font-weight: 800;
+    color: #172033;
+    line-height: 1.2;
 }
 
 .part-body {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: flex-start;
 }
 
 .part-row {
     display: flex;
-    gap: 8px;
+    gap: 2px;
     font-size: 14px;
 }
 
@@ -523,41 +527,35 @@ button {
 }
 
 .details-title {
-    margin-bottom: 8px;
+    margin-bottom: 2px;
 }
-
-.details-subtitle {
+details-subtitle {
     margin-bottom: 16px;
     color: #666;
 }
 
 .part-inline-row {
     display: flex;
-    align-items: center;
-    gap: 24px;
-
-    flex-wrap: wrap;
-
-    margin-top: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-top: 2px;
+    padding-left: 50px;
 }
 
 .part-field {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: flex-start;
+
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
 
     background: rgb(93, 190, 255);
-
-    padding: 6px 10px;
-
+    padding: 2px 6px;
     border-radius: 8px;
-
-    font-size: 14px;
-}
-
-.part-field .label {
-    font-weight: 700;
-    color: #444;
+    font-size: 12px;
 }
 
 .add-part-wrapper {
@@ -608,7 +606,9 @@ button {
 
 .part-actions {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
 }
 
 .part-edit-btn,
@@ -617,15 +617,13 @@ button {
 .part-images-btn,
 .component-image-btn-add,
 .component-image-btn-view {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
+    width: 135px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    font-size: 11px;
+    line-height: 1.1;
+    min-height: 28px;
+    text-align: center;
 }
 
 .part-edit-btn:hover,
@@ -1072,5 +1070,86 @@ button {
     .structure-table {
         min-width: 860px;
     }
+}
+/* Add this after the table styles. */
+
+.structure-search-bar {
+    width: 100%;
+    margin: 18px 0 14px;
+}
+
+.structure-search-bar input {
+    width: min(520px, 100%);
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid rgba(51, 111, 183, 0.32);
+    border-radius: 12px;
+    background: #eef7ff;
+    color: #172033;
+    font-size: 15px;
+    outline: none;
+    box-shadow: 0 8px 18px rgba(15, 73, 132, 0.12);
+}
+
+.structure-search-bar input:focus {
+    border-color: #1b6bff;
+    box-shadow: 0 0 0 3px rgba(27, 107, 255, 0.18);
+}
+
+.structure-filter-row th {
+    padding: 10px 12px !important;
+    background: #cfe6ff !important;
+}
+
+.structure-column-filter {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 1px solid rgba(51, 111, 183, 0.35);
+    border-radius: 9px;
+    background: #f7fbff;
+    color: #172033;
+    font-size: 13px;
+    font-weight: 650;
+    outline: none;
+}
+
+.structure-column-filter:focus {
+    border-color: #1b6bff;
+    box-shadow: 0 0 0 3px rgba(27, 107, 255, 0.16);
+}
+
+.entity-info-line {
+    margin-top: 4px;
+    color: #38455d;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.structure-loading,
+.structure-empty,
+.structure-error {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #eaf4ff;
+    color: #172033;
+    font-weight: 650;
+}
+
+.structure-error {
+    color: #b42318;
+}
+
+.task-timer-cell {
+    text-align: center;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 

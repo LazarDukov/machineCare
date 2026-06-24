@@ -5,7 +5,7 @@ import {openEmployeeModal} from "../ui/modals.js";
 
 const container = document.getElementById("tasks-container");
 
-// 👉 взимаме machineName от URL
+// Взимаме machineName от URL
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
 let selectedUsersForTask = [];
@@ -27,11 +27,11 @@ async function loadTasks() {
         const users = rawUsers;
 
         if (!tasks.length) {
-            container.innerHTML = "<p>Няма задачи</p>";
+            container.innerHTML = `<div class="structure-empty">Няма задачи</div>`;
             return;
         }
 
-        // ✅ Sorting
+        // Sorting
         tasks.sort((a, b) => {
             return (
                 (a.machineId || 0) - (b.machineId || 0) ||
@@ -42,10 +42,9 @@ async function loadTasks() {
         });
 
         const table = document.createElement("table");
-        table.style.width = "100%";
-        table.style.borderCollapse = "collapse";
-        table.style.marginTop = "10px";
+        table.className = "structure-table";
 
+        const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
 
         [
@@ -61,14 +60,13 @@ async function loadTasks() {
         ].forEach(text => {
             const th = document.createElement("th");
             th.textContent = text;
-            th.style.border = "1px solid #ccc";
-            th.style.padding = "8px";
-            th.style.background = "#1b6bff";
-            th.style.color = "white";
             headerRow.appendChild(th);
         });
 
-        table.appendChild(headerRow);
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
 
         tasks.forEach(task => {
 
@@ -93,10 +91,9 @@ async function loadTasks() {
 
             row.appendChild(createCell(periodText.trim()));
 
-            // ✅ Timer cell
+            // Timer cell
             const timerCell = document.createElement("td");
-            timerCell.style.textAlign = "center";
-            timerCell.style.padding = "8px";
+            timerCell.className = "task-timer-cell";
 
             row.appendChild(timerCell);
 
@@ -105,10 +102,8 @@ async function loadTasks() {
             console.log("createdAt:", task.createdAt);
             console.log("parsed:", new Date(task.createdAt));
             console.log("now:", new Date());
-            // ✅ Employee dropdown
 
-
-            // ✅ Complete button
+            // Complete button
             const completeBtn = document.createElement("button");
             completeBtn.textContent = "Приключи";
             completeBtn.className = "button-click";
@@ -140,7 +135,7 @@ async function loadTasks() {
                 }
             };
 
-// ✅ Edit button
+            // Edit button
             const editBtn = document.createElement("button");
             editBtn.textContent = "Промени";
             editBtn.className = "button-click";
@@ -157,6 +152,7 @@ async function loadTasks() {
                 await updateTask(updatedTask);
                 await loadTasks();
             };
+
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Изтрий";
             deleteBtn.className = "button-click";
@@ -168,20 +164,16 @@ async function loadTasks() {
                 );
 
                 if (!confirmed) return;
-                console.log("Deleting task:", task)
-                await deleteTask(task); // твоя API функция
-
+                console.log("Deleting task:", task);
+                await deleteTask(task);
 
                 await loadTasks();
             };
 
-
             const actionCell = document.createElement("td");
 
             const buttonsWrapper = document.createElement("div");
-            buttonsWrapper.style.display = "flex";
-            buttonsWrapper.style.gap = "8px";
-            buttonsWrapper.style.justifyContent = "center";
+            buttonsWrapper.className = "task-actions";
 
             buttonsWrapper.appendChild(completeBtn);
             buttonsWrapper.appendChild(editBtn);
@@ -190,15 +182,21 @@ async function loadTasks() {
             actionCell.appendChild(buttonsWrapper);
 
             row.appendChild(actionCell);
-            table.appendChild(row);
+            tbody.appendChild(row);
         });
+
+        table.appendChild(tbody);
 
         container.innerHTML = "";
         container.appendChild(table);
 
     } catch (err) {
         console.error("Error loading tasks:", err);
-        container.innerHTML = "<p>Грешка при зареждане на задачите.</p>";
+        container.innerHTML = `
+            <p class="structure-error">
+                Грешка при зареждане на задачите.
+            </p>
+        `;
     }
 
 }
@@ -210,9 +208,6 @@ async function loadTasks() {
 function createCell(text) {
     const td = document.createElement("td");
     td.textContent = text || "-";
-    td.style.border = "1px solid #ccc";
-    td.style.padding = "8px";
-    td.style.textAlign = "center";
     return td;
 }
 
