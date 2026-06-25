@@ -274,16 +274,23 @@ button {
 .details-panel {
     border: 1px solid #ccc;
     display: flex;
+    padding: 15px;
     flex-direction: column;
     overflow: hidden;
 }
-
+.details-subtitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 20px 0;
+}
 #details-root {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 8px;
+    padding-top: 20px;
 }
 .part-item {
     display: grid;
@@ -529,10 +536,7 @@ button {
 .details-title {
     margin-bottom: 2px;
 }
-details-subtitle {
-    margin-bottom: 16px;
-    color: #666;
-}
+
 
 .part-inline-row {
     display: flex;
@@ -615,6 +619,7 @@ details-subtitle {
 .part-delete-btn,
 .part-image-btn,
 .part-images-btn,
+.add-part-btn,
 .component-image-btn-add,
 .component-image-btn-view {
     width: 135px;
@@ -630,6 +635,7 @@ details-subtitle {
 .part-delete-btn:hover,
 .part-image-btn:hover,
 .part-images-btn:hover,
+.add-part-btn:hover,
 .component-image-btn-add:hover,
 .component-image-btn-view:hover {
     background: white;

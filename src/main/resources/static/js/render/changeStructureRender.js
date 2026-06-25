@@ -209,9 +209,15 @@ export function renderDetails(component) {
     const root =
         document.getElementById("details-root");
 
-    if (!component) {
-        root.innerHTML = "Избери компонент";
-        return;
+
+        if (!component) {
+            root.innerHTML = `
+        <h2 class="details-subtitle">
+            Избери компонент
+        </h2>
+    `;
+            return;
+
     }
 
     const parts = component.original.parts || [];
@@ -250,28 +256,15 @@ export function renderLayout() {
         <div class="structure-layout">
 
             <div class="tree-panel">
+    <h2 class="details-subtitle">Структура</h2>
+    <div id="tree-root"></div>
+</div>
 
-                <h2 class="details-subtitle">
-                    Структура
-                </h2>
-
-                <div id="tree-root"></div>
-
-            </div>
-
-            <div class="details-panel">
-
-                <h2 class="details-subtitle">
-                    Компонент:
-                </h2>
-
-                <div id="details-root">
-                    Избери елемент
-                </div>
-
-            </div>
-
-        </div>
+<div class="details-panel">
+    <div id="details-root">
+        <h2 class="details-subtitle">Избери компонент</h2>
+    </div>
+</div>
     `;
 }
 
@@ -281,7 +274,11 @@ export function renderDetailsWithParts(component, parts) {
         document.getElementById("details-root");
 
     if (!component) {
-        root.innerHTML = "Избери компонент";
+        root.innerHTML = `
+        <h2 class="details-subtitle">
+            Избери компонент
+        </h2>
+    `;
         return;
     }
 
@@ -412,10 +409,10 @@ export function renderDetailsWithParts(component, parts) {
             : "<p>Няма части</p>"
     }
 
-        <div class="add-part-wrapper">
+        <div>
 
             <button
-                class="register add-part-btn"
+                class="add-part-btn"
                 onclick="openAddPartToComponent(${component.id})"
             >
                 + Добави нова част
