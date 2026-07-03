@@ -10,11 +10,29 @@ const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
 let selectedUsersForTask = [];
 
-loadTasks();
 
+async function init() {
+    document
+        .getElementById("add-task-btn")
+        .addEventListener("click", goToAddTask);
+
+
+    await loadTasks();
+}
+function goToAddTask() {
+    console.log("CLICK")
+    window.location.href =
+        `/tasks/add?name=${encodeURIComponent(machineName)}`;
+}
+
+window.goToAddTask = goToAddTask;
 async function loadTasks() {
+
+
     try {
         console.log("Machine:", machineName);
+
+
 
         const [tasks, rawUsers] = await Promise.all([
             getAllTasks(machineName),
@@ -278,3 +296,4 @@ function startElapsedTimer(task, element) {
         }
     };
 }
+document.addEventListener("DOMContentLoaded", init);

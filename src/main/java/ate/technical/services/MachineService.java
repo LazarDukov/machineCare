@@ -6,16 +6,11 @@ import ate.technical.api.response.machine.ViewStructureResponse;
 import ate.technical.api.response.machine.ViewMachineResponse;
 import ate.technical.api.response.component.ComponentStructureResponse;
 import ate.technical.api.response.device.DevicesStructureResponse;
+import ate.technical.api.response.repairJobs.RepairJobsViewAllResponse;
 import ate.technical.api.response.subDevice.SubDevicesStructureResponse;
-import ate.technical.model.entities.Component;
-import ate.technical.model.entities.Device;
-import ate.technical.model.entities.Machine;
-import ate.technical.model.entities.SubDevice;
+import ate.technical.model.entities.*;
 import ate.technical.model.enums.TypeEnum;
-import ate.technical.repositories.ComponentRepository;
-import ate.technical.repositories.DeviceRepository;
-import ate.technical.repositories.MachineRepository;
-import ate.technical.repositories.SubDeviceRepository;
+import ate.technical.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,14 +24,17 @@ public class MachineService {
     private final SubDeviceRepository subDeviceRepository;
 
     private final ComponentRepository componentRepository;
+    private final RepairJobRepository repairJobRepository;
 
 
-    public MachineService(MachineRepository machineRepository, DeviceRepository deviceRepository, SubDeviceRepository subDeviceRepository, ComponentRepository componentRepository) {
+    public MachineService(MachineRepository machineRepository, DeviceRepository deviceRepository, SubDeviceRepository subDeviceRepository, ComponentRepository componentRepository, RepairJobRepository repairJobRepository) {
         this.machineRepository = machineRepository;
 
         this.deviceRepository = deviceRepository;
         this.subDeviceRepository = subDeviceRepository;
         this.componentRepository = componentRepository;
+        this.repairJobRepository = repairJobRepository;
+
     }
 
 
@@ -160,4 +158,14 @@ public class MachineService {
     }
 
 
+    public List<RepairJobsViewAllResponse> findAllRepairJobByMachineId(String machineName) {
+        Optional<Machine> machine = machineRepository.findMachineByName(machineName);
+        List<RepairJob> repairJobs = repairJobRepository.findAllByMachineId(machine.get().getId());
+        return repairJobs.stream()
+                .map(repairJob -> new RepairJobsViewAllResponse()
+                        .setId(repairJob.getId())
+                        .setDescription(repairJob.getDescription())
+                        .setStartDate(repairJob.getStartDate().toString()))
+                .toList();
+    }
 }

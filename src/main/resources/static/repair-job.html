@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>История на ремонти</title>
+
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<a href="/">
+    <img src="/uploadedImages/logo.png" class="logo">
+</a>
+
+<div class="main-layout"
+     style="margin-top:50px;
+            min-height:100vh;
+            align-items:flex-start;
+            padding-top:80px;
+            padding-bottom:40px;">
+
+    <div class="auth-container" style="width:90%;">
+
+        <h1 id="page-title">История на ремонти</h1>
+
+        <div id="repairs-container">
+            <div class="repairs-actions">
+                <button id="add-repair-btn" class="add-repair-btn">
+                    ➕ Добави нов запис
+                </button>
+            </div>
+            <table class="structure-table">
+
+                <thead>
+
+                <tr>
+                    <th>Профилактика/ремонт</th>
+                    <th>Дата</th>
+                    <th>Техник</th>
+                    <th>Описание на ремонта</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="repairs-body">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="repair-modal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close"
+              onclick="closeRepairModal()">&times;</span>
+
+        <h2>Описание на ремонта</h2>
+
+        <div id="repair-description"
+             style="text-align:left;
+                    white-space:pre-wrap;
+                    margin-top:20px;">
+        </div>
+
+    </div>
+
+</div>
+
+<script type="module" src="/js/pages/repairs-job.js"></script>
+
+</body>
+</html>

@@ -52,7 +52,7 @@ function goToChangeStructure() {
 }
 
 function goToRepairs() {
-    window.location.href = `/repairs.html?name=${encodeURIComponent(machineName)}`;
+    window.location.href = `/repair-job.html?name=${encodeURIComponent(machineName)}`;
 }
 
 function goToTasks() {

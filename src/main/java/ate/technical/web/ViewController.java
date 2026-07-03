@@ -51,6 +51,15 @@ public class ViewController {
         return "forward:/change-structure.html";
     }
 
+    @GetMapping("/repair-jobs")
+    public String viewRepairJobs() {
+        return "forward:/repair-jobs.html";
+    }
+
+    @GetMapping("/api/repairs-job/add")
+    public String addRepairJob() {
+        return "forward:/add-repairs-job.html";
+    }
     @GetMapping("/machines/extruders/machine-details.html")
     public String machineDetails() {
         return "forward:/machine-details.html";

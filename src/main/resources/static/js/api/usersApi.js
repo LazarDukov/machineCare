@@ -3,3 +3,9 @@ export function getOperatorsTechnicians() {
         credentials: "include"
     }).then(r => r.json());
 }
+
+export function getTechnicians() {
+    return fetch(`/api/users/technicians`, {
+        credentials: "include"
+    }).then(r => r.json());
+}
