@@ -1,8 +1,4 @@
-package ate.technical.api.response;
-
-import ate.technical.model.entities.User;
-
-import java.util.List;
+package ate.technical.api.response.user;
 
 public class ViewOperatorsTechnicians {
 

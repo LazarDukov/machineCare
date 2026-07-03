@@ -543,6 +543,78 @@ export function openEmployeeModal(users) {
     });
 }
 
+export function openEmployeeTechniciansModal(users) {
+
+    return new Promise(resolve => {
+
+        const modal = document.getElementById("employeeTechniciansModal");
+
+        const technicians =
+            document.getElementById("technicians");
+
+        const selectedEmployeesTechnicians =
+            document.getElementById("selectedEmployeesTechnicians");
+
+
+        technicians.innerHTML = "";
+        selectedEmployeesTechnicians.innerHTML = "";
+
+        users.forEach(user => {
+
+            const option = document.createElement("option");
+
+            option.value = user.id;
+            option.textContent =
+                `${user.firstName} ${user.lastName}`;
+
+            technicians.appendChild(option);
+        });
+
+        modal.classList.remove("hidden");
+
+        document.getElementById("moveRight").onclick = () => {
+
+            const selected =
+                technicians.selectedOptions[0];
+
+            if (!selected) return;
+
+            selectedEmployeesTechnicians.appendChild(
+                selected.cloneNode(true)
+            );
+        };
+
+        document.getElementById("moveLeft").onclick = () => {
+
+            const selected =
+                selectedEmployeesTechnicians.selectedOptions[0];
+
+            if (selected) {
+                selected.remove();
+            }
+        };
+
+        document.getElementById("confirmEmployeesTechnicians").onclick = () => {
+
+            const ids =
+                [...selectedEmployeesTechnicians.options]
+                    .map(o => Number(o.value));
+            modal.classList.add("hidden");
+
+            resolve({
+                ids
+            });
+        };
+
+        document.getElementById("cancelEmployeesTechnicians").onclick = () => {
+
+            modal.classList.add("hidden");
+
+            resolve(null);
+        };
+    });
+}
+
 export async function openEditTaskModal(task) {
     return new Promise((resolve, reject) => {
 
@@ -710,3 +782,4 @@ window.openDeleteDevice = openDeleteDevice;
 window.openEditTaskModal = openEditTaskModal;
 window.openPartImages = openPartImages;
 window.openComponentImages = openComponentImages;
+window.openEmployeeTechniciansModal = openEmployeeTechniciansModal;

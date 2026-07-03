@@ -1,7 +1,8 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.auth.CreateUserRequest;
-import ate.technical.api.response.ViewOperatorsTechnicians;
+import ate.technical.api.response.user.ViewOperatorsTechnicians;
+import ate.technical.api.response.user.ViewTechniciansResponse;
 import ate.technical.model.entities.User;
 import ate.technical.model.enums.DepartmentEnum;
 import ate.technical.model.enums.RoleEnum;
@@ -65,5 +66,17 @@ public class UserService {
         } else {
             throw new RuntimeException("User not found with id: " + userId);
         }
+    }
+
+    public List<ViewTechniciansResponse> getTechnicians() {
+        List<User> technicians = userRepository.findAllByDepartmentEnum(DepartmentEnum.TECHNICAL_DEPARTMENT);
+        List<ViewTechniciansResponse> vTechnicians = new ArrayList<>();
+        for (User employee : technicians) {
+            vTechnicians.add(new ViewTechniciansResponse()
+                    .setId(employee.getId())
+                    .setFirstName(employee.getFirstName())
+                    .setLastName(employee.getLastName()));
+        }
+        return vTechnicians;
     }
 }

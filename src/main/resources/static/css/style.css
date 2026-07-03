@@ -571,7 +571,8 @@ button {
     justify-content: center;
 }
 
-.add-part-btn {
+.add-part-btn,
+.add-repair-btn {
 
     padding: 14px 24px;
 
@@ -586,7 +587,8 @@ button {
     transition: all 0.25s ease;
 }
 
-.add-part-btn:hover {
+.add-part-btn:hover,
+.add-repair-btn:hover {
 
     transform: scale(1.05);
 
@@ -620,6 +622,7 @@ button {
 .part-image-btn,
 .part-images-btn,
 .add-part-btn,
+.add-repair-btn,
 .component-image-btn-add,
 .component-image-btn-view {
     width: 135px;
@@ -636,6 +639,7 @@ button {
 .part-image-btn:hover,
 .part-images-btn:hover,
 .add-part-btn:hover,
+.add-repair-btn:hover,
 .component-image-btn-add:hover,
 .component-image-btn-view:hover {
     background: white;
@@ -735,7 +739,8 @@ button {
 
 /*MODAL za slujitelite*/
 
-.modal-end-task {
+.modal-end-task,
+.confirm-employees-technicians {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, .4);
@@ -1159,3 +1164,20 @@ button {
     flex-wrap: wrap;
 }
 
+.textarea {
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    resize:vertical;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    min-height:220px;
+
+}

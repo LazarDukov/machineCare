@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавяне на ремонт</title>
+
+    <link rel="icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<a href="/static">
+    <img src="/uploadedImages/logo.png" class="logo">
+</a>
+
+<div class="main-layout">
+
+    <div class="auth-container" style="width:650px">
+
+        <h1>Добавяне на ремонт</h1>
+
+        <form id="repair-form" class="register-form">
+
+            <input
+                    id="repair-name"
+                    placeholder="Име на ремонта"
+                    required>
+
+            <input
+                    id="repair-date"
+                    type="date"
+                    required>
+
+            <button type="button" id="choose-technicians-btn">
+                Избери техник
+            </button>
+
+            <div id="selected-technicians-preview"></div>
+
+            <textarea
+                    id="repair-description"
+                    rows="10"
+                    placeholder="Описание на ремонта..."
+                    required></textarea>
+
+            <button type="submit">
+                Запази
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+<div id="employeeTechniciansModal" class="confirm-employees-technicians hidden">
+
+    <div class="modal-content">
+
+        <h3>Избор на служители</h3>
+
+        <div class="transfer-container">
+
+            <select id="technicians" size="10"></select>
+
+            <div class="buttons">
+                <button id="moveRight">➜</button>
+                <button id="moveLeft">⬅</button>
+            </div>
+
+            <select id="selectedEmployeesTechnicians" size="10"></select>
+
+        </div>
+        <div>
+            <div class="footer">
+                <button id="confirmEmployeesTechnicians">Избери</button>
+                <button id="cancelEmployeesTechnicians">Отказ</button>
+            </div>
+        </div>
+    </div>
+            <script type="module" src="/js/pages/add-repairs-job.js"></script>
+
+</body>
+</html>
