@@ -30,16 +30,18 @@ async function loadTechnicians() {
 
 async function saveRepair(e) {
     e.preventDefault();
-    const repairName = document.getElementById("repair-name").value.trim();
-    const repairDate = document.getElementById("repair-date").value;
+    const name = document.getElementById("repair-name").value.trim();
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
     const description = document.getElementById("repair-description").value.trim();
     const machineName =
         new URLSearchParams(window.location.search).get("name");
-    console.log("Saving repair...", machineName, repairName, repairDate, selectedTechnicians, description);
+    console.log("Saving repair...", machineName, name, startDate, endDate, selectedTechnicians, description);
     const body = {
         machineName,
-        repairName,
-        repairDate,
+        name,
+        startDate,
+        endDate,
         technicianIds: selectedTechnicians,
         description
     };

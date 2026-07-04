@@ -25,7 +25,7 @@ public class RepairJobService {
     }
 
     public void addRepairJob(RepairJobsCreateRequest request) {
-        System.out.println(request.getMachineName() + " " + request.getRepairDate() + " " + request.getDescription() + " " + request.getTechnicianIds());
+        System.out.println(request.getMachineName() + " " + request.getDescription() + " " + request.getTechnicianIds());
         Optional<Machine> machine = Optional.ofNullable(machineRepository.findMachineByName(request.getMachineName()).orElseThrow(() -> new RuntimeException("Machine not found")));
         System.out.println("first id: " + request.getTechnicianIds().get(0));
         List<User> technicians = userRepository.findAllById(request.getTechnicianIds()).stream().toList();
@@ -33,8 +33,11 @@ public class RepairJobService {
 
         RepairJob repairJob = new RepairJob();
         repairJob.setMachine(machine.get());
-        repairJob.setStartDate(request.getRepairDate());
+        repairJob.setName(request.getName());
+        repairJob.setStartDate(request.getStartDate());
+        repairJob.setEndDate(request.getEndDate());
         repairJob.setEmployees(technicians);
+
         repairJob.setDescription(request.getDescription());
         repairJobRepository.save(repairJob);
     }

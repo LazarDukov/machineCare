@@ -13,6 +13,18 @@ public class RepairJob {
     private Long id;
 
     @Column
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public RepairJob setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    @Column
     private String description;
 
     @Column
