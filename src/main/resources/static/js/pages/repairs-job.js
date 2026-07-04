@@ -21,13 +21,18 @@ async function loadRepairs() {
 
         repairs.forEach(repair => {
 
-            console.log(repair.repairName, repair.repairDate)
+            console.log(repair.technicians)
+            console.log(typeof repair.technicianIds);
+            console.log(Array.isArray(repair.technicianIds));
             const tr = document.createElement("tr");
-
+            const technicianNames = repair.technicians
+                .map(t => `${t.firstName} ${t.lastName}`)
+                .join(" ");
             tr.innerHTML = `
                 <td>${repair.name}</td>
                 <td>${repair.startDate}</td>
-                <td>${repair.technicians}</td>
+                <td>${repair.endDate}</td>
+                <td>${technicianNames}</td>
 <!--                TODO: SHOULD CREATE THIS CORRECTLY!-->
                 <td>
                     <button class="part-images-btn">

@@ -164,8 +164,11 @@ public class MachineService {
         return repairJobs.stream()
                 .map(repairJob -> new RepairJobsViewAllResponse()
                         .setId(repairJob.getId())
+                        .setName(repairJob.getName())
                         .setDescription(repairJob.getDescription())
-                        .setStartDate(repairJob.getStartDate().toString()))
+                        .setStartDate(repairJob.getStartDate().toString())
+                        .setEndDate(repairJob.getEndDate().toString())
+                        .setTechnicians(repairJob.getEmployees()))
                 .toList();
     }
 }

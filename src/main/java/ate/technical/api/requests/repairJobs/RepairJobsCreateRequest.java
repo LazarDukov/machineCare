@@ -5,11 +5,31 @@ import java.util.List;
 
 public class RepairJobsCreateRequest {
     private String machineName;
-    private String repairName;
+    private String name;
 
-    private LocalDate repairDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private List<Long> technicianIds;
     private String description;
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public RepairJobsCreateRequest setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public RepairJobsCreateRequest setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+
 
     public String getMachineName() {
         return machineName;
@@ -20,23 +40,16 @@ public class RepairJobsCreateRequest {
         return this;
     }
 
-    public String getRepairName() {
-        return repairName;
+    public String getName() {
+        return name;
     }
 
-    public RepairJobsCreateRequest setRepairName(String repairName) {
-        this.repairName = repairName;
+    public RepairJobsCreateRequest setName(String name) {
+        this.name = name;
         return this;
     }
 
-    public LocalDate getRepairDate() {
-        return repairDate;
-    }
 
-    public RepairJobsCreateRequest setRepairDate(LocalDate repairDate) {
-        this.repairDate = repairDate;
-        return this;
-    }
 
     public List<Long> getTechnicianIds() {
         return technicianIds;

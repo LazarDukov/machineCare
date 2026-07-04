@@ -1,10 +1,28 @@
 package ate.technical.api.response.repairJobs;
 
+import ate.technical.model.entities.User;
+
+import java.util.List;
+
 public class RepairJobsViewAllResponse {
     private Long id;
     private String name;
     private String description;
     private String startDate;
+    private String endDate;
+
+    private List<User> technicians;
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public RepairJobsViewAllResponse setEndDate(String endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -39,6 +57,15 @@ public class RepairJobsViewAllResponse {
 
     public RepairJobsViewAllResponse setStartDate(String startDate) {
         this.startDate = startDate;
+        return this;
+    }
+
+    public List<User> getTechnicians() {
+        return technicians;
+    }
+
+    public RepairJobsViewAllResponse setTechnicians(List<User> technicians) {
+        this.technicians = technicians;
         return this;
     }
 }
