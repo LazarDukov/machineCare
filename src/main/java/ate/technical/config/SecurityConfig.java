@@ -79,7 +79,7 @@ public class SecurityConfig {
                                 "/tasks/add",
                                 "/api/tasks/all/**")
                         .permitAll()
-                        .anyRequest().anonymous()
+                        .anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));

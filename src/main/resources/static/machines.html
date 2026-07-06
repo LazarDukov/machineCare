@@ -14,13 +14,14 @@
         <h1>Избери цех</h1>
 
         <div class="auth-buttons">
-            <button class="button-click" onclick="goToExtruders()">Цех Екструдери</button>
-            <button class="button-click" onclick="goToPackaging()">Цех Конфекция</button>
-            <button class="button-click" onclick="goToOthers()">1000</button>
+            <button class="button-click" id="extrudersBtn">Цех Екструдери</button>
+            <button class="button-click" id="packagingBtn">Цех Конфекция</button>
+            <button class="button-click auth-admin" id="othersBtn">1000</button>
         </div>
     </div>
 </div>
-<script src="/js/pages/machines.js"></script>
+<script type="module" src="/js/pages/machines.js"></script>
+<script type="module" src="/js/api/authApi.js"></script>
 
 </body>
 </html>

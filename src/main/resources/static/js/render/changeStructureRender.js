@@ -5,6 +5,23 @@ let selectedComponent = null;
 export function renderTree(structure, expandedNodes, selectedComponent) {
 
     const root = document.getElementById("tree-root");
+    if (!structure || structure.length === 0) {
+
+        root.innerHTML = `
+            <div class="empty-structure">
+                <p>Все още няма добавени устройства.</p>
+
+                <button
+                    class="add-device-btn"
+                    onclick="openAddDevice(null)"
+                >
+                    + Добави устройство
+                </button>
+            </div>
+        `;
+
+        return;
+    }
 
     root.innerHTML = createTree(structure, expandedNodes, selectedComponent);
 }

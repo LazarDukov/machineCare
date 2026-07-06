@@ -1,12 +1,14 @@
 package ate.technical.services;
 
 import ate.technical.api.requests.auth.CreateUserRequest;
+import ate.technical.api.response.user.ViewLoggedUser;
 import ate.technical.api.response.user.ViewOperatorsTechnicians;
 import ate.technical.api.response.user.ViewTechniciansResponse;
 import ate.technical.model.entities.User;
 import ate.technical.model.enums.DepartmentEnum;
 import ate.technical.model.enums.RoleEnum;
 import ate.technical.repositories.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +80,14 @@ public class UserService {
                     .setLastName(employee.getLastName()));
         }
         return vTechnicians;
+    }
+
+    public ViewLoggedUser getLoggedUser(UserDetails user) {
+        User loggedUser = getUserByUsername(user.getUsername());
+        return new ViewLoggedUser()
+                .setId(loggedUser.getId())
+                .setUsername(loggedUser.getUsername())
+                .setFirstName(loggedUser.getFirstName())
+                .setRoles(List.of(loggedUser.getRole()));
     }
 }
