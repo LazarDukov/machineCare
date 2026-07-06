@@ -15,7 +15,7 @@
         <h1>Избери машина (Екструдери)</h1>
 
         <!-- бутон за добавяне -->
-        <button class="button-click" onclick="goToAddMachine()">
+        <button class="button-click admin-only" onclick="goToAddMachine()">
             + Добави машина
         </button>
 
@@ -24,5 +24,6 @@
     </div>
 </div>
 <script type="module" src="/js/pages/extruders.js"></script>
+<script type="module" src="/js/api/authApi.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -18,28 +18,13 @@
         <p>Влез или си направи акаунт</p>
 
         <div class="auth-buttons">
-            <button class="button-click" onclick="goToLogin()">Login</button>
-            <button class="button-click" onclick="goToRegister()">Register</button>
+            <button class="button-click" id="loginBtn">Влез с профил</button>
+            <button class="button-click" id="registerBtn">Регистрация</button>
+            <button class="button-click" id="machinesBtn">Виж информация без профил</button>
         </div>
     </div>
 </div>
-<script>
-    function goToLogin() {
-        window.location.href = "/login";
-    }
 
-    function goToRegister() {
-        window.location.href = "/register";
-    }
-
-    window.onload = function () {
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            window.location.href = "/dashboard.html";
-        }
-    }
-</script>
-
+<script type="module" src="/js/pages/index.js"></script>
 </body>
 </html>

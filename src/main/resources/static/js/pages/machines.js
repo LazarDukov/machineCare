@@ -1,15 +1,20 @@
+import {loadCurrentUser} from "../api/authApi.js";
+
 window.onload = function () {
 }
 
-function goToExtruders() {
-    window.location.href = "/machines/extruders";
-}
+document.getElementById("extrudersBtn")
+    .addEventListener("click", () => {
+        window.location.href = "/machines/extruders";
+    });
 
-function goToPackaging() {
-    window.location.href = "/packaging.html";
+document.getElementById("packagingBtn")
+    .addEventListener("click", () => {
+        window.location.href = "/machines/packaging";
+    });
 
-}
+document.getElementById("othersBtn")
+    .addEventListener("click", () => {
+        window.location.href = "/machines/others";
+    });
 
-function goToOthers() {
-    window.location.href = "/others.html";
-}

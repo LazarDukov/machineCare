@@ -3,7 +3,8 @@ import {getRepairs} from "../api/repairJobsApi.js";
 const tbody = document.getElementById("repairs-body");
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
-
+const pageTitle = document.getElementById("page-title");
+pageTitle.textContent = `История за ремонти извършени на РЦ ${machineName}`;
 document.getElementById("add-repair-btn").addEventListener("click", () => {
     window.location.href =
         `/api/repairs-job/add?name=${encodeURIComponent(machineName)}`;

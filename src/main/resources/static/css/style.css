@@ -1019,12 +1019,13 @@ button {
     background: #eaf4ff;
 }
 
-.structure-table td:nth-child(2) {
+.structure-table td:nth-child(2),
+.structure-table td:nth-child(3) {
     font-weight: 650;
     color: #28527f;
 }
 
-.structure-table td:nth-child(3),
+
 .structure-table td:nth-child(4) {
     min-width: 240px;
 }
@@ -1180,4 +1181,33 @@ button {
 
     min-height:220px;
 
+}
+.move-right-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+.move-right-btn:hover {
+    background-color: #218838;
+}
+
+.move-left-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+.move-left-btn:hover {
+    background-color: #c82333;
 }
