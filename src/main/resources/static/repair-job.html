@@ -9,11 +9,7 @@
 </head>
 
 <body>
-
-<a href="/">
-    <img src="/uploadedImages/logo.png" class="logo">
-</a>
-
+<div id="appHeader"></div>
 <div class="main-layout"
      style="margin-top:50px;
             min-height:100vh;
@@ -27,7 +23,7 @@
 
         <div id="repairs-container">
             <div class="repairs-actions">
-                <button id="add-repair-btn" class="add-repair-btn">
+                <button id="add-repair-btn" class="add-repair-btn  admin-only">
                     ➕ Добави нов запис
                 </button>
             </div>
@@ -41,6 +37,7 @@
                     <th>Край на ремонт(дата)</th>
                     <th>Техник</th>
                     <th>Описание на ремонта</th>
+                    <th>Действия</th>
                 </tr>
 
                 </thead>
@@ -64,12 +61,12 @@
     <div class="modal-content">
 
         <span class="close"
-              onclick="closeRepairModal()">&times;</span>
+              onclick="closeModal('repair-modal')">&times;</span>
 
         <h2>Описание на ремонта</h2>
 
         <div id="repair-description"
-             style="text-align:left;
+             style="text-align:center;
                     white-space:pre-wrap;
                     margin-top:20px;">
         </div>
@@ -79,6 +76,6 @@
 </div>
 
 <script type="module" src="/js/pages/repairs-job.js"></script>
-
+<script type="module" src="/js/api/authApi.js"></script>
 </body>
 </html>

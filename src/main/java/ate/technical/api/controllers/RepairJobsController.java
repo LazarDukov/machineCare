@@ -1,5 +1,6 @@
 package ate.technical.api.controllers;
 
+import ate.technical.api.requests.repairJobs.ChangeRepairJobsRequest;
 import ate.technical.api.requests.repairJobs.RepairJobsCreateRequest;
 import ate.technical.api.response.repairJobs.RepairJobsViewAllResponse;
 import ate.technical.services.MachineService;
@@ -28,5 +29,13 @@ public class RepairJobsController {
     @GetMapping("/view-all/{machineName}")
     private ResponseEntity<List<RepairJobsViewAllResponse>> viewAllRepairJobs(@PathVariable String machineName) {
         return ResponseEntity.ok(machineService.findAllRepairJobByMachineId(machineName));
+    }
+
+    @PutMapping("/change")
+    private ResponseEntity<Void> changeRepairJob(@RequestBody ChangeRepairJobsRequest request) {
+        System.out.println(request.getName() + " " + request.getTechnicianIds());
+        System.out.println(" " + request.getStartDate() + " " + request.getEndDate() + " " + request.getDescription());
+        repairJobService.changeRepairJob(request);
+        return ResponseEntity.ok().build();
     }
 }

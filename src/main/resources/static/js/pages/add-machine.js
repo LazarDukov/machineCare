@@ -1,5 +1,9 @@
+
 //TODO: Should remove this file when add methods in others
-const form = document.getElementById("machine-form");
+import { renderHeader } from "../ui/header.js";
+
+document.addEventListener("DOMContentLoaded", renderHeader);
+ const form = document.getElementById("machine-form");
 
 form.addEventListener("submit", async function(e) {
     e.preventDefault();

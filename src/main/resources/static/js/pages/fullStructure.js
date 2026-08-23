@@ -2,7 +2,9 @@ import {getStructure} from "../service/structureService.js";
 import {getPartsByComponentId} from "../api/componentsPartsApi.js";
 import {openPartImages} from "../ui/modals.js";
 import {openComponentImages} from "../ui/modals.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const machineName =
     new URLSearchParams(window.location.search)
         .get("name");

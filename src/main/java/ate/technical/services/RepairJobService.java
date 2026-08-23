@@ -1,14 +1,17 @@
 package ate.technical.services;
 
+import ate.technical.api.requests.repairJobs.ChangeRepairJobsRequest;
 import ate.technical.api.requests.repairJobs.RepairJobsCreateRequest;
 import ate.technical.model.entities.Machine;
 import ate.technical.model.entities.RepairJob;
 import ate.technical.model.entities.User;
+import ate.technical.model.enums.DepartmentEnum;
 import ate.technical.repositories.MachineRepository;
 import ate.technical.repositories.RepairJobRepository;
 import ate.technical.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +43,25 @@ public class RepairJobService {
 
         repairJob.setDescription(request.getDescription());
         repairJobRepository.save(repairJob);
+    }
+
+    public void changeRepairJob(ChangeRepairJobsRequest request) {
+        System.out.println(request.getId());
+        RepairJob repairJob = repairJobRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Repair job not found"));;
+        System.out.print(request.getName() + " " + request.getTechnicianIds());
+        repairJob.setName(request.getName());
+        repairJob.setStartDate(request.getStartDate());
+        repairJob.setEndDate(request.getEndDate());
+        repairJob.setDescription(request.getDescription());
+        List<User> allTechnicians = userRepository.findAllByDepartmentEnum(DepartmentEnum.TECHNICAL_DEPARTMENT).stream().toList();
+        System.out.println("allTechnicians: " + allTechnicians.stream().map(User::getId).toList());
+        List<User> newTechnicians = allTechnicians.stream().filter(technician -> request.getTechnicianIds().contains(technician.getId())).toList();
+        System.out.println("newTechnicians: " + newTechnicians.stream().map(User::getId).toList());
+        repairJob.getEmployees().clear();
+        // TODO: here should put less acts for better performance!
+        repairJob.getEmployees().addAll(newTechnicians);
+
+        repairJobRepository.save(repairJob);
+
     }
 }
