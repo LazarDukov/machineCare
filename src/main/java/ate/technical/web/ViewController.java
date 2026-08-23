@@ -1,5 +1,6 @@
 package ate.technical.web;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,9 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ViewController {
     @GetMapping("/")
-    public String homeView() {
+    public String homeView(Authentication authentication) {
+        boolean isLogged = authentication != null && authentication.isAuthenticated();
+        if (isLogged) {
+            return "forward:/machines.html";
+        }
         return "forward:/index.html";
     }
+
     @GetMapping("/login")
     public String loginView() {
         return "forward:/login.html";
@@ -64,6 +70,7 @@ public class ViewController {
     public String addRepairJob() {
         return "forward:/add-repairs-job.html";
     }
+
     @GetMapping("/machines/extruders/machine-details.html")
     public String machineDetails() {
         return "forward:/machine-details.html";

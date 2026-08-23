@@ -10,6 +10,7 @@ import {
 } from "../api/partsApi.js";
 import {deletePartFromComponent} from "../api/componentsPartsApi.js";
 import {initTaskDropdowns} from "../ui/dropDownMenu.js";
+import {getTechnicians} from "../api/usersApi.js";
 
 let selectedDevice = null;
 let selectedSubDevice = null;
@@ -70,11 +71,13 @@ export function initComponent() { // ТУК ДОБАВЯМ КОМПОНЕНТ
 
 
         if (!name) return;
-        let body = {name,
+        let body = {
+            name,
             subDeviceId: selectedSubDevice,
             brand: brand,
             model: model,
-            additionalInfo: additionalInfo};
+            additionalInfo: additionalInfo
+        };
         await createComponent(body);
 
         document.getElementById("component-modal").style.display = "none";
@@ -218,6 +221,7 @@ export function initEditPartModal() { // ТУК РЕДАКТИРАМ ЧАСТ К
         await refreshPage(); // refresh
     };
 }
+
 export async function openPartImages(part) {
 
     const modal = document.getElementById("images-modal");
@@ -543,21 +547,51 @@ export function openEmployeeModal(users) {
     });
 }
 
-export function openEmployeeTechniciansModal(users) {
+export function openEmployeeTechniciansModal(users, selectedIds = []) {
 
     return new Promise(resolve => {
 
-        const modal = document.getElementById("employeeTechniciansModal");
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+
+        const modal = document.createElement("div");
+        modal.className = "modal-content";
+
+        modal.innerHTML = `
+            <h3>Избор на техници</h3>
+
+            <div class="transfer-container">
+
+                <select id="technicians" size="10"></select>
+
+                <div class="buttons">
+                    <button type="button" id="moveRight" class="move-right-btn">>></button>
+                    <button type="button" id="moveLeft" class="move-left-btn"><<</button>
+                </div>
+
+                <select id="selectedEmployeesTechnicians" size="10"></select>
+
+            </div>
+
+            <div class="footer" style="margin-top:20px;">
+                <button type="button" id="confirmEmployeesTechnicians">
+                    Избери
+                </button>
+
+                <button type="button" id="cancelEmployeesTechnicians">
+                    Отказ
+                </button>
+            </div>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
 
         const technicians =
-            document.getElementById("technicians");
+            modal.querySelector("#technicians");
 
         const selectedEmployeesTechnicians =
-            document.getElementById("selectedEmployeesTechnicians");
-
-
-        technicians.innerHTML = "";
-        selectedEmployeesTechnicians.innerHTML = "";
+            modal.querySelector("#selectedEmployeesTechnicians");
 
         users.forEach(user => {
 
@@ -567,54 +601,64 @@ export function openEmployeeTechniciansModal(users) {
             option.textContent =
                 `${user.firstName} ${user.lastName}`;
 
-            technicians.appendChild(option);
+            if (selectedIds.includes(user.id)) {
+                selectedEmployeesTechnicians.appendChild(option);
+            } else {
+                technicians.appendChild(option);
+            }
         });
 
-        modal.classList.remove("hidden");
-
-        document.getElementById("moveRight").onclick = () => {
+        modal.querySelector("#moveRight").onclick = () => {
 
             const selected =
                 technicians.selectedOptions[0];
 
             if (!selected) return;
 
-            selectedEmployeesTechnicians.appendChild(
-                selected.cloneNode(true)
-            );
+            selectedEmployeesTechnicians.appendChild(selected);
         };
 
-        document.getElementById("moveLeft").onclick = () => {
+        modal.querySelector("#moveLeft").onclick = () => {
 
             const selected =
                 selectedEmployeesTechnicians.selectedOptions[0];
 
-            if (selected) {
-                selected.remove();
-            }
+            if (!selected) return;
+
+            technicians.appendChild(selected);
         };
 
-        document.getElementById("confirmEmployeesTechnicians").onclick = () => {
+        modal.querySelector("#confirmEmployeesTechnicians").onclick = () => {
 
             const ids =
                 [...selectedEmployeesTechnicians.options]
                     .map(o => Number(o.value));
-            modal.classList.add("hidden");
+
+            overlay.remove();
 
             resolve({
                 ids
             });
         };
 
-        document.getElementById("cancelEmployeesTechnicians").onclick = () => {
+        modal.querySelector("#cancelEmployeesTechnicians").onclick = () => {
 
-            modal.classList.add("hidden");
+            overlay.remove();
 
             resolve(null);
         };
+
+        overlay.addEventListener("click", e => {
+
+            if (e.target === overlay) {
+
+                overlay.remove();
+
+                resolve(null);
+            }
+        });
     });
 }
-
 export async function openEditTaskModal(task) {
     return new Promise((resolve, reject) => {
 
@@ -749,6 +793,7 @@ export async function openEditTaskModal(task) {
         });
     });
 }
+
 window.openFullImage = function (src) {
     const viewer = document.getElementById("image-viewer");
     const img = document.getElementById("full-image");
@@ -757,6 +802,177 @@ window.openFullImage = function (src) {
     viewer.style.display = "flex";
 };
 
+export function openRepairModal(text) {
+
+    document.getElementById("repair-description").textContent = text;
+
+    toggle("repair-modal");
+
+    const repairModal = document.getElementById("repair-modal");
+
+    repairModal.addEventListener("click", e => {
+        if (e.target === repairModal) {
+            closeModal("repair-modal");
+        }
+    });
+}
+
+// let selectedTechnicians;
+// document.addEventListener("DOMContentLoaded", async () => {
+//     await loadTechnicians();
+//
+//     document
+//         .getElementById("repair-form")
+//         .addEventListener("submit", saveRepair);
+// });
+//
+// async function loadTechnicians() {
+//     const users = await getTechnicians();
+//
+//     const btn = document.getElementById("choose-technicians-btn");
+//
+//     btn.onclick = async () => {
+//
+//         const result = await openEmployeeTechniciansModal(users);
+//
+//         if (!result) return;
+//
+//         selectedTechnicians = result.ids;
+//
+//         console.log(selectedTechnicians);
+//
+//     };
+// }
+
+export async function openEditRepairModal(repair, users) {
+    return new Promise((resolve, reject) => {
+
+        let selectedTechnicians =
+            repair.technicians.map(t => t.id);
+
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+
+        const modal = document.createElement("div");
+        modal.className = "modal-content";
+
+        modal.innerHTML = `
+            <h2>Редакция на ремонт</h2>
+
+            <form id="edit-repair-form" class="form">
+
+                <input
+                    type="text"
+                    name="name"
+                    value="${repair.name}"
+                    placeholder="Име на ремонта"
+                    required>
+
+                <br>
+
+                <input
+                    type="date"
+                    name="startDate"
+                    value="${repair.startDate}"
+                    required>
+
+                <br>
+
+                <input
+                    type="date"
+                    name="endDate"
+                    value="${repair.endDate}"
+                    required>
+
+                <br>
+
+                <button
+                    type="button"
+                    id="choose-technicians-btn">
+                    Избери техник
+                </button>
+
+                <div id="selected-technicians-preview"
+                     style="margin:10px 0;"></div>
+
+                <textarea
+                    name="description"
+                    rows="8"
+                    placeholder="Описание">${repair.description ?? ""}</textarea>
+
+                <br>
+
+                <div style="display:flex;gap:10px;justify-content:center;">
+                    <button type="submit">Запази</button>
+                    <button type="button" id="cancel-btn">Отказ</button>
+                </div>
+
+            </form>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const preview =
+            modal.querySelector("#selected-technicians-preview");
+
+        function refreshPreview() {
+            preview.innerHTML = users
+                .filter(u => selectedTechnicians.includes(u.id))
+                .map(u => `${u.firstName} ${u.lastName}`)
+                .join("<br>");
+        }
+
+        refreshPreview();
+
+        modal.querySelector("#choose-technicians-btn").onclick =
+            async () => {
+
+                const result =
+                    await openEmployeeTechniciansModal(
+                        users,
+                        repair.technicianIds
+                    );
+
+                if (!result) return;
+
+                selectedTechnicians = result.ids;
+
+                refreshPreview();
+            };
+
+        const form =
+            modal.querySelector("#edit-repair-form");
+
+        form.addEventListener("submit", e => {
+
+            e.preventDefault();
+
+            resolve({
+                id: repair.id,
+                name: form.name.value,
+                startDate: form.startDate.value,
+                endDate: form.endDate.value,
+                description: form.description.value,
+                technicianIds: selectedTechnicians
+            });
+
+            overlay.remove();
+        });
+
+        modal.querySelector("#cancel-btn").onclick = () => {
+            overlay.remove();
+            reject();
+        };
+
+        overlay.onclick = e => {
+            if (e.target === overlay) {
+                overlay.remove();
+                reject();
+            }
+        };
+    });
+}
 window.closeViewer = function () {
     const viewer = document.getElementById("image-viewer");
     const img = document.getElementById("full-image");
@@ -783,3 +999,4 @@ window.openEditTaskModal = openEditTaskModal;
 window.openPartImages = openPartImages;
 window.openComponentImages = openComponentImages;
 window.openEmployeeTechniciansModal = openEmployeeTechniciansModal;
+window.openRepairModal = openRepairModal;

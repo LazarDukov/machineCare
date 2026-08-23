@@ -1,5 +1,7 @@
 import {getMachineByName} from "../api/machinesApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 
 // 👉 глобално за страницата
 let machineName = null;

@@ -1,7 +1,9 @@
 import { getTechnicians } from "../api/usersApi.js";
 import {openEmployeeTechniciansModal} from "../ui/modals.js";
 import {createRepair} from "../api/repairJobsApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 let selectedTechnicians;
 document.addEventListener("DOMContentLoaded", async () => {
     await loadTechnicians();

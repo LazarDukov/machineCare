@@ -18,3 +18,14 @@ export async function getRepairs(machineName) {
     }).then(r => r.json());
 
 }
+
+export async function changeRepair(body) {
+
+    const response = await fetch("/api/repair-jobs/change", {
+        method: "PUT", // или POST според Spring контролера
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });// или response.text(), ако backend не връща DTO
+}

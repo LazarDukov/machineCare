@@ -1,5 +1,7 @@
 import {loginUser} from "../api/authApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const loginForm = document.querySelector(".login-form");
 
 loginForm.addEventListener("submit", async function (e) {

@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
+<div id="appHeader"></div>
 <div class="main-layout">
   <div class="auth-container" style="width: 90%;">
 
     <h1>Всички задачи</h1>
     <div class="add-btn">
-      <button id="add-task-btn" class="add-task-btn">
+      <button id="add-task-btn" class="add-task-btn admin-only">
         ➕ Добави нова задача
       </button>
     </div>
@@ -57,7 +57,7 @@
 
 </div>
 <script type="module" src="/js/pages/tasks.js"></script>
-
+<script type="module" src="/js/api/authApi.js"></script>
 
 </body>
 </html>

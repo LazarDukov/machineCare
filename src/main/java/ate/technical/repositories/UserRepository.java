@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
     List<User> findAllByDepartmentEnum(DepartmentEnum departmentEnum);
+
 }

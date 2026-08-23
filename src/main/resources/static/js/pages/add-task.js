@@ -1,7 +1,9 @@
 import {getDevices} from "../api/devicesApi.js";
 import {getSubDevicesByDeviceId} from "../api/subDevicesApi.js";
 import {getComponentsBySubDeviceId} from "../api/componentsApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const form = document.getElementById("task-form");
 const deviceSelect = document.getElementById("device-select");
 const subDeviceSelect = document.getElementById("sub-device-select");

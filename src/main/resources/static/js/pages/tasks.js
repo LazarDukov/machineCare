@@ -2,7 +2,9 @@ import {deleteTask, getAllTasks, updateTask} from "../api/tasksApi.js";
 import {completeTask} from "../api/taskHistoryApi.js";
 import {getOperatorsTechnicians} from "../api/usersApi.js";
 import {openEmployeeModal} from "../ui/modals.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const container = document.getElementById("tasks-container");
 
 // Взимаме machineName от URL

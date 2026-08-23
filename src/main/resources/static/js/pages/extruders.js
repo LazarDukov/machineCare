@@ -1,6 +1,8 @@
 import { getMachinesByType } from "../api/machinesApi.js";
 import { renderMachines } from "../ui/machineRenderer.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 function init() {
     const container = document.getElementById("machines-container");
 

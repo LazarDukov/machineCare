@@ -1,6 +1,8 @@
 import { getDevices } from "../api/devicesApi.js";
 import {loadDevices} from "../ui/selectLoader";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 function init() {
     const container = document.getElementById("devices-container");
 

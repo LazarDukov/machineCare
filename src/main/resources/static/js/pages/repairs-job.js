@@ -1,5 +1,9 @@
-import {getRepairs} from "../api/repairJobsApi.js";
+import {changeRepair, getRepairs} from "../api/repairJobsApi.js";
+import {openRepairModal, openEditRepairModal} from "../ui/modals.js";
+import {getTechnicians} from "../api/usersApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const tbody = document.getElementById("repairs-body");
 const params = new URLSearchParams(window.location.search);
 const machineName = params.get("name");
@@ -10,6 +14,7 @@ document.getElementById("add-repair-btn").addEventListener("click", () => {
         `/api/repairs-job/add?name=${encodeURIComponent(machineName)}`;
 });
 
+const technicians = await getTechnicians();
 await loadRepairs();
 
 async function loadRepairs() {
@@ -28,7 +33,7 @@ async function loadRepairs() {
             const tr = document.createElement("tr");
             const technicianNames = repair.technicians
                 .map(t => `${t.firstName} ${t.lastName}`)
-                .join(" ");
+                .join("<br>");
             tr.innerHTML = `
                 <td>${repair.name}</td>
                 <td>${repair.startDate}</td>
@@ -40,37 +45,38 @@ async function loadRepairs() {
                         Виж описание
                     </button>
                 </td>
+                <td>
+                <button class="edit-repair-btn">
+                Промени
+                    </button>
+                <br>
+                <button class="delete-repair-btn">
+                Изтрий
+                </button>
+                </td>
             `;
 
             tr.querySelector("button").onclick = () => {
                 openRepairModal(repair.description);
             };
 
+            tr.querySelector(".edit-repair-btn").onclick = async () => {
+
+                const result = await openEditRepairModal(
+                    repair,
+                    technicians
+                );
+
+                if (!result) return;
+                console.log("result", result)
+                await changeRepair(result);
+
+                await loadRepairs();
+            };
             tbody.appendChild(tr);
         });
 
     } catch (err) {
         console.error(err);
     }
-}
-function openRepairModal(text){
-
-    document.getElementById("repair-description").textContent = text;
-
-    document.getElementById("repair-modal").style.display = "block";
-}
-
-function closeRepairModal(){
-
-    document.getElementById("repair-modal").style.display = "none";
-}
-
-window.onclick = function(event){
-
-    const modal = document.getElementById("repair-modal");
-
-    if(event.target === modal){
-        closeRepairModal();
-    }
-
 }

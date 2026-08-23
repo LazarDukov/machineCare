@@ -1,5 +1,7 @@
 import { registerUser } from "../api/authApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 const form = document.querySelector(".register-form");
 
 form.addEventListener("submit", async function (e) {

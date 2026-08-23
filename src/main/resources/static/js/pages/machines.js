@@ -1,5 +1,6 @@
-import {loadCurrentUser} from "../api/authApi.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 window.onload = function () {
 }
 

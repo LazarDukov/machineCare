@@ -12,7 +12,7 @@ public class ChangeTaskRequest {
     private Long componentId;
     private int repeatedAfter;
     private String periodEnum;
-    private LocalDateTime createdAt;
+
 
 
 

@@ -14,15 +14,6 @@ body {
     color: white;
 }
 
-.logo {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 32px;
-    font-weight: bold;
-    color: white;
-}
 
 .main-layout {
 
@@ -1210,4 +1201,61 @@ button {
 
 .move-left-btn:hover {
     background-color: #c82333;
+}
+
+.top-header {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    display: block;
+    height: 55px;
+    width: auto;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.profile-action-btn {
+    padding: 9px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    background: white;
+    color: black;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.profile-action-btn:hover {
+    transform: scale(1.05);
+    background: #f0f0f0;
+}
+
+.logout-btn {
+    background: #ffe3e3;
+    color: #9d1111;
+}
+
+.logout-btn:hover {
+    background: #ffcaca;
 }

@@ -1,3 +1,6 @@
+import { renderHeader } from "../ui/header.js";
+
+document.addEventListener("DOMContentLoaded", renderHeader);
 document.getElementById("loginBtn")
     .addEventListener("click", () => {
         window.location.href = "/login";

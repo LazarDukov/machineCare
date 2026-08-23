@@ -11,7 +11,9 @@ import {
     initDevice,
     initChangeComponent, initChangeSubDevice, initChangeDevice
 } from "../ui/modals.js";
+import { renderHeader } from "../ui/header.js";
 
+document.addEventListener("DOMContentLoaded", renderHeader);
 
 
 const params = new URLSearchParams(window.location.search);

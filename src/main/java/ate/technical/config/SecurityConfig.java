@@ -2,6 +2,7 @@ package ate.technical.config;
 
 
 import ate.technical.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -35,14 +37,43 @@ public class SecurityConfig {
                                 .atCommonLocations())
                         .permitAll()
                         .requestMatchers(
-                                "/",
-                                "/index.html",
-                                "/login.html",
                                 "/login",
+                                "/login.html",
                                 "/register",
                                 "/register.html",
+                                "/api/auth/login",
+                                "/api/auth/register"
+                        ).anonymous()
+                        .requestMatchers(
+
+                                "/api/machines/extruders/add",
+                                "/api/sub-devices/add",
+                                "/api/devices/add",
+                                "/api/components/add",
+                                "/api/parts/add",
+                                "/api/components/add-part",
+                                "/api/components/add-image",
+                                "/api/materials/add",
+                                "/api/tasks/add",
+                                "/api/devices/change", "/api/devices/delete",
+                                "/api/sub-devices/change", "/api/sub-devices/delete",
+                                "/api/components/change", "/api/components/delete",
+                                "/api/parts/change", "/api/parts/delete",
+                                "/api/materials/change", "/api/materials/delete",
+                                "/tasks/add", "/api/tasks/change", "/api/tasks/delete",
+                                "/api/components-parts/delete",
+                                "/api/parts/add-to-component", "/api/parts/change-quantity",
+                                "/api/repairs-job/add")
+                        .hasRole("ADMIN")
+                        .requestMatchers(
+                                "/uploadedImages/**",
+                                "/",
+                                "/index.html",
                                 "/machines",
                                 "/machines.html",
+                                "/machines/extruders",
+                                "/api/machines/**",
+                                "/machines/extruders/**",
                                 "/extruders",
                                 "/extruders.html",
                                 "/tasks/**",
@@ -50,38 +81,34 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/machines/extruders/add",
                                 "/api/machines/name/**",
                                 "/machine-details.html",
-                                "/api/machines/**",
-                                "/machines/extruders/**",
-                                "/add-machine.html",
-                                "/machines/add.html",
-                                "/machines/**",
-                                "/api/auth/**",
-                                "/api/auth/login.html",
-                                "/add-task.html",
-                                "/api/machines",
-                                "/api/machines/add",
-                                "/api/machines/type/**",
-                                "/machines/update/**",
-                                "/api/machines/update/**",
-                                "/api/machines/name/**",
-                                "/api/devices/**",
-                                "/api/sub-devices/**",
-                                "/api/sub-devices/add",
-                                "/api/sub-devices/device/**",
+                                "/full-machine-structure.html",
+                                "/full-structure",
+                                "/api/components-parts/**",
                                 "/api/components/**",
-                                "/api/components/add",
-                                "/api/parts/**",
-                                "/api/materials/**",
-                                "/api/tasks/**",
-                                "/tasks/add",
-                                "/api/tasks/all/**")
-                        .permitAll()
-                        .anyRequest().authenticated()
+                                "/repair-jobs",
+                                "/repair-job.html",
+                                "/tasks/all/**",
+                                "/tasks.html",
+                                "/api/tasks/all/**",
+                                "/api/users/operators-technicians"
+                        )
+                        .permitAll().anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .logout(logout -> logout
+                        .logoutRequestMatcher(
+                                new AntPathRequestMatcher("/api/auth/logout", "POST")
+                        )
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessHandler((request, response, authentication) ->
+                                response.setStatus(HttpServletResponse.SC_NO_CONTENT)
+                        )
+                        .permitAll()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         return http.build();
 
