@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/register"
                         ).anonymous()
+                        .requestMatchers("/api/auth/user-status").permitAll()
                         .requestMatchers(
 
                                 "/api/machines/extruders/add",
@@ -92,7 +93,10 @@ public class SecurityConfig {
                                 "/tasks/all/**",
                                 "/tasks.html",
                                 "/api/tasks/all/**",
-                                "/api/users/operators-technicians"
+                                "/api/users/operators-technicians",
+                                "/api/users/technicians",
+                                "/api/repair-jobs/**",
+                                "/profile"
                         )
                         .permitAll().anyRequest().authenticated()
                 ).formLogin(AbstractHttpConfigurer::disable)
