@@ -29,9 +29,20 @@ body {
 .center-wrapper {
     display: flex;
     align-items: center;
+    align-content: center;
     width: 300px;
 }
+.profile-page {
+    height: auto;
+    min-height: 100vh;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 150px 20px 40px;
+}
 
+.profile-page .profile-header {
+    margin-top: 0;
+}
 
 .auth-container {
     text-align: center;
@@ -1258,4 +1269,29 @@ button {
 
 .logout-btn:hover {
     background: #ffcaca;
+}
+
+
+
+.profile-row {
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.profile-row:last-child {
+    border-bottom: 0;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #777;
+    font-size: 0.85rem;
+}
+
+.profile-row strong {
+    color: #222;
 }

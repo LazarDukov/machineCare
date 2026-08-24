@@ -76,4 +76,9 @@ public class ViewController {
         return "forward:/machine-details.html";
     }
 
+    @GetMapping("/profile")
+    public String profileView() {
+        return "forward:/profile.html";
+    }
+
 }
